@@ -1,6 +1,7 @@
 package com.ledgerlogic.services;
 
 import com.ledgerlogic.models.Account;
+import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.AccountRepository;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class AccountService {
         return this.accountRepository.save(account);
     }
 
-    public Optional<List<Account>> getAllByUserId(int id) {
-        Optional<List<Account>> accounts = this.accountRepository.findAllByUserId(id);
+    public Optional<List<Account>> getAllByUser(User user) {
+        Optional<List<Account>> accounts = this.accountRepository.findAllByOwner(user);
         if(!accounts.isPresent()){
             return null;
         }else{

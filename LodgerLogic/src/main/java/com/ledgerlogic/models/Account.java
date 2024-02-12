@@ -22,15 +22,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long        accountId;
-    @NonNull
     private int         accountNumber;
-    @NonNull
     private String      accountName;
-    @NonNull
     private String      description = "";
-    @NonNull
     private String      normalSide;
-    @NonNull
     private String      category;
     private String      subCategory;
     private BigDecimal  initialBalance  = BigDecimal.ZERO;
@@ -51,7 +46,6 @@ public class Account {
     }
 
     @ManyToOne
-    @JoinColumn(name = "userId")
     private User owner;
 
 }

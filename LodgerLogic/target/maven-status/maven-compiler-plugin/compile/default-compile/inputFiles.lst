@@ -1,0 +1,12 @@
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/controllers/TestController.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/models/User.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/services/AccountService.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/dtos/RegisterClass.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/repositories/UserRepository.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/dtos/LoginRequest.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/services/UserService.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/controllers/AccountController.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/LedgerLogicApplication.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/models/Account.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/repositories/AccountRepository.java
+/Users/abderrahimbahia/Documents/Spring 2024/Application Domain/LedgerLogic/Back-End/LodgerLogic/src/main/java/com/ledgerlogic/controllers/UserController.java

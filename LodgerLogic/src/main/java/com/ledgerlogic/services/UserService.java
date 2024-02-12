@@ -18,7 +18,7 @@ public class UserService {
     }
 
     public Optional<User> findByCredentials(String userName, String password){
-        return userRepository.findByUserNameAndPassword(userName, password);
+        return userRepository.findByUsernameAndPassword(userName, password);
     }
 
     public User upsert(User user){
@@ -102,12 +102,12 @@ public class UserService {
     }
 
 
-    public Optional<List<Account>> findAllUserAccounts(int id){
-        return accountService.getAllByUserId(id);
+    public Optional<List<Account>> findAllUserAccounts(User user){
+        return accountService.getAllByUser(user);
     }
 
-    public Account deleteAccount(int userId, Account account){
-        Optional<List<Account>> optionalAccounts = this.findAllUserAccounts(userId);
+    public Account deleteAccount(User user, Account account){
+        Optional<List<Account>> optionalAccounts = this.findAllUserAccounts(user);
         if(optionalAccounts.filter(accounts -> accounts.contains(account)).isPresent()){
             this.accountService.delete(account);
             return account;
