@@ -16,7 +16,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   userId;
-    @NonNull
     private String username;
     @NonNull
     private String firstName;
@@ -26,13 +25,13 @@ public class User {
     private String email;
     @NonNull
     private String password;
-    @NonNull
     private String role = "accountant";
     private String streetAddress;
     private String city;
     private String state;
     private String zipCode;
     private Date   birthDay;
+    private Boolean status = true; //true = active & false = inactive
     private Date   passwordExpirationDate;
     private short  failedLoginAttempt;
     private Date   suspensionStartDate;
