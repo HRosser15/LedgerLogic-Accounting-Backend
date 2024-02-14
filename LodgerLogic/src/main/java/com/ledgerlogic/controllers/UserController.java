@@ -89,4 +89,9 @@ public class UserController {
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
     }
+
+    @GetMapping("/all")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
