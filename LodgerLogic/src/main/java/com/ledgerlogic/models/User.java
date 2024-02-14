@@ -47,8 +47,8 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.role = role;
-        this.username = generateUsername(firstName, lastName, accountCreationDate);
         this.password = password;
+        this.username = generateUsername(firstName, lastName, accountCreationDate);
     }
 
     private String generateUsername(String firstName, String lastName, Date accountCreationDate){
