@@ -16,15 +16,17 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "account")
+@Table(name = "accounts")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long        accountId;
+    @NonNull
     private int         accountNumber;
+    @NonNull
     private String      accountName;
-    private String      description = "";
+    private String      description;
     private String      normalSide;
     private String      category;
     private String      subCategory;
@@ -43,6 +45,7 @@ public class Account {
         this.description    = description;
         this.normalSide     = normalSide;
         this.category       = category;
+        this.creationDate = new Date();
     }
 
     @ManyToOne

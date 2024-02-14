@@ -3,7 +3,6 @@ package com.ledgerlogic.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,9 +17,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   userId;
+    @NonNull
+    @Column(unique = true)
     private String username;
+    @NonNull
     private String firstName;
+    @NonNull
     private String lastName;
+    @NonNull
     private String email;
     private String password;
     private String role = "accountant";
