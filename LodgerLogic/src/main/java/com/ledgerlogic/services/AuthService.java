@@ -19,6 +19,10 @@ public class AuthService {
     }
 
     public User register(User user) {
+        Optional<User> existingUser = userService.findByUsername(user.getUsername());
+        if(existingUser.isPresent()){
+            throw new IllegalArgumentException("User " + existingUser.get().getFirstName() + " " + existingUser.get().getLastName()+ " already exist");
+        }
         return userService.upsert(user);
     }
 }

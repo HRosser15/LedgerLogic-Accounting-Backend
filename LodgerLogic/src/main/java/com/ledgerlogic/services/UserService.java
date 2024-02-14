@@ -31,10 +31,6 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User updateUser(User user){
-        return userRepository.save(user);
-    }
-
     public boolean emailIsTaken(String email){
         Optional<User> current = Optional.ofNullable(getByEmail(email));
         if(!current.isPresent()) return false;
@@ -75,6 +71,10 @@ public class UserService {
 
     public List<User> findByFullName(String firstName, String lastName) {
         return userRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    public Optional<User> findByUsername(String username){
+        return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
     public List<User> getAll(){

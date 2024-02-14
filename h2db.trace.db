@@ -167,3 +167,8 @@ drop account [42001-224]
 2024-02-14 14:48:05.727411-05:00 jdbc[3]: exception
 >>>>>>> bahia
 org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-02-14 16:13:00.239375-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop table account[*]:"; SQL statement:
+drop table account: [42000-224]
+2024-02-14 16:14:32.793382-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

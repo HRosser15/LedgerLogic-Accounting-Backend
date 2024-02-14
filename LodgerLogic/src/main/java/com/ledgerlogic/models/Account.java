@@ -22,9 +22,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long        accountId;
-    @NonNull
     private int         accountNumber;
-    @NonNull
     private String      accountName;
     private String      description;
     private String      normalSide;

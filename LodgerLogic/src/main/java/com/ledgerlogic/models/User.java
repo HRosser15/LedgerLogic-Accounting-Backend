@@ -17,14 +17,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   userId;
-    @NonNull
-    @Column(unique = true)
     private String username;
-    @NonNull
     private String firstName;
-    @NonNull
     private String lastName;
-    @NonNull
     private String email;
     private String password;
     private String role = "accountant";

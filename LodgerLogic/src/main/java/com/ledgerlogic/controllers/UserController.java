@@ -46,7 +46,7 @@ public class UserController {
                 currentUserToBeUpdated.setLastName(user.getLastName());
             }
 
-            return this.userService.updateUser(currentUserToBeUpdated);
+            return this.userService.upsert(currentUserToBeUpdated);
         }
     }
 
