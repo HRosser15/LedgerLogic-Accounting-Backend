@@ -1,8 +1,12 @@
 package com.ledgerlogic.controllers;
 
+import com.ledgerlogic.annotations.Admin;
+import com.ledgerlogic.annotations.Authorized;
+import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.UserService;
+import com.ledgerlogic.util.PasswordValidator;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     public UserService userService;
+    public PasswordValidator passwordValidator;
 
     public UserController(UserService userService){
         this.userService = userService;
@@ -26,7 +31,7 @@ public class UserController {
         } else {
             User currentUserToBeUpdated = currentUser.get();
             if (user.getEmail() != null) {
-                if ((userService.userNameIsTaken(user.getEmail())) && (userService.emailIsTaken(user.getEmail())) && !(user.getEmail().equals(currentUserToBeUpdated.getEmail()))) {
+                if (userService.emailIsTaken(user.getEmail())) {
                     System.out.println("The email/username already exist");
                     return null;
                 } else {
@@ -39,11 +44,14 @@ public class UserController {
             if (user.getLastName() != null) {
                 currentUserToBeUpdated.setLastName(user.getLastName());
             }
-            if (user.getEmail() != null) {
-                currentUserToBeUpdated.setLastName(user.getLastName());
-            }
             if (user.getPassword() != null) {
-                currentUserToBeUpdated.setLastName(user.getLastName());
+                passwordValidator = new PasswordValidator();
+                if(passwordValidator.validatePassword(user.getPassword())){
+                    currentUserToBeUpdated.setPassword(user.getPassword());
+                }else{
+                    System.out.println("Invalid password!");
+                    return null;
+                }
             }
 
             return this.userService.upsert(currentUserToBeUpdated);
@@ -80,16 +88,22 @@ public class UserController {
         return this.userService.getByRole(role);
     }
 
+    @PutMapping("/updateRole/{userId}/{newRole}")
+    public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("role") String role){
+        return this.userService.updateRole(userId, role);
+    }
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable("userId") Long userId){
          this.userService.delete(userId);
     }
 
+    @Admin
     @PutMapping("/activate/{id}")
     public Optional<User> activate(@PathVariable Long id) {
         return userService.activate(id);
     }
 
+    @Admin
     @PutMapping("/deactivate/{id}")
     public Optional<User> deactivate(@PathVariable Long id) {
         return userService.deactivate(id);

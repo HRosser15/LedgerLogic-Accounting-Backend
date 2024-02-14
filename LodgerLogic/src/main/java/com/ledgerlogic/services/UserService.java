@@ -1,5 +1,7 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.annotations.Admin;
+import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.UserRepository;
@@ -85,10 +87,19 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
+    @Admin
+    public User updateRole(Long userId, String role) {
+        Optional<User> current = userRepository.findById(userId);
+        current.get().setRole(role);
+        return this.upsert(current.get());
+    }
+
+    @Admin
     public void delete(Long userId){
         this.userRepository.deleteById(userId);
     }
 
+    @Admin
     public Optional<User> activate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -100,6 +111,7 @@ public class UserService {
         return null;
     }
 
+    @Admin
     public Optional<User> deactivate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -112,6 +124,7 @@ public class UserService {
     }
 
 
+    @Admin
     public Optional<List<Account>> findAllUserAccounts(User user){
         return accountService.getAllByUser(user);
     }
@@ -124,7 +137,5 @@ public class UserService {
         }
         return null;
     }
-
-
 
 }

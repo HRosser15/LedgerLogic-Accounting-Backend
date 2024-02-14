@@ -28,7 +28,7 @@ public class User {
     private String state;
     private String zipCode;
     private Date   birthDay;
-    private Boolean status = true; //true = active & false = inactive
+    private Boolean status = false; //true = active & false = inactive
     private Date   passwordExpirationDate;
     private short  failedLoginAttempt;
     private Date   suspensionStartDate;

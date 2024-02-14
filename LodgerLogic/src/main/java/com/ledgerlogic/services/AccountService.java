@@ -1,5 +1,7 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.annotations.Admin;
+import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.AccountRepository;
@@ -17,6 +19,8 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    @Admin
+    @Manager
     public List<Account> getAll(){
         return this.accountRepository.findAll();
     }
@@ -34,6 +38,7 @@ public class AccountService {
         }
     }
 
+    @Admin
     public void delete(Account account) {
         this.accountRepository.delete(account);
     }

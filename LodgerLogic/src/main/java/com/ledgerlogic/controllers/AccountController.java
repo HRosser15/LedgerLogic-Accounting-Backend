@@ -20,13 +20,13 @@ public class AccountController {
     }
 
     @Authorized
-    @GetMapping
+    @GetMapping("/userAccounts")
     public ResponseEntity<List<Account>> getAllUserAccounts(){
         return ResponseEntity.ok(this.accountService.getAll());
     }
 
     @Authorized
-    @PutMapping
+    @PutMapping("/updateAccount")
     public ResponseEntity<Account> upsertAccount(@RequestBody Account account){
         return ResponseEntity.ok(this.accountService.upsert(account));
     }
