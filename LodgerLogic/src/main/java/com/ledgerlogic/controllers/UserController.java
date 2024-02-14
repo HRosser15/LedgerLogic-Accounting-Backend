@@ -1,12 +1,15 @@
 package com.ledgerlogic.controllers;
 
+import com.ledgerlogic.dtos.PendingUser;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
@@ -93,5 +96,53 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/allPendingUsers")
+    public List<User> getAllPendingUsers() {
+        List<User> allUsers = userService.getAllUsers();
+        return allUsers.stream()
+                .filter(user -> user.getUsername() == null)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/createPendingUser")
+    public User createPendingUser(@RequestBody PendingUser pendingUser) {
+        // Create a new User instance with the provided DTO values
+        User newUser = new User(
+                pendingUser.getFirstName(),
+                pendingUser.getLastName(),
+                pendingUser.getEmail(),
+                pendingUser.getPassword(),
+                pendingUser.getStreetAddress(),
+                pendingUser.getCity(),
+                pendingUser.getState(),
+                pendingUser.getZipCode(),
+                pendingUser.getBirthday(),
+                pendingUser.getSecurityQ1Answer(),
+                pendingUser.getSecurityQ2Answer()
+        );
+
+        // Set status as false until admin approves
+        newUser.setStatus(false);
+
+        return this.userService.upsert(newUser);
+    }
+
+    @PutMapping("/approveUser/{id}")
+    public Optional<User> approveUser(@PathVariable Long id) {
+        Optional<User> optionalUser = userService.activate(id);
+
+        if (optionalUser.isPresent()) {
+            User approvedUser = optionalUser.get();
+            // Set username, password expiry date, and other necessary fields
+            approvedUser.setUsername("newUsername");
+            approvedUser.setPasswordExpirationDate(new Date()); // Set password expiry date
+            // Set other necessary fields
+
+            return Optional.of(userService.updateUser(approvedUser));
+        }
+
+        return Optional.empty();
     }
 }
