@@ -81,6 +81,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getByRole(String role){
+        return userRepository.findByRole(role);
+    }
+
     public void delete(Long userId){
         this.userRepository.deleteById(userId);
     }

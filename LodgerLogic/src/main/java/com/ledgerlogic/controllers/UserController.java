@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     public UserService userService;
 
@@ -68,6 +68,16 @@ public class UserController {
     @GetMapping("/searchByFullName/{firstname}/{lastname}")
     public List<User> getUserByFullName(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname){
         return this.userService.findByFullName(firstname, lastname);
+    }
+
+    @GetMapping("/allUsers")
+    public List<User> getAllUsers(){
+        return this.userService.getAll();
+    }
+
+    @GetMapping
+    public List<User> getByRole(@PathVariable("role") String role){
+        return this.userService.getByRole(role);
     }
 
     @DeleteMapping("/delete/{userId}")
