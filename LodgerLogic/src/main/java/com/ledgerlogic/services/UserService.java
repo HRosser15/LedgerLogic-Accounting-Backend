@@ -77,6 +77,10 @@ public class UserService {
         return userRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
+
     public void delete(Long userId){
         this.userRepository.deleteById(userId);
     }

@@ -3,6 +3,8 @@ package com.ledgerlogic.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -33,20 +35,30 @@ public class User {
     private Date   suspensionStartDate;
     private Date   suspensionEndDate;
     private Date   lastLoginDate;
-    private Date   accountCreationDate;
+    private Date   accountCreationDate = new Date();
     private int    securityQ1Id;
     private int    securityQ2Id;
     private int    securityQ3Id;
 
     private String imageUrl;
 
-    public User(String firstName, String lastName, String email, String role, String username, String password){
+    public User(String firstName, String lastName, String email, String role, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
-        this.username = username;
+        this.username = generateUsername(firstName, lastName, accountCreationDate);
         this.password = password;
+    }
+
+    private String generateUsername(String firstName, String lastName, Date accountCreationDate){
+        String twoDigitsMonth = new SimpleDateFormat("MM").format(accountCreationDate);
+        String twoDigitsYear  = new SimpleDateFormat("yy").format(accountCreationDate);
+
+        return Character.toString(firstName.charAt(0)).toLowerCase()+
+                          Character.toString(lastName.charAt(0)).toLowerCase()+
+                          twoDigitsMonth+
+                          twoDigitsYear;
     }
 
 }
