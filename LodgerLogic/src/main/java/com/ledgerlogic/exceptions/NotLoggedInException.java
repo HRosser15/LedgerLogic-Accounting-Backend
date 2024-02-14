@@ -1,9 +1,9 @@
 package com.ledgerlogic.exceptions;
 
-public class NotLoggedInException extends RuntimeException {
+import lombok.NoArgsConstructor;
 
-    public NotLoggedInException() {
-    }
+@NoArgsConstructor
+public class NotLoggedInException extends RuntimeException {
 
     public NotLoggedInException(String message) {
         super(message);
