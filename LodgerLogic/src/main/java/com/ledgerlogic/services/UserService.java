@@ -3,6 +3,7 @@ package com.ledgerlogic.services;
 import com.ledgerlogic.annotations.Admin;
 import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
+import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class UserService {
         this.accountService = accountService;
     }
 
-    public Optional<User> findByCredentials(String userName, String password){
+    public Optional<User> findByCredentials(String userName, Password password){
         return userRepository.findByUsernameAndPassword(userName, password);
     }
 

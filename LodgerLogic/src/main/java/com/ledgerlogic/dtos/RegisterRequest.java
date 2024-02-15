@@ -1,5 +1,6 @@
 package com.ledgerlogic.dtos;
 
+import com.ledgerlogic.models.Password;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,5 @@ public class RegisterRequest {
     private String lastName;
     private String email;
     private String role = "accountant";
-    private String password;
+    private Password password;
 }

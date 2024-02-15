@@ -1,5 +1,6 @@
 package com.ledgerlogic.repositories;
 
+import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsernameAndPassword(String userName, String password);
+    Optional<User> findByUsernameAndPassword(String userName, Password password);
 
     User findByEmail(String email);
     User findByUsername(String userName);

@@ -1,7 +1,9 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Optional;
 
@@ -14,7 +16,7 @@ public class AuthService {
         this.userService = userService;
     }
 
-    public Optional<User> findByCredentials(String username, String password) {
+    public Optional<User> findByCredentials(String username, Password password) {
         return userService.findByCredentials(username, password);
     }
 
@@ -25,4 +27,5 @@ public class AuthService {
         }
         return userService.upsert(user);
     }
+
 }

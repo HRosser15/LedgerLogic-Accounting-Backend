@@ -3,9 +3,11 @@ package com.ledgerlogic.controllers;
 import com.ledgerlogic.dtos.LoginRequest;
 import com.ledgerlogic.dtos.RegisterRequest;
 import com.ledgerlogic.exceptions.InvalidPasswordException;
+import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.AuthService;
 
+import com.ledgerlogic.services.EmailService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -22,9 +24,11 @@ import java.util.regex.Pattern;
 public class AuthController {
 
     private final AuthService authService;
+    private final EmailService emailService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, EmailService emailService) {
         this.authService = authService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/login")
@@ -55,7 +59,8 @@ public class AuthController {
                 registerRequest.getEmail(),
                 registerRequest.getRole(),
                 registerRequest.getPassword());
-        if(validatePassword(created.getPassword())){
+        if(validatePassword(created.getPassword().getContent())){
+            emailService.sendApprovalRequestEmail("admin@gmail.com", created.getEmail());
             return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
         }else{
             throw new InvalidPasswordException("invalid password format");
