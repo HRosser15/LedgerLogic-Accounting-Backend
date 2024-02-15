@@ -55,7 +55,7 @@ public class User {
         String twoDigitsYear  = new SimpleDateFormat("yy").format(accountCreationDate);
 
         return Character.toString(firstName.charAt(0)).toLowerCase()+
-                          Character.toString(lastName.charAt(0)).toLowerCase()+
+                          lastName.toLowerCase()+
                           twoDigitsMonth+
                           twoDigitsYear;
     }

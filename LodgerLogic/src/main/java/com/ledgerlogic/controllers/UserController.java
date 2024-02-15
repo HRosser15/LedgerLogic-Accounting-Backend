@@ -82,7 +82,7 @@ public class UserController {
         return this.userService.getAll();
     }
 
-    @GetMapping
+    @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
     }
