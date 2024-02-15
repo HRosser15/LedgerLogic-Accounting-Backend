@@ -2,6 +2,7 @@ package com.ledgerlogic.controllers;
 
 import com.ledgerlogic.dtos.LoginRequest;
 import com.ledgerlogic.dtos.RegisterRequest;
+import com.ledgerlogic.exceptions.InvalidPasswordException;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.AuthService;
 
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @CrossOrigin("*")
 @RestController
@@ -45,13 +48,24 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) throws InvalidPasswordException {
         User created = new User(
                 registerRequest.getFirstName(),
                 registerRequest.getLastName(),
                 registerRequest.getEmail(),
                 registerRequest.getRole(),
                 registerRequest.getPassword());
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+        if(validatePassword(created.getPassword())){
+            return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+        }else{
+            throw new InvalidPasswordException("invalid password format");
+        }
+    }
+
+    public boolean validatePassword(String password){
+        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+        Matcher matcher = pattern.matcher(password);
+
+        return matcher.matches();
     }
 }

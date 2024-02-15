@@ -45,14 +45,8 @@ public class UserController {
                 currentUserToBeUpdated.setLastName(user.getLastName());
             }
             if (user.getPassword() != null) {
-                if(validatePassword(user.getPassword())){
-                    currentUserToBeUpdated.setPassword(user.getPassword());
-                }else{
-                    System.out.println("Invalid Password");
-                    return null;
-                }
+                currentUserToBeUpdated.setPassword(user.getPassword());
             }
-
             return this.userService.upsert(currentUserToBeUpdated);
         }
     }
@@ -77,11 +71,15 @@ public class UserController {
         return this.userService.findByFullName(firstname, lastname);
     }
 
+    @Admin
+    @Manager
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
     }
 
+    @Admin
+    @Manager
     @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
@@ -108,17 +106,10 @@ public class UserController {
         return userService.deactivate(id);
     }
 
+    @Admin
     @GetMapping("/Accounts")
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
     }
-
-    public boolean validatePassword(String password){
-        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
-        Matcher matcher = pattern.matcher(password);
-
-        return matcher.matches();
-    }
-
 
 }
