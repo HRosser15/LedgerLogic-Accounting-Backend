@@ -6,18 +6,18 @@ import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.UserService;
-import com.ledgerlogic.util.PasswordValidator;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
     public UserService userService;
-    public PasswordValidator passwordValidator;
 
     public UserController(UserService userService){
         this.userService = userService;
@@ -45,11 +45,10 @@ public class UserController {
                 currentUserToBeUpdated.setLastName(user.getLastName());
             }
             if (user.getPassword() != null) {
-                passwordValidator = new PasswordValidator();
-                if(passwordValidator.validatePassword(user.getPassword())){
+                if(validatePassword(user.getPassword())){
                     currentUserToBeUpdated.setPassword(user.getPassword());
                 }else{
-                    System.out.println("Invalid password!");
+                    System.out.println("Invalid Password");
                     return null;
                 }
             }
@@ -113,4 +112,13 @@ public class UserController {
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
     }
+
+    public boolean validatePassword(String password){
+        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+        Matcher matcher = pattern.matcher(password);
+
+        return matcher.matches();
+    }
+
+
 }
