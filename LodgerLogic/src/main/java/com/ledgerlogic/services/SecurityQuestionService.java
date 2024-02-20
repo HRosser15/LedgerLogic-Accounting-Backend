@@ -1,34 +1,60 @@
 package com.ledgerlogic.services;
 
 import com.ledgerlogic.models.SecurityQuestion;
-import com.ledgerlogic.models.UserSecurityQuestion;
+import com.ledgerlogic.models.PasswordSecurityQuestion;
 import com.ledgerlogic.repositories.SecurityQuestionRepository;
-import com.ledgerlogic.repositories.UserSecurityQuestionRepository;
+import com.ledgerlogic.repositories.PasswordSecurityQuestionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SecurityQuestionService {
 
     private final SecurityQuestionRepository securityQuestionRepository;
-    private final UserSecurityQuestionRepository userSecurityQuestionRepository;
+    private final PasswordSecurityQuestionRepository passwordSecurityQuestionRepository;
 
-    public SecurityQuestionService(UserSecurityQuestionRepository userSecurityQuestionRepository,
+
+    public SecurityQuestionService(PasswordSecurityQuestionRepository passwordSecurityQuestionRepository,
                                    SecurityQuestionRepository securityQuestionRepository){
         this.securityQuestionRepository = securityQuestionRepository;
-        this.userSecurityQuestionRepository = userSecurityQuestionRepository;
+        this.passwordSecurityQuestionRepository = passwordSecurityQuestionRepository;
     }
 
     public SecurityQuestion createQuestion(SecurityQuestion question) {
         return securityQuestionRepository.save(question);
     }
 
-    public UserSecurityQuestion setUserSecurityQuestion(Long userId, UserSecurityQuestion userSecurityQuestion) {
-        return userSecurityQuestionRepository.save(userSecurityQuestion);
+    public List<PasswordSecurityQuestion> saveAll(List<PasswordSecurityQuestion> passwordSecurityQuestions){
+        for(PasswordSecurityQuestion passwordSecurityQuestion: passwordSecurityQuestions){
+            this.securityQuestionRepository.save(passwordSecurityQuestion.getQuestion());
+        }
+        return passwordSecurityQuestionRepository.saveAll(passwordSecurityQuestions);
     }
 
-    public Optional<UserSecurityQuestion> getUserSecurityQuestion(Long id){
-        return userSecurityQuestionRepository.findById(id);
+    public List<SecurityQuestion> getAll(){
+        return this.securityQuestionRepository.findAll();
+    }
+
+    public PasswordSecurityQuestion setUserSecurityQuestion(Long userId, PasswordSecurityQuestion passwordSecurityQuestion) {
+        return passwordSecurityQuestionRepository.save(passwordSecurityQuestion);
+    }
+
+    public Optional<PasswordSecurityQuestion> getUserSecurityQuestion(Long id){
+        return passwordSecurityQuestionRepository.findById(id);
+    }
+
+    public void deleteSecurityQuestion(Long id){
+        this.securityQuestionRepository.deleteById(id);
+    }
+
+    public SecurityQuestion updateSecurityQuestion(Long id, String content) {
+        Optional<SecurityQuestion> currentQuestion = Optional.of(this.securityQuestionRepository.getById(id));
+        if(currentQuestion.isPresent()){
+            currentQuestion.get().setContent(content);
+            return this.securityQuestionRepository.save(currentQuestion.get());
+        }
+        return null;
     }
 }

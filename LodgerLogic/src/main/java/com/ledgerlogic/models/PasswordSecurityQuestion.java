@@ -5,18 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "userSecurityQuestions")
-public class UserSecurityQuestion {
+@Table(name = "passwordSecurityQuestions")
+public class PasswordSecurityQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userSecurityQuestionId;
+    private Long passwordSecurityQuestionId;
     private String answer;
 
     @OneToOne

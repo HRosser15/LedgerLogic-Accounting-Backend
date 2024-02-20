@@ -14,6 +14,6 @@ public class SecurityQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
-    private String question;
+    private Long securityQuestionId;
+    private String content;
 }

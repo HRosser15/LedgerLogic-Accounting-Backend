@@ -38,30 +38,29 @@ public class AuthController {
         if(!optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-
         session.setAttribute("user", optional.get());
-
         return ResponseEntity.ok(optional.get());
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
         session.removeAttribute("user");
-
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) throws InvalidPasswordException {
-        User created = new User(
+        String passwordContent = registerRequest.getPasswordContent();
+        Password password = new Password(passwordContent, registerRequest.getPasswordSecurityQuestions());
+        User newUser = new User(
                 registerRequest.getFirstName(),
                 registerRequest.getLastName(),
                 registerRequest.getEmail(),
                 registerRequest.getRole(),
-                registerRequest.getPassword());
-        if(validatePassword(created.getPassword().getContent())){
-            emailService.sendApprovalRequestEmail("admin@gmail.com", created.getEmail());
-            return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+                password);
+        if(validatePassword(passwordContent)){
+//            emailService.sendApprovalRequestEmail("abderrahimbahia19@gmail.com", created.getEmail());
+            return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(newUser));
         }else{
             throw new InvalidPasswordException("invalid password format");
         }
@@ -70,7 +69,6 @@ public class AuthController {
     public boolean validatePassword(String password){
         Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
         Matcher matcher = pattern.matcher(password);
-
         return matcher.matches();
     }
 }

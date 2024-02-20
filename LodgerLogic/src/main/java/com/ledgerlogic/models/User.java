@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @Data
 @Entity
@@ -29,17 +29,13 @@ public class User {
     private String zipCode;
     private Date   birthDay;
     private Boolean status = false; //true = active & false = inactive
-    private Date   passwordExpirationDate;
     private short  failedLoginAttempt;
     private Date   suspensionStartDate;
     private Date   suspensionEndDate;
     private Date   lastLoginDate;
     private Date   accountCreationDate = new Date();
     private String imageUrl;
-
-    @OneToMany
-    private List<UserSecurityQuestion>    userSecurityQuestions;
-    private List<String> previousPasswords;
+    private List<String> previousPasswords = new ArrayList<>();
 
     @OneToOne
     private Password password;
@@ -51,7 +47,7 @@ public class User {
         this.role = role;
         this.password = password;
         this.username = generateUsername(firstName, lastName, accountCreationDate);
-        previousPasswords.add(password.getContent());
+        this.previousPasswords.add(password.getContent());
     }
 
     private String generateUsername(String firstName, String lastName, Date accountCreationDate){
