@@ -103,14 +103,12 @@ public class UserController {
     }
 
     @Admin
-    @Manager
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
     }
 
     @Admin
-    @Manager
     @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
