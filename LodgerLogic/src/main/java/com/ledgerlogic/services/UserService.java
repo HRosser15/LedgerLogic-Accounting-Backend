@@ -1,9 +1,10 @@
 package com.ledgerlogic.services;
 
 import com.ledgerlogic.annotations.Admin;
-import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
+import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
+import com.ledgerlogic.repositories.PasswordRepository;
 import com.ledgerlogic.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +15,25 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordRepository passwordRepository;
     private final AccountService accountService;
 
-    public UserService(UserRepository userRepository, AccountService accountService){
+    public UserService(UserRepository userRepository, PasswordRepository passwordRepository, AccountService accountService){
         this.userRepository = userRepository;
+        this.passwordRepository = passwordRepository;
         this.accountService = accountService;
     }
 
     public Optional<User> findByCredentials(String userName, String password){
-        return userRepository.findByUsernameAndPassword(userName, password);
+        Password passwordObject = passwordRepository.findByContent(password);
+        return userRepository.findByUsernameAndPassword(userName, passwordObject);
     }
 
     public User upsert(User user){
+        return userRepository.save(user);
+    }
+
+    public User save(User user){
         return userRepository.save(user);
     }
 

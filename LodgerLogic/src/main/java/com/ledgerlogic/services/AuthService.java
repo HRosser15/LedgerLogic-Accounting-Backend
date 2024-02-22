@@ -9,9 +9,11 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserService userService;
+    private final PasswordService passwordService;
 
-    public AuthService(UserService userService) {
+    public AuthService(UserService userService, PasswordService passwordService) {
         this.userService = userService;
+        this.passwordService = passwordService;
     }
 
     public Optional<User> findByCredentials(String username, String password) {
@@ -23,6 +25,8 @@ public class AuthService {
         if(existingUser.isPresent()){
             throw new IllegalArgumentException("User " + existingUser.get().getFirstName() + " " + existingUser.get().getLastName()+ " already exist");
         }
-        return userService.upsert(user);
+        this.passwordService.addNewPassword(user.getPassword());
+        return userService.save(user);
     }
+
 }

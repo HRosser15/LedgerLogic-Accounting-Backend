@@ -47,9 +47,40 @@ public class UserController {
             if (user.getPassword() != null) {
                 currentUserToBeUpdated.setPassword(user.getPassword());
             }
+            //at this point an email should be sent to an admin
             return this.userService.upsert(currentUserToBeUpdated);
         }
     }
+
+    @Admin
+    @PutMapping("/createNewUser")
+    public User createNewUser(@RequestBody User newUser) {
+        Optional<User> existingUser = Optional.ofNullable((User) this.userService.findByFullName(newUser.getFirstName(), newUser.getLastName()));
+        if (!existingUser.isPresent()) {
+            System.out.println("User already exist");
+            return null;
+        } else if (newUser.getFirstName() != null && newUser.getLastName() != null && newUser.getPassword() != null) {
+                if (newUser.getEmail() != null) {
+                    if (userService.emailIsTaken(newUser.getEmail())) {
+                        System.out.println("The email/username already exist");
+                        return null;
+                    } else {
+                        return this.userService.upsert(newUser);
+                    }
+                }else{
+                    System.out.println("email field is missing!");
+                    return null;
+                }
+        } else {
+            System.out.println("first name, last name, or password field is missing!");
+            return null;
+        }
+    }
+
+//    @PutMapping("/forgotPassword/{userId}/")
+//    public User changePassword(@PathVariable("email") String email, @PathVariable("userId") String id){
+//    }
+
 
     @GetMapping("/searchById/{id}")
     public User getUserById(@PathVariable("id") Long id){
@@ -72,23 +103,23 @@ public class UserController {
     }
 
     @Admin
-    @Manager
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
     }
 
     @Admin
-    @Manager
     @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
     }
 
+    @Admin
     @PutMapping("/updateRole/{userId}/{newRole}")
     public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("role") String role){
         return this.userService.updateRole(userId, role);
     }
+
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable("userId") Long userId){
          this.userService.delete(userId);
