@@ -37,18 +37,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getByEmail(String email){
+    public User findByEmail(String email){
         return userRepository.findByEmail(email);
     }
 
     public boolean emailIsTaken(String email){
-        Optional<User> current = Optional.ofNullable(getByEmail(email));
+        Optional<User> current = Optional.ofNullable(findByEmail(email));
         if(!current.isPresent()) return false;
         else return true;
     }
 
     public boolean userNameIsTaken(String userName){
-        Optional<User> current = Optional.ofNullable(getByEmail(userName));
+        Optional<User> current = Optional.ofNullable(findByEmail(userName));
         if(!current.isPresent()) return false;
         else return true;
     }

@@ -4,12 +4,14 @@ import com.ledgerlogic.annotations.Admin;
 import com.ledgerlogic.annotations.Authorized;
 import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
+import com.ledgerlogic.models.SecurityQuestion;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,11 +79,6 @@ public class UserController {
         }
     }
 
-//    @PutMapping("/forgotPassword/{userId}/")
-//    public User changePassword(@PathVariable("email") String email, @PathVariable("userId") String id){
-//    }
-
-
     @GetMapping("/searchById/{id}")
     public User getUserById(@PathVariable("id") Long id){
         return this.userService.getById(id);
@@ -102,7 +99,7 @@ public class UserController {
         return this.userService.findByFullName(firstname, lastname);
     }
 
-    @Admin
+    @Admin @Manager
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
