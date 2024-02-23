@@ -2,6 +2,7 @@ package com.ledgerlogic.controllers;
 
 import com.ledgerlogic.dtos.LoginRequest;
 import com.ledgerlogic.dtos.RegisterRequest;
+import com.ledgerlogic.exceptions.InvalidCredentialsException;
 import com.ledgerlogic.exceptions.InvalidPasswordException;
 import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
@@ -32,11 +33,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) throws InvalidCredentialsException {
         Optional<User> optional = authService.findByCredentials(loginRequest.getUsername(), loginRequest.getPassword());
 
         if(!optional.isPresent()) {
-            return ResponseEntity.badRequest().build();
+            throw new InvalidCredentialsException("username, password or both not correct!");
         }
         session.setAttribute("user", optional.get());
         return ResponseEntity.ok(optional.get());
@@ -45,6 +46,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
         session.removeAttribute("user");
+        ResponseEntity.ok().body("User logged out successfully!");
         return ResponseEntity.ok().build();
     }
 

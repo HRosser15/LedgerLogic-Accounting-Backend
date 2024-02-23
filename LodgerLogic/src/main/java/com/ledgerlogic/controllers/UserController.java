@@ -99,7 +99,7 @@ public class UserController {
         return this.userService.findByFullName(firstname, lastname);
     }
 
-    @Admin @Manager
+    @Admin
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
