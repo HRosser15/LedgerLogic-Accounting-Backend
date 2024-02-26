@@ -12,10 +12,13 @@ public class PasswordService {
 
     private final PasswordRepository passwordRepository;
     private final SecurityQuestionService securityQuestionService;
+    private final UserService userService;
 
-    public PasswordService(PasswordRepository passwordRepository, SecurityQuestionService securityQuestionService){
+    public PasswordService(PasswordRepository passwordRepository,
+                           SecurityQuestionService securityQuestionService, UserService userService){
         this.passwordRepository = passwordRepository;
         this.securityQuestionService = securityQuestionService;
+        this.userService = userService;
     }
     public Password addNewPassword(Password password){
         List<PasswordSecurityQuestion> passwordSecurityQuestionList = password.getPasswordSecurityQuestions();
