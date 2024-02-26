@@ -14,10 +14,12 @@ import java.util.regex.Pattern;
 @Service
 public class ForgotPasswordService {
 
-    private UserService userService;
+    private final UserService userService;
+    private final PasswordService passwordService;
 
-    public ForgotPasswordService(UserService userService, SecurityQuestionService securityQuestionService){
+    public ForgotPasswordService(UserService userService, SecurityQuestionService securityQuestionService, PasswordService passwordService){
         this.userService =  userService;
+        this.passwordService = passwordService;
     }
 
     public User getByEmail(String email) {
@@ -61,23 +63,41 @@ public class ForgotPasswordService {
             return null;
         }
 
-        boolean validPassword = validatePassword(passwordContent);
-
-        if(validPassword){
+        if(validatePassword(passwordContent)){
             User user = optionalUser.get();
             Password newPassword = user.getPassword();
-            newPassword.setContent(passwordContent);
-            user.setPassword(newPassword);
-            userService.upsert(user);
-            return newPassword;
-        }
 
-        return null;
+            if(!passwordUsedInThePast(user, passwordContent)){
+                newPassword.setContent(passwordContent);
+                user.setPassword(newPassword);
+
+                return userService.upsert(user).getPassword();
+
+            }else{
+                System.out.println("you can't use previously used passwords!");
+                return null;
+            }
+        }else{
+            System.out.println("Invalid password format!");
+            return null;
+        }
     }
 
     public boolean validatePassword(String password){
         Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    public Boolean passwordUsedInThePast(User user, String newPasswordContent){
+        List<String> previousPasswords = user.getPreviousPasswords();
+        for(String passwordContent: previousPasswords){
+            if(passwordContent.equals(newPasswordContent)){
+                return true;
+            }
+        }
+        previousPasswords.add(newPasswordContent);
+        user.setPreviousPasswords(previousPasswords);
+        return false;
     }
 }
