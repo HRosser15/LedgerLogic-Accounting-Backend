@@ -19,8 +19,6 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    @Admin
-    @Manager
     public List<Account> getAll(){
         return this.accountRepository.findAll();
     }
@@ -38,7 +36,6 @@ public class AccountService {
         }
     }
 
-    @Admin
     public void delete(Account account) {
         this.accountRepository.delete(account);
     }

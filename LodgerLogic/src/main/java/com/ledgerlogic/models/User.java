@@ -2,6 +2,7 @@ package com.ledgerlogic.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class User {
     private String imageUrl;
     private List<String> previousPasswords = new ArrayList<>();
 
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     @OneToOne
     private Password password;
 
@@ -47,7 +51,7 @@ public class User {
         this.role = role;
         this.password = password;
         this.username = generateUsername(firstName, lastName, accountCreationDate);
-        this.previousPasswords.add(password.getContent());
+        this.previousPasswords.add(encryptPassword(password.getContent()));
     }
 
     private String generateUsername(String firstName, String lastName, Date accountCreationDate){
@@ -58,6 +62,10 @@ public class User {
                           lastName.toLowerCase()+
                           twoDigitsMonth+
                           twoDigitsYear;
+    }
+
+    public String encryptPassword(String unEncryptedContent){
+        return this.passwordEncoder.encode(unEncryptedContent);
     }
 
 }

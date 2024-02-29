@@ -3,6 +3,7 @@ package com.ledgerlogic.services;
 import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.PasswordSecurityQuestion;
 import com.ledgerlogic.models.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class ForgotPasswordService {
 
     private final UserService userService;
     private final PasswordService passwordService;
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public ForgotPasswordService(UserService userService, SecurityQuestionService securityQuestionService, PasswordService passwordService){
         this.userService =  userService;
@@ -57,7 +59,7 @@ public class ForgotPasswordService {
         return false;
     }
 
-    public Password resetPassword(String email, String passwordContent) {
+    public User resetPassword(String email, String passwordContent) {
         Optional<User> optionalUser = Optional.ofNullable(userService.findByEmail(email));
         if (!optionalUser.isPresent()) {
             return null;
@@ -68,10 +70,10 @@ public class ForgotPasswordService {
             Password newPassword = user.getPassword();
 
             if(!passwordUsedInThePast(user, passwordContent)){
-                newPassword.setContent(passwordContent);
+                newPassword.setContent(encryptPassword(passwordContent));
                 user.setPassword(newPassword);
 
-                return userService.upsert(user).getPassword();
+                return userService.upsert(user);
 
             }else{
                 System.out.println("you can't use previously used passwords!");
@@ -92,12 +94,21 @@ public class ForgotPasswordService {
     public Boolean passwordUsedInThePast(User user, String newPasswordContent){
         List<String> previousPasswords = user.getPreviousPasswords();
         for(String passwordContent: previousPasswords){
-            if(passwordContent.equals(newPasswordContent)){
+            if(verifyPasswordContent(newPasswordContent, passwordContent)){
                 return true;
             }
         }
-        previousPasswords.add(newPasswordContent);
+
+        previousPasswords.add(encryptPassword(newPasswordContent));
         user.setPreviousPasswords(previousPasswords);
         return false;
+    }
+
+    public boolean verifyPasswordContent(String passwordContentProvided, String storedPasswordContentHash){
+        return this.passwordEncoder.matches(passwordContentProvided, storedPasswordContentHash);
+    }
+
+    public String encryptPassword(String unEncryptedContent){
+        return this.passwordEncoder.encode(unEncryptedContent);
     }
 }

@@ -53,13 +53,13 @@ public class ForgotPasswordController {
     @PostMapping("/resetPassword")
     public Password resetPassword(@RequestParam("email") String email,
                                   @RequestParam("newPasswordContent") String newPasswordContent) {
-        Password newPassword =  forgotPasswordService.resetPassword(email, newPasswordContent);
-        if (newPassword.equals(null)){
+        Optional<User> currentUser = Optional.ofNullable(forgotPasswordService.resetPassword(email, newPasswordContent));
+        if (!currentUser.isPresent()){
             //I ignored the possibility of user being null putting in mind we should be sure by now considering previous required steps
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password format!");
             return null;
         }
         ResponseEntity.ok("Password rested successfully!");
-        return newPassword;
+        return currentUser.get().getPassword();
     }
 }
