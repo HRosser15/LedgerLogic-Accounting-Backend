@@ -6,6 +6,7 @@ import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.PasswordRepository;
 import com.ledgerlogic.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordRepository passwordRepository;
     private final AccountService accountService;
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     public UserService(UserRepository userRepository, PasswordRepository passwordRepository, AccountService accountService){
         this.userRepository = userRepository;
@@ -25,8 +28,16 @@ public class UserService {
     }
 
     public Optional<User> findByCredentials(String userName, String password){
-        Password passwordObject = passwordRepository.findByContent(password);
-        return userRepository.findByUsernameAndPassword(userName, passwordObject);
+        Optional<User> optionalUser = Optional.ofNullable(this.userRepository.findByUsername(userName));
+        if (!optionalUser.isPresent()){
+            return null;
+        }
+
+        String currentPasswordContentHash = optionalUser.get().getPassword().getContent();
+        if (verifyPasswordContent(password, currentPasswordContentHash)){
+            return optionalUser;
+        }
+        return null;
     }
 
     public User upsert(User user){
@@ -131,7 +142,6 @@ public class UserService {
         return null;
     }
 
-
     @Admin
     public Optional<List<Account>> findAllUserAccounts(User user){
         return accountService.getAllByUser(user);
@@ -144,6 +154,10 @@ public class UserService {
             return account;
         }
         return null;
+    }
+
+    public boolean verifyPasswordContent(String passwordContentProvided, String storedPasswordContentHash){
+        return this.passwordEncoder.matches(passwordContentProvided, storedPasswordContentHash);
     }
 
 }
