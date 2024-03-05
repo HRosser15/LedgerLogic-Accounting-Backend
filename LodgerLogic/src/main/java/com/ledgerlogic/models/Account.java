@@ -24,11 +24,12 @@ public class Account {
     private String      description;
     private String      normalSide;
     private String      category;
+    private boolean     active = true;
     private String      subCategory;
-    private BigDecimal  initialBalance  = BigDecimal.ZERO;
-    private BigDecimal  debit           = BigDecimal.ZERO;
-    private BigDecimal  credit          = BigDecimal.ZERO;
-    private BigDecimal  balance         = BigDecimal.ZERO;
+    private BigDecimal  initialBalance  = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal  debit           = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal  credit          = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal  balance         = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     private Date        creationDate;
     private int         orderNumber;
     private String      statement;
@@ -40,7 +41,7 @@ public class Account {
         this.description    = description;
         this.normalSide     = normalSide;
         this.category       = category;
-        this.creationDate = new Date();
+        this.creationDate   = new Date();
     }
 
     @ManyToOne
