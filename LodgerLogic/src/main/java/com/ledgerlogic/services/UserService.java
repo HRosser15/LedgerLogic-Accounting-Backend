@@ -2,7 +2,6 @@ package com.ledgerlogic.services;
 
 import com.ledgerlogic.annotations.Admin;
 import com.ledgerlogic.models.Account;
-import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.PasswordRepository;
 import com.ledgerlogic.repositories.UserRepository;
@@ -16,14 +15,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordRepository passwordRepository;
     private final AccountService accountService;
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
-    public UserService(UserRepository userRepository, PasswordRepository passwordRepository, AccountService accountService){
+    public UserService(UserRepository userRepository, AccountService accountService){
         this.userRepository = userRepository;
-        this.passwordRepository = passwordRepository;
         this.accountService = accountService;
     }
 
@@ -61,14 +57,12 @@ public class UserService {
     public boolean userNameIsTaken(String userName){
         Optional<User> current = Optional.ofNullable(findByEmail(userName));
         if(!current.isPresent()) return false;
-        else return true;
+        return true;
     }
 
     public User getById(Long id){
         Optional<User> userOptional = this.userRepository.findById(id);
-        if(!userOptional.isPresent()){
-            return null;
-        }
+        if(!userOptional.isPresent()) return null;
         return userOptional.get();
     }
 
@@ -109,6 +103,7 @@ public class UserService {
     @Admin
     public User updateRole(Long userId, String role) {
         Optional<User> current = userRepository.findById(userId);
+        if (!current.isPresent()) return null;
         current.get().setRole(role);
         return this.upsert(current.get());
     }
