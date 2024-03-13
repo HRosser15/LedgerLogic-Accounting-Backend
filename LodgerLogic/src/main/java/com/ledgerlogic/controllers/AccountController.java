@@ -28,9 +28,7 @@ public class AccountController {
     @GetMapping("/viewAccount/{accountId}")
     public ResponseEntity<Account> view(@PathVariable Long accountId){
         Account account = this.accountService.getAccountById(accountId);
-        if (!account.equals(null)){
-            return ResponseEntity.ok().body(account);
-        }
+        if (account != null)return ResponseEntity.ok().body(account);
         ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with id " + accountId + "not found!");
         return null;
     }
@@ -38,9 +36,7 @@ public class AccountController {
     @GetMapping("/getByAccountNumber/{accountNumber}")
     public ResponseEntity<Account> getByAccountNumber(@PathVariable int accountNumber){
         Account account = this.accountService.getByAccountNumber(accountNumber);
-        if (!account.equals(null)){
-            return ResponseEntity.ok().body(account);
-        }
+        if (account != null)return ResponseEntity.ok().body(account);
         ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with id " + accountNumber + "not found!");
         return null;
     }
@@ -48,7 +44,7 @@ public class AccountController {
     @GetMapping("/getByAccountName/{accountName}")
     public ResponseEntity<Account> getByAccountName(@PathVariable String accountName){
         Account account = this.accountService.getByAccountName(accountName);
-        if (!account.equals(null)){
+        if (account != null){
             return ResponseEntity.ok().body(account);
         }
         ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with id " + accountName + "not found!");
@@ -80,9 +76,9 @@ public class AccountController {
     @PostMapping("/addAccount")
     public ResponseEntity<String> create(@RequestBody Account account){
         Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
-        if (accountWithSameName.equals(null)){
+        if (accountWithSameName == null){
             Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
-            if (!accountWithSameAccountNumber.equals(null)){
+            if (accountWithSameAccountNumber != null){
                 this.accountService.upsert(account);
                 return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
             }
@@ -95,7 +91,7 @@ public class AccountController {
     @PutMapping("/updateAccount/{accountId}")
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
        Account updatedAccount = this.accountService.update(accountId, account);
-       if(!updatedAccount.equals(null))
+       if(updatedAccount != null)
            return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully!");
        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
     }
@@ -104,11 +100,10 @@ public class AccountController {
     @PatchMapping("/deactivate/{accountId}")
     public ResponseEntity<String> deactivate(@PathVariable Long accountId){
         Account accountToDeactivate = this.accountService.getAccountById(accountId);
-        if (!accountToDeactivate.equals(null)){
+        if (accountToDeactivate != null){
             this.accountService.deactivate(accountId);
             return ResponseEntity.status(HttpStatus.OK).body("Account deactivated!");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
     }
-
 }

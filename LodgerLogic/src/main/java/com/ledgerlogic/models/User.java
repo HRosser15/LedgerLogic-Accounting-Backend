@@ -40,7 +40,6 @@ public class User {
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
     @OneToOne
     private Password password;
 
