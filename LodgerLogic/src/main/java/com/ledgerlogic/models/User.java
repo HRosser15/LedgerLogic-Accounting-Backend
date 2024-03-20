@@ -18,30 +18,33 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long   userId;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String role = "accountant";
-    private String streetAddress;
-    private String city;
-    private String state;
-    private String zipCode;
-    private Date   birthDay;
-    private Boolean status = false; //true = active & false = inactive
-    private short  failedLoginAttempt;
-    private Date   suspensionStartDate;
-    private Date   suspensionEndDate;
-    private Date   lastLoginDate;
-    private Date   accountCreationDate = new Date();
-    private String imageUrl;
-    private List<String> previousPasswords = new ArrayList<>();
+    private Long            userId;
+    private String          username;
+    private String          firstName;
+    private String          lastName;
+    private String          email;
+    private String          role = "accountant";
+    private String          streetAddress;
+    private String          city;
+    private String          state;
+    private String          zipCode;
+    private Date            birthDay;
+    private Boolean         status = false;
+    private short           failedLoginAttempt;
+    private Date            suspensionStartDate;
+    private Date            suspensionEndDate;
+    private Date            lastLoginDate;
+    private Date            accountCreationDate = new Date();
+    private String          imageUrl;
+    private List<String>    previousPasswords = new ArrayList<>();
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @OneToOne
-    private Password password;
+    private Password        password;
+
+    @ManyToOne
+    private User            admin;
 
     public User(String firstName, String lastName, String email, String role, Password password){
         this.firstName = firstName;
