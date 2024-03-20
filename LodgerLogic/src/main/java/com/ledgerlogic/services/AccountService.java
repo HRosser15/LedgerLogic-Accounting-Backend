@@ -54,9 +54,7 @@ public class AccountService {
 
     public Account getByAccountNumber(int accountNumber) {
         Optional<Account> userAccount = this.accountRepository.findByAccountNumber(accountNumber);
-        if (!userAccount.isPresent())
-            return null;
-        return userAccount.get();
+        return userAccount.orElse(null);
     }
 
     public Account getByAccountName(String accountName) {

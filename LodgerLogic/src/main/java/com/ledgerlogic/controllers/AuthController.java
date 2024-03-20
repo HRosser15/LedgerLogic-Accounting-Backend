@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -36,10 +36,12 @@ public class AuthController {
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) throws InvalidCredentialsException {
         Optional<User> optional = authService.findByCredentials(loginRequest.getUsername(), loginRequest.getPassword());
 
+        System.out.println("- optional from AuthController: " + optional);
         if(!optional.isPresent()) {
             throw new InvalidCredentialsException("username, password or both not correct!");
         }
         session.setAttribute("user", optional.get());
+        System.out.print("- reached [[[session.setAttribute(\"user\", optional.get());]]] in AuthController's /login");
         return ResponseEntity.ok(optional.get());
     }
 

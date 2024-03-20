@@ -60,24 +60,30 @@ public class AuthAspect {
     }
 
     @Around("@annotation(manager)")
-    public Object manager(ProceedingJoinPoint pjp, Manager manager) throws Throwable{
+    public Object manager(ProceedingJoinPoint pjp, Manager manager) throws Throwable {
         HttpSession session = request.getSession();
 
         User loggedInUser = (User) session.getAttribute("user");
+
         String userRole = loggedInUser.getRole().toLowerCase();
 
-        if(manager.value().equals(AuthRestriction.Manager) && !"manager".equals(userRole)) {
-            throw new InvalidRoleException("Must be logged in as a" + userRole + "to perform this action");
+        if (manager.value().equals(AuthRestriction.Manager) && !"manager".equals(userRole)) {
+            throw new InvalidRoleException("Must be logged in as a " + userRole + " to perform this action");
         }
 
         return pjp.proceed(pjp.getArgs());
     }
 
+
     @Around("@annotation(admin)")
     public Object manager(ProceedingJoinPoint pjp, Admin admin) throws Throwable{
         HttpSession session = request.getSession();
 
+        System.out.println("- Session from AuthAspect: " + session);
         User loggedInUser = (User) session.getAttribute("user");
+        System.out.println(loggedInUser);
+
+
         String userRole = loggedInUser.getRole().toLowerCase();
 
         if(admin.value().equals(AuthRestriction.Admin) && !"admin".equals(userRole)) {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/securityQuestions")
 public class SecurityQuestionController {
@@ -20,31 +20,31 @@ public class SecurityQuestionController {
         this.securityQuestionService = securityQuestionService;
     }
 
-    @Admin
+    // @Admin
     @GetMapping("/getAll")
     public List<SecurityQuestion> getAllSecurityQuestions(){
         return this.securityQuestionService.getAll();
     }
 
-    @Admin
+    // @Admin
     @PostMapping("/addNewQuestion")
     public SecurityQuestion createQuestion(@RequestBody SecurityQuestion question) {
         return securityQuestionService.createQuestion(question);
     }
 
-    @Admin
+    // @Admin
     @PostMapping("/updateQuestionContent/{id}")
     public SecurityQuestion updateQuestion(@PathVariable("id") Long id, @RequestBody String content){
         return securityQuestionService.updateSecurityQuestion(id, content);
     }
 
-    @Admin
+    // @Admin
     @DeleteMapping("/deleteQuestion/{id}")
     public void deleteById(@PathVariable("id") Long questionId){
         this.securityQuestionService.deleteSecurityQuestion(questionId);
     }
 
-    @Admin
+    // @Admin
     @PostMapping("/users/{userId}/questions")
     public PasswordSecurityQuestion setUserSecurityQuestion(@PathVariable Long userId,
                                                             @RequestBody PasswordSecurityQuestion passwordSecurityQuestion) {

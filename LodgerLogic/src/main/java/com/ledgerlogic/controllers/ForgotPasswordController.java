@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/forgotPassword")
 public class ForgotPasswordController {

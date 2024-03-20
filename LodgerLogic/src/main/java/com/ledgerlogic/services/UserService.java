@@ -33,6 +33,8 @@ public class UserService {
             return null;
         }
 
+        System.out.println("- optionalUser from UserService: " + optionalUser);
+
         String currentPasswordContentHash = optionalUser.get().getPassword().getContent();
         if (verifyPasswordContent(password, currentPasswordContentHash)){
             return optionalUser;
@@ -106,19 +108,19 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    @Admin
+    // @Admin
     public User updateRole(Long userId, String role) {
         Optional<User> current = userRepository.findById(userId);
         current.get().setRole(role);
         return this.upsert(current.get());
     }
 
-    @Admin
+    // @Admin
     public void delete(Long userId){
         this.userRepository.deleteById(userId);
     }
 
-    @Admin
+    // @Admin
     public Optional<User> activate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -130,7 +132,7 @@ public class UserService {
         return null;
     }
 
-    @Admin
+    // @Admin
     public Optional<User> deactivate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -142,7 +144,7 @@ public class UserService {
         return null;
     }
 
-    @Admin
+    // @Admin
     public Optional<List<Account>> findAllUserAccounts(User user){
         return accountService.getAllByUser(user);
     }
