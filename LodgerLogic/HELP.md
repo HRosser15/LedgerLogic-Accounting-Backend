@@ -16,4 +16,11 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+* 
+* logs
+  An event log showing the before and after image of each record added, modified,
+* or deactivated should be generated each time data changes by any of the users.
+* The event logs must be kept on a table.  The user id and the time and date of
+* the user who made change to the data must be saved.  Each event must have a
+* unique auto generated ID.  
 

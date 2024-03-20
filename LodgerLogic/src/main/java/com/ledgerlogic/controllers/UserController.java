@@ -9,6 +9,7 @@ import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -49,7 +50,6 @@ public class UserController {
             if (user.getPassword() != null) {
                 currentUserToBeUpdated.setPassword(user.getPassword());
             }
-            //at this point an email should be sent to an admin
             return this.userService.upsert(currentUserToBeUpdated);
         }
     }
@@ -117,6 +117,12 @@ public class UserController {
         return this.userService.updateRole(userId, role);
     }
 
+    @Admin
+    @PutMapping("/setAdmin/{id}")
+    public User setUserAdmin(@PathVariable("userId") Long userId, @RequestBody User admin){
+        return this.userService.setUserAdmin(userId, admin);
+    }
+
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable("userId") Long userId){
          this.userService.delete(userId);
@@ -138,6 +144,12 @@ public class UserController {
     @GetMapping("/Accounts")
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
+    }
+
+    @Admin
+    @PutMapping("/suspend/{id}")
+    public Optional<User> suspendUser(@PathVariable Long id, @RequestBody Date suspensionStartDate, @RequestBody Date suspentionEndDate){
+        return userService.suspendUser(id, suspensionStartDate, suspentionEndDate);
     }
 
 }

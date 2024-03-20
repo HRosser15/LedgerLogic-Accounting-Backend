@@ -2,10 +2,15 @@ package com.ledgerlogic.services;
 
 import com.ledgerlogic.models.Password;
 import com.ledgerlogic.models.PasswordSecurityQuestion;
+import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.PasswordRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,4 +41,5 @@ public class PasswordService {
     public String encryptPassword(String unEncryptedContent){
         return this.passwordEncoder.encode(unEncryptedContent);
     }
+
 }

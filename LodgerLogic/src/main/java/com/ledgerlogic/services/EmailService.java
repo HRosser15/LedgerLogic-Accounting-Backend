@@ -31,4 +31,16 @@ public class EmailService {
 
         javaMailSender.send(message);
     }
+
+    public void endOfSuspensionNotification(String adminEmail, String notification){
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(adminEmail);
+        message.setSubject("End Of Suspension Period!");
+        message.setText(notification);
+
+        javaMailSender.send(message);
+    }
+
+
 }

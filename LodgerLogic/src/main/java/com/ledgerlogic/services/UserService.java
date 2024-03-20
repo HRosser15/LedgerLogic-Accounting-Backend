@@ -1,13 +1,14 @@
 package com.ledgerlogic.services;
 
-import com.ledgerlogic.annotations.Admin;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
-import com.ledgerlogic.repositories.PasswordRepository;
 import com.ledgerlogic.repositories.UserRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +17,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AccountService accountService;
+    private final EmailService   emailService;
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserService(UserRepository userRepository, AccountService accountService){
+    public UserService(UserRepository userRepository, AccountService accountService, EmailService emailService){
         this.userRepository = userRepository;
         this.accountService = accountService;
+        this.emailService = emailService;
     }
 
     public Optional<User> findByCredentials(String userName, String password){
@@ -41,7 +44,13 @@ public class UserService {
     }
 
     public User save(User user){
-        return userRepository.save(user);
+        List<User> admins = this.getByRole("admin");
+        User newUser = user;
+        if (admins.size() != 0){
+            User admin = admins.get(0);
+            newUser.setAdmin(admin);
+        }
+        return this.userRepository.save(newUser);
     }
 
     public User findByEmail(String email){
@@ -100,7 +109,6 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    @Admin
     public User updateRole(Long userId, String role) {
         Optional<User> current = userRepository.findById(userId);
         if (!current.isPresent()) return null;
@@ -108,12 +116,10 @@ public class UserService {
         return this.upsert(current.get());
     }
 
-    @Admin
     public void delete(Long userId){
         this.userRepository.deleteById(userId);
     }
 
-    @Admin
     public Optional<User> activate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -125,7 +131,6 @@ public class UserService {
         return null;
     }
 
-    @Admin
     public Optional<User> deactivate(Long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
@@ -137,7 +142,6 @@ public class UserService {
         return null;
     }
 
-    @Admin
     public Optional<List<Account>> findAllUserAccounts(User user){
         return accountService.getAllByUser(user);
     }
@@ -155,4 +159,41 @@ public class UserService {
         return this.passwordEncoder.matches(passwordContentProvided, storedPasswordContentHash);
     }
 
+    public Optional<User> suspendUser(Long id, Date suspensionStartDate, Date suspentionEndDate) {
+        Optional<User> userOptional = this.userRepository.findById(id);
+        if(!userOptional.isPresent()) return null;
+
+        User user = userOptional.get();
+        user.setSuspensionStartDate(suspensionStartDate);
+        user.setSuspensionEndDate(suspentionEndDate);
+
+        LocalDate today = LocalDate.now();
+        if (suspensionStartDate.equals(today))
+            user.setStatus(false);
+
+        this.userRepository.save(user);
+        return Optional.of(user);
+    }
+
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+    private void updateUserStatus(){
+        List<User> usersToUpdate = this.userRepository.findAll();
+        LocalDate today = LocalDate.now();
+
+        for (User user: usersToUpdate){
+            if(user.getSuspensionStartDate().equals(today))
+                deactivate(user.getUserId());
+            if (user.getSuspensionEndDate().equals(today)){
+               emailService.endOfSuspensionNotification(user.getAdmin().getEmail(), user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
+            }
+        }
+    }
+
+    public User setUserAdmin(Long userId, User admin) {
+        Optional<User> optionalUser = this.userRepository.findById(userId);
+        if (!optionalUser.isPresent()) return null;
+        User user = optionalUser.get();
+        user.setAdmin(admin);
+        return this.userRepository.save(user);
+    }
 }
