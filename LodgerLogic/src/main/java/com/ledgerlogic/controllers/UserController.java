@@ -6,6 +6,7 @@ import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.SecurityQuestion;
 import com.ledgerlogic.models.User;
+import com.ledgerlogic.services.EmailService;
 import com.ledgerlogic.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,7 +114,7 @@ public class UserController {
 
     @Admin
     @PutMapping("/updateRole/{userId}/{newRole}")
-    public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("role") String role){
+    public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("newRole") String role){
         return this.userService.updateRole(userId, role);
     }
 

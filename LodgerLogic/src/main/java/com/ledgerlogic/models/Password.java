@@ -34,7 +34,7 @@ public class Password {
     public Date calculateExpirationDate(Date creationDate){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(creationDate);
-        calendar.add(Calendar.MONTH, 3); //password expires after 3 months
+        calendar.add(Calendar.MONTH, 3);
         return calendar.getTime();
     }
 }
