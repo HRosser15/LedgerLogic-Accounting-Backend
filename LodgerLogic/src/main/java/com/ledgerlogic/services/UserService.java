@@ -5,7 +5,9 @@ import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.UserRepository;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,6 @@ public class UserService {
     public User upsert(User user){
         User previousState = this.userRepository.getById(user.getUserId());
         EventLog eventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), previousState.toString());
-        System.out.println(eventLog.toString());
         this.eventLogService.saveEventLog(eventLog);
 
         return userRepository.save(user);
@@ -238,9 +239,13 @@ public class UserService {
     }
 
     public Long getCurrentUserId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof User) {
-            return ((User) principal).getUserId();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof User) {
+                User user = (User) principal;
+                return user.getUserId();
+            }
         }
         return null;
     }

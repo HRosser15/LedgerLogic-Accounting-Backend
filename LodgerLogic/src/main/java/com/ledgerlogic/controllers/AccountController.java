@@ -87,7 +87,6 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with same name already exist!");
     }
 
-    @Admin
     @PutMapping("/updateAccount/{accountId}")
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
        Account updatedAccount = this.accountService.update(accountId, account);
@@ -96,7 +95,6 @@ public class AccountController {
        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
     }
 
-    @Admin
     @PatchMapping("/deactivate/{accountId}")
     public ResponseEntity<String> deactivate(@PathVariable Long accountId){
         Account accountToDeactivate = this.accountService.getAccountById(accountId);
