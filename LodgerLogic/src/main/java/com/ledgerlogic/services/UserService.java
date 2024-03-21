@@ -1,5 +1,6 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.dtos.SuspensionDTO;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -192,15 +195,22 @@ public class UserService {
         return this.passwordEncoder.matches(passwordContentProvided, storedPasswordContentHash);
     }
 
-    public Optional<User> suspendUser(Long id, Date suspensionStartDate, Date suspentionEndDate) {
+    public Optional<User> suspendUser(Long id, SuspensionDTO suspensionDTO){
         Optional<User> userOptional = this.userRepository.findById(id);
         if(!userOptional.isPresent()) return null;
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String todayString          = dateFormat.format(new Date());
+        Date today                  = parseDate(todayString);
+
+        Date suspensionStartDate = parseDate(suspensionDTO.getSuspensionStartDate());
+
+        Date suspensionEndDate   = parseDate(suspensionDTO.getSuspensionEndDate());
+
         User user = userOptional.get();
         user.setSuspensionStartDate(suspensionStartDate);
-        user.setSuspensionEndDate(suspentionEndDate);
+        user.setSuspensionEndDate(suspensionEndDate);
 
-        LocalDate today = LocalDate.now();
         if (suspensionStartDate.equals(today))
             user.setStatus(false);
 
@@ -211,7 +221,7 @@ public class UserService {
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     private void updateUserStatus(){
         List<User> usersToUpdate = this.userRepository.findAll();
-        LocalDate today = LocalDate.now();
+        Date today = new Date();
 
         for (User user: usersToUpdate){
             if(user.getSuspensionStartDate().equals(today)) {
@@ -248,5 +258,15 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    private static Date parseDate(String dateString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.parse(dateString);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
