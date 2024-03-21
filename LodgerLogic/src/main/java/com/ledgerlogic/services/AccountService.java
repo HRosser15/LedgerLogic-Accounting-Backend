@@ -1,20 +1,27 @@
 package com.ledgerlogic.services;
 
 import com.ledgerlogic.models.Account;
+import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.AccountRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+    private final EventLogService eventLogService;
 
-    public AccountService(AccountRepository accountRepository) {
+
+    public AccountService(AccountRepository accountRepository, EventLogService eventLogService) {
         this.accountRepository = accountRepository;
+        this.eventLogService = eventLogService;
     }
 
     public Account getAccountById(Long accountId) {
@@ -30,6 +37,10 @@ public class AccountService {
     }
 
     public Account upsert(Account account) {
+        Account previousState = this.accountRepository.getById(account.getAccountId());
+        EventLog eventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousState.toString());
+        this.eventLogService.saveEventLog(eventLog);
+
         return this.accountRepository.save(account);
     }
 
@@ -42,13 +53,22 @@ public class AccountService {
     }
 
     public void delete(Account account) {
+        Account previousState = this.accountRepository.getById(account.getAccountId());
+        EventLog eventLog = new EventLog("Delete Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), null, previousState.toString());
+        this.eventLogService.saveEventLog(eventLog);
+
         this.accountRepository.delete(account);
     }
 
     public Account update(Long accountId, Account account) {
         Optional<Account> accountToUpdate = this.accountRepository.findById(accountId);
-        if (accountToUpdate.isPresent())
+        if (accountToUpdate.isPresent()){
+
+            EventLog eventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(), account.toString(), accountToUpdate.toString());
+            this.eventLogService.saveEventLog(eventLog);
+
             return this.accountRepository.save(account);
+        }
         return null;
     }
 
@@ -78,10 +98,26 @@ public class AccountService {
         if (accountToDeactivateOptional.isPresent()){
             Account accountToDeactivate = accountToDeactivateOptional.get();
             if (!accountToDeactivate.getBalance().equals(0)){
+
+                EventLog eventLog = new EventLog("Deactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), "false", "true");
+                this.eventLogService.saveEventLog(eventLog);
+
                 accountToDeactivate.setActive(false);
                 return this.accountRepository.save(accountToDeactivate);
             }
             return null;
+        }
+        return null;
+    }
+
+    public Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof User) {
+                User user = (User) principal;
+                return user.getUserId();
+            }
         }
         return null;
     }

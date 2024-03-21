@@ -6,6 +6,7 @@ import com.ledgerlogic.annotations.Manager;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.SecurityQuestion;
 import com.ledgerlogic.models.User;
+import com.ledgerlogic.services.EmailService;
 import com.ledgerlogic.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +55,6 @@ public class UserController {
         }
     }
 
-    @Admin
     @PutMapping("/createNewUser")
     public User createNewUser(@RequestBody User newUser) {
         Optional<User> existingUser = Optional.ofNullable((User) this.userService.findByFullName(newUser.getFirstName(), newUser.getLastName()));
@@ -99,25 +99,21 @@ public class UserController {
         return this.userService.findByFullName(firstname, lastname);
     }
 
-    @Admin
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
     }
 
-    @Admin
     @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
     }
 
-    @Admin
     @PutMapping("/updateRole/{userId}/{newRole}")
-    public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("role") String role){
+    public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("newRole") String role){
         return this.userService.updateRole(userId, role);
     }
 
-    @Admin
     @PutMapping("/setAdmin/{id}")
     public User setUserAdmin(@PathVariable("userId") Long userId, @RequestBody User admin){
         return this.userService.setUserAdmin(userId, admin);
@@ -128,25 +124,21 @@ public class UserController {
          this.userService.delete(userId);
     }
 
-    @Admin
     @PutMapping("/activate/{id}")
     public Optional<User> activate(@PathVariable Long id) {
         return userService.activate(id);
     }
 
-    @Admin
     @PutMapping("/deactivate/{id}")
     public Optional<User> deactivate(@PathVariable Long id) {
         return userService.deactivate(id);
     }
 
-    @Admin
     @GetMapping("/Accounts")
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
     }
 
-    @Admin
     @PutMapping("/suspend/{id}")
     public Optional<User> suspendUser(@PathVariable Long id, @RequestBody Date suspensionStartDate, @RequestBody Date suspentionEndDate){
         return userService.suspendUser(id, suspensionStartDate, suspentionEndDate);
