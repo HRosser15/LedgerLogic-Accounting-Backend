@@ -39,8 +39,13 @@ public class AccountService {
 
     public Account upsert(Account account) {
         account.setCreationDate(new Date());
-        Account previousState = this.accountRepository.getById(account.getAccountId());
-        EventLog eventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousState.toString());
+        Account previousState = null;
+        if (account.getAccountId() != null) {
+            previousState = this.accountRepository.getById(account.getAccountId());
+        }
+
+        String previousStateString = previousState != null ? previousState.toString() : null;
+        EventLog eventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousStateString);
         this.eventLogService.saveEventLog(eventLog);
 
         return this.accountRepository.save(account);
