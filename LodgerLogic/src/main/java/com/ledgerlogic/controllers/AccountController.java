@@ -5,6 +5,7 @@ import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.AccountService;
 import com.ledgerlogic.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -72,22 +73,26 @@ public class AccountController {
         return allAccounts;
     }
 
-    @Admin
+//    @Admin
     @PostMapping("/addAccount")
     public ResponseEntity<String> create(@RequestBody Account account){
         Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
-        if (accountWithSameName == null){
-            Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
-            if (accountWithSameAccountNumber != null){
-                this.accountService.upsert(account);
-                return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
-            }
+
+        if (accountWithSameName != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with the same name already exists!");
+        }
+
+        Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
+
+        if (accountWithSameAccountNumber != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account number already used!");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with same name already exist!");
+
+        this.accountService.upsert(account);
+        return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/updateAccount/{accountId}")
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
        Account updatedAccount = this.accountService.update(accountId, account);
@@ -96,7 +101,7 @@ public class AccountController {
        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
     }
 
-    @Admin
+//    @Admin
     @PatchMapping("/deactivate/{accountId}")
     public ResponseEntity<String> deactivate(@PathVariable Long accountId){
         Account accountToDeactivate = this.accountService.getAccountById(accountId);

@@ -32,6 +32,8 @@ public class UserService {
             return null;
         }
 
+        System.out.println("- optionalUser from UserService: " + optionalUser);
+
         String currentPasswordContentHash = optionalUser.get().getPassword().getContent();
         if (verifyPasswordContent(password, currentPasswordContentHash)){
             return optionalUser;

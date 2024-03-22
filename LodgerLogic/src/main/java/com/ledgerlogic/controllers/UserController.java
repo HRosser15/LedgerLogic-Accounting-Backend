@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/createNewUser")
     public User createNewUser(@RequestBody User newUser) {
         Optional<User> existingUser = Optional.ofNullable((User) this.userService.findByFullName(newUser.getFirstName(), newUser.getLastName()));
@@ -99,25 +99,25 @@ public class UserController {
         return this.userService.findByFullName(firstname, lastname);
     }
 
-    @Admin
+//    @Admin
     @GetMapping("/allUsers")
     public List<User> getAllUsers(){
         return this.userService.getAll();
     }
 
-    @Admin
+//    @Admin
     @GetMapping("/getByRole/{role}")
     public List<User> getByRole(@PathVariable("role") String role){
         return this.userService.getByRole(role);
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/updateRole/{userId}/{newRole}")
     public User updateUserRole(@PathVariable("userId") Long userId, @PathVariable("role") String role){
         return this.userService.updateRole(userId, role);
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/setAdmin/{id}")
     public User setUserAdmin(@PathVariable("userId") Long userId, @RequestBody User admin){
         return this.userService.setUserAdmin(userId, admin);
@@ -128,25 +128,25 @@ public class UserController {
          this.userService.delete(userId);
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/activate/{id}")
     public Optional<User> activate(@PathVariable Long id) {
         return userService.activate(id);
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/deactivate/{id}")
     public Optional<User> deactivate(@PathVariable Long id) {
         return userService.deactivate(id);
     }
 
-    @Admin
+//    @Admin
     @GetMapping("/Accounts")
     public Optional<List<Account>> getAllUserAccounts(@RequestBody User user){
         return userService.findAllUserAccounts(user);
     }
 
-    @Admin
+//    @Admin
     @PutMapping("/suspend/{id}")
     public Optional<User> suspendUser(@PathVariable Long id, @RequestBody Date suspensionStartDate, @RequestBody Date suspentionEndDate){
         return userService.suspendUser(id, suspensionStartDate, suspentionEndDate);

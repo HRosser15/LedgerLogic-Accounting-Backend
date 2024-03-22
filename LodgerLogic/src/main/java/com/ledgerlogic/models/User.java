@@ -1,5 +1,6 @@
 package com.ledgerlogic.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,8 +32,13 @@ public class User {
     private Date            birthDay;
     private Boolean         status = false;
     private short           failedLoginAttempt;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date            suspensionStartDate;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date            suspensionEndDate;
+
     private Date            lastLoginDate;
     private Date            accountCreationDate = new Date();
     private String          imageUrl;

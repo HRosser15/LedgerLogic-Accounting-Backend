@@ -5,6 +5,7 @@ import com.ledgerlogic.models.User;
 import com.ledgerlogic.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class AccountService {
     }
 
     public Account upsert(Account account) {
+        account.setCreationDate(new Date());
         return this.accountRepository.save(account);
     }
 
@@ -54,9 +56,7 @@ public class AccountService {
 
     public Account getByAccountNumber(int accountNumber) {
         Optional<Account> userAccount = this.accountRepository.findByAccountNumber(accountNumber);
-        if (!userAccount.isPresent())
-            return null;
-        return userAccount.get();
+        return userAccount.orElse(null);
     }
 
     public Account getByAccountName(String accountName) {

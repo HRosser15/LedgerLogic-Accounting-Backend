@@ -54,8 +54,10 @@ public class AuthAspect {
     @Around("@annotation(admin)")
     public Object manager(ProceedingJoinPoint pjp, Admin admin) throws Throwable{
         HttpSession session = request.getSession();
+        System.out.println("- Session from AuthAspect: " + session);
 
         User loggedInUser = (User) session.getAttribute("user");
+        System.out.println("LoggedInUser from AuthAspect: " + loggedInUser);
         String userRole = loggedInUser.getRole().toLowerCase();
 
         if(admin.value().equals(AuthRestriction.Admin) && !"admin".equals(userRole)) {
