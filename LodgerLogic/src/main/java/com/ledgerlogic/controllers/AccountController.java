@@ -5,7 +5,6 @@ import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.AccountService;
 import com.ledgerlogic.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
