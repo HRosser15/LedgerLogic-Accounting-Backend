@@ -160,4 +160,9 @@ public class UserController {
         return userService.suspendUser(id, suspensionDTO);
     }
 
+    @GetMapping("/getExpiredPasswords")
+    public List<User> getExpiredPasswords() {
+        return userService.getUsersWithExpiredPasswords();
+    }
+
 }

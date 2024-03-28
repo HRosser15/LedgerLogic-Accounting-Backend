@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -39,6 +40,9 @@ public class User {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date            suspensionEndDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate expirationDate;
+
     private Date            lastLoginDate;
     private Date            accountCreationDate = new Date();
     private String          imageUrl;
@@ -56,6 +60,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+//        this.expirationDate = LocalDate.now().plusMonths(1);
+        this.expirationDate = LocalDate.of(2024, 3, 20);
         this.role = role;
         this.password = password;
         this.username = generateUsername(firstName, lastName, accountCreationDate);

@@ -220,6 +220,11 @@ public class UserService {
         return Optional.of(user);
     }
 
+    public List<User> getUsersWithExpiredPasswords() {
+        LocalDate currentDate = LocalDate.now();
+        return userRepository.findByExpirationDateBefore(currentDate);
+    }
+
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     private void updateUserStatus(){
         List<User> usersToUpdate = this.userRepository.findAll();
