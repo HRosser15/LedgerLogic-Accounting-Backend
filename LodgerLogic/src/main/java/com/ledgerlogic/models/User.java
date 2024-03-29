@@ -60,8 +60,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-//        this.expirationDate = LocalDate.now().plusMonths(1);
-        this.expirationDate = LocalDate.of(2024, 3, 20);
+        this.expirationDate = LocalDate.now().plusMonths(1);
+//        this.expirationDate = LocalDate.of(2024, 3, 20);
         this.role = role;
         this.password = password;
         this.username = generateUsername(firstName, lastName, accountCreationDate);
