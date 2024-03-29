@@ -38,8 +38,8 @@ public class AccountService {
 
     public Account upsert(Account account) {
         Account previousState = this.accountRepository.getById(account.getAccountId());
-        EventLog eventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousState.toString());
-        this.eventLogService.saveEventLog(eventLog);
+        EventLog userEventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousState.toString());
+        this.eventLogService.saveEventLog(userEventLog);
 
         return this.accountRepository.save(account);
     }
@@ -54,8 +54,8 @@ public class AccountService {
 
     public void delete(Account account) {
         Account previousState = this.accountRepository.getById(account.getAccountId());
-        EventLog eventLog = new EventLog("Delete Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), null, previousState.toString());
-        this.eventLogService.saveEventLog(eventLog);
+        EventLog userEventLog = new EventLog("Delete Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), null, previousState.toString());
+        this.eventLogService.saveEventLog(userEventLog);
 
         this.accountRepository.delete(account);
     }
@@ -64,8 +64,8 @@ public class AccountService {
         Optional<Account> accountToUpdate = this.accountRepository.findById(accountId);
         if (accountToUpdate.isPresent()){
 
-            EventLog eventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(), account.toString(), accountToUpdate.toString());
-            this.eventLogService.saveEventLog(eventLog);
+            EventLog userEventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(), account.toString(), accountToUpdate.toString());
+            this.eventLogService.saveEventLog(userEventLog);
 
             return this.accountRepository.save(account);
         }
@@ -99,8 +99,8 @@ public class AccountService {
             Account accountToDeactivate = accountToDeactivateOptional.get();
             if (!accountToDeactivate.getBalance().equals(0)){
 
-                EventLog eventLog = new EventLog("Deactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), "false", "true");
-                this.eventLogService.saveEventLog(eventLog);
+                EventLog userEventLog = new EventLog("Deactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), "false", "true");
+                this.eventLogService.saveEventLog(userEventLog);
 
                 accountToDeactivate.setActive(false);
                 return this.accountRepository.save(accountToDeactivate);
