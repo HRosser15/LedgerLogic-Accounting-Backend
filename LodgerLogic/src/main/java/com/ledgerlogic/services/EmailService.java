@@ -1,8 +1,8 @@
 package com.ledgerlogic.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -10,36 +10,42 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSender mailSender;
+
+    @Value("$(spring.mail.username)")
+    private String fromEmail;
 
     public void sendApprovalRequestEmail(String adminEmail, String newUserEmail) {
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setTo(adminEmail);
+        message.setFrom(fromEmail);
+        message.setTo("abderrahim.bahiaa@gmail.com");
         message.setSubject("New user account approval required");
         message.setText("Dear Admin, A new user with email " + newUserEmail + " has registered. Please approve their account");
 
-        javaMailSender.send(message);
+        mailSender.send(message);
     }
 
     public void sendApprovalResponseEmail(String newUserEmail, String adminEmail, String responseSubject, String responseBody){
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setTo(newUserEmail);
+        message.setFrom(fromEmail);
+        message.setTo("abderrahim.bahiaa@gmail.com");
         message.setSubject(responseSubject);
         message.setText(responseBody);
 
-        javaMailSender.send(message);
+        mailSender.send(message);
     }
 
     public void endOfSuspensionNotification(String adminEmail, String notification){
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setTo(adminEmail);
+        message.setFrom(fromEmail);
+        message.setTo("abderrahim.bahiaa@gmail.com");
         message.setSubject("End Of Suspension Period!");
         message.setText(notification);
 
-        javaMailSender.send(message);
+        mailSender.send(message);
     }
 
 

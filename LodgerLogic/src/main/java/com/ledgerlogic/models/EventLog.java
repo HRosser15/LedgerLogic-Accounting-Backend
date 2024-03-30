@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "eventLog")
+@Table(name = "userEventLog")
 public class EventLog {
 
     @Id
@@ -22,7 +22,9 @@ public class EventLog {
     private Long            entityId;
     private Long            modifiedById;
     private LocalDateTime   modificationTime;
+    @Lob
     private String          currentState;
+    @Lob
     private String          previousState;
 
     public EventLog(String title, Long entityId, Long modifiedById, LocalDateTime modificationTime, String currentState, String previousState) {
