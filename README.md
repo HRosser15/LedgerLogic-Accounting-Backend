@@ -87,6 +87,22 @@ export const fetchUsers = () => {
 };
 ```
 
+## Setting Up Email Server
+### Installation
+```bash
+npm install -g maildev
+```
+the email server interface can be accessed at ```http://0.0.0.0:1080```
+### Configuration
+Add this to your application.properties/.yml file
+```
+spring.mail.host=localhost
+spring.mail.port=1025
+spring.mail.properties.mail.smtp.auth=false
+spring.mail.properties.mail.smpt.starttls.enable=false
+spring.mail.properties.mail.smpt.starttls.required=false
+```
+
 
 
 
