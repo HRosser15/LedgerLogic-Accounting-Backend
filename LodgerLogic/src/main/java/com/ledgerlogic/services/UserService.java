@@ -65,9 +65,6 @@ public class UserService {
             User admin = admins.get(0);
             newUser.setAdmin(admin);
         }
-
-        this.emailService.send("admins@ledgerlogic.com", "Activate user account");
-
         EventLog userEventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
@@ -161,7 +158,7 @@ public class UserService {
             user.setStatus(true);
             userRepository.save(user);
 
-            this.emailService.send(user.getEmail(), "Your Account is Activate");
+            this.emailService.send(user.getEmail(), user.getEmail(), "Account Status Updated", "Your Account is Activate");
 
             return userRepository.findById(userId);
         }
@@ -176,7 +173,7 @@ public class UserService {
             EventLog userEventLog = new EventLog("Deactivate User Status", userId, getCurrentUserId(), LocalDateTime.now(), user.getState(), "false");
             this.eventLogService.saveEventLog(userEventLog);
 
-            this.emailService.send(user.getEmail(), "Sorry your Account is deactivated, for more information reach out to you supervisor");
+            this.emailService.send(user.getEmail(), user.getAdmin().getEmail(), "Account Status Updated" ,"Sorry your Account is deactivated, for more information reach out to you supervisor");
 
             user.setStatus(false);
             userRepository.save(user);
@@ -220,7 +217,7 @@ public class UserService {
 
         if (suspensionStartDate.equals(today)) {
             user.setStatus(false);
-            emailService.send(user.getEmail(), "Your account is suspended until " + suspensionEndDate);
+            emailService.send(user.getEmail(), user.getAdmin().getEmail(), "Account Suspended!",  "Your account is suspended until " + suspensionEndDate);
         }
 
         this.userRepository.save(user);
@@ -240,7 +237,7 @@ public class UserService {
                 this.eventLogService.saveEventLog(userEventLog);
             }
             if (user.getSuspensionEndDate().equals(today)){
-               emailService.send(user.getAdmin().getEmail(), user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
+               emailService.send(user.getAdmin().getEmail(),"autoprocess@ledgerlogic.com", "Account Status Updated!", user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
                 System.out.println("emaiservice changes made here");
             }
         }
