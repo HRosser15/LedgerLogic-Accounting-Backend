@@ -72,7 +72,6 @@ public class AccountController {
         return allAccounts;
     }
 
-    @Admin
     @PostMapping("/addAccount")
     public ResponseEntity<String> create(@RequestBody Account account){
         Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());

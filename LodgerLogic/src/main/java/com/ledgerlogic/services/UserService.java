@@ -64,8 +64,9 @@ public class UserService {
         if (admins.size() != 0){
             User admin = admins.get(0);
             newUser.setAdmin(admin);
-//            emailService.sendApprovalRequestEmail(newUser.getAdmin().getEmail(), newUser.getEmail());
         }
+
+        this.emailService.send("admins@ledgerlogic.com", "Activate user account");
 
         EventLog userEventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
@@ -159,6 +160,9 @@ public class UserService {
 
             user.setStatus(true);
             userRepository.save(user);
+
+            this.emailService.send(user.getEmail(), "Your Account is Activate");
+
             return userRepository.findById(userId);
         }
         return null;
@@ -171,6 +175,8 @@ public class UserService {
 
             EventLog userEventLog = new EventLog("Deactivate User Status", userId, getCurrentUserId(), LocalDateTime.now(), user.getState(), "false");
             this.eventLogService.saveEventLog(userEventLog);
+
+            this.emailService.send(user.getEmail(), "Sorry your Account is deactivated, for more information reach out to you supervisor");
 
             user.setStatus(false);
             userRepository.save(user);
@@ -212,8 +218,10 @@ public class UserService {
         user.setSuspensionStartDate(suspensionStartDate);
         user.setSuspensionEndDate(suspensionEndDate);
 
-        if (suspensionStartDate.equals(today))
+        if (suspensionStartDate.equals(today)) {
             user.setStatus(false);
+            emailService.send(user.getEmail(), "Your account is suspended until " + suspensionEndDate);
+        }
 
         this.userRepository.save(user);
         return Optional.of(user);
@@ -232,7 +240,8 @@ public class UserService {
                 this.eventLogService.saveEventLog(userEventLog);
             }
             if (user.getSuspensionEndDate().equals(today)){
-               emailService.endOfSuspensionNotification(user.getAdmin().getEmail(), user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
+               emailService.send(user.getAdmin().getEmail(), user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
+                System.out.println("emaiservice changes made here");
             }
         }
     }
