@@ -24,8 +24,8 @@ public class EmailService implements EmailSender {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setTo(to);
+            helper.setFrom("support@ledgerlogic.com");
             helper.setSubject("Activate user account");
-            helper.setFrom("hello@amigoscode.com");
             helper.setText("Hello, "+
                     "\n\n" +
                     body +
