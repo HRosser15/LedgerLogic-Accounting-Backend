@@ -18,14 +18,13 @@ public class EmailService implements EmailSender {
     }
 
     @Override
-    @Async
-    public void send(String to, String body) {
+    public void send(String to, String from, String subject, String body) {
         try{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setTo(to);
-            helper.setFrom("support@ledgerlogic.com");
-            helper.setSubject("Activate user account");
+            helper.setFrom(from);
+            helper.setSubject(subject);
             helper.setText("Hello, "+
                     "\n\n" +
                     body +
