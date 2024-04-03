@@ -19,7 +19,7 @@ public class EventLogService {
         return this.eventLogRepository.findAll();
     }
 
-    public EventLog saveEventLog(EventLog eventLog){
-        return this.eventLogRepository.save(eventLog);
+    public EventLog saveEventLog(EventLog userEventLog){
+        return this.eventLogRepository.save(userEventLog);
     }
 }

@@ -1,46 +1,39 @@
 package com.ledgerlogic.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-
+import com.ledgerlogic.email.EmailSender;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailService {
+public class EmailService implements EmailSender {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender mailSender;
 
-    public void sendApprovalRequestEmail(String adminEmail, String newUserEmail) {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setTo(adminEmail);
-        message.setSubject("New user account approval required");
-        message.setText("Dear Admin, A new user with email " + newUserEmail + " has registered. Please approve their account");
-
-        javaMailSender.send(message);
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
-    public void sendApprovalResponseEmail(String newUserEmail, String adminEmail, String responseSubject, String responseBody){
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setTo(newUserEmail);
-        message.setSubject(responseSubject);
-        message.setText(responseBody);
-
-        javaMailSender.send(message);
+    @Override
+    public void send(String to, String from, String subject, String body) {
+        try{
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject(subject);
+            helper.setText("Hello, "+
+                    "\n\n" +
+                    body +
+                    "\n\n" +
+                    "regards,", false);
+            mailSender.send(mimeMessage);
+        }catch (MessagingException e){
+            throw new IllegalStateException("failed to send email");
+        }
     }
-
-    public void endOfSuspensionNotification(String adminEmail, String notification){
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setTo(adminEmail);
-        message.setSubject("End Of Suspension Period!");
-        message.setText(notification);
-
-        javaMailSender.send(message);
-    }
-
 
 }
