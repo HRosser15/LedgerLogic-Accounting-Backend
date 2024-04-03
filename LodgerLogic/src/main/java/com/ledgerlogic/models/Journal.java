@@ -28,4 +28,19 @@ public class Journal {
 
     @OneToMany
     private List<JournalEntry> journalEntries;
+
+    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+        this.rejectionReason = rejectionReason;
+        this.attachments     = attachments;
+        this.createdDate     = createdDate;
+        this.createdBy       = createdBy;
+        this.journalEntries  = journalEntries;
+    }
+
+    public Journal(String rejectionReason, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+        this.rejectionReason = rejectionReason;
+        this.createdDate     = createdDate;
+        this.createdBy       = createdBy;
+        this.journalEntries  = journalEntries;
+    }
 }

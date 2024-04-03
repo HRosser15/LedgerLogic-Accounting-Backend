@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,12 +12,8 @@ import java.util.List;
 public class GeneralLedger {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long generalLedgerId;
+    private String type;
 
-    @OneToMany
-    List<Account> accounts;
-
-    @OneToMany
-    List<Journal> journals;
 }

@@ -238,7 +238,6 @@ public class UserService {
             }
             if (user.getSuspensionEndDate().equals(today)){
                emailService.send(user.getAdmin().getEmail(),"autoprocess@ledgerlogic.com", "Account Status Updated!", user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
-                System.out.println("emaiservice changes made here");
             }
         }
     }
