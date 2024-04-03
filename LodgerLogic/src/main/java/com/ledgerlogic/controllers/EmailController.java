@@ -5,7 +5,7 @@ import com.ledgerlogic.services.EmailService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RequestMapping("/sendEmail")
 public class EmailController {
 
