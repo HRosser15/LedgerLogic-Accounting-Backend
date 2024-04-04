@@ -25,6 +25,20 @@ public class AccountController {
         this.userService = userService;
     }
 
+    @PostMapping("/addAccount")
+    public ResponseEntity<String> create(@RequestBody Account account){
+        Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
+        if (accountWithSameName == null){
+            Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
+            if (accountWithSameAccountNumber == null){
+                this.accountService.upsert(account);
+                return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account number already used!");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with same name already exist!");
+    }
+
     @GetMapping("/viewAccount/{accountId}")
     public ResponseEntity<Account> view(@PathVariable Long accountId){
         Account account = this.accountService.getAccountById(accountId);
@@ -70,20 +84,6 @@ public class AccountController {
             return null;
         }
         return allAccounts;
-    }
-
-    @PostMapping("/addAccount")
-    public ResponseEntity<String> create(@RequestBody Account account){
-        Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
-        if (accountWithSameName == null){
-            Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
-            if (accountWithSameAccountNumber != null){
-                this.accountService.upsert(account);
-                return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account number already used!");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with same name already exist!");
     }
 
     @PutMapping("/updateAccount/{accountId}")

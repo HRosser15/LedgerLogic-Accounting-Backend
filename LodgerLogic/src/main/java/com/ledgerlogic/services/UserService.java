@@ -65,7 +65,7 @@ public class UserService {
             User admin = admins.get(0);
             newUser.setAdmin(admin);
         }
-        EventLog userEventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
+        EventLog userEventLog = new EventLog("New User Added", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
         return this.userRepository.save(newUser);

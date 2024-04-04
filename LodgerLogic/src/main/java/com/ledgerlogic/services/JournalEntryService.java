@@ -1,5 +1,6 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.exceptions.InvalidJournalEntryException;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.JournalEntry;
 import com.ledgerlogic.repositories.JournalEntryRepository;
@@ -20,7 +21,9 @@ public class JournalEntryService {
         this.accountService         = accountService;
     }
 
-    public JournalEntry addJournalEntry(JournalEntry journalEntry){
+    public JournalEntry addJournalEntry(JournalEntry journalEntry) throws InvalidJournalEntryException{
+        if (journalEntry.getCredit() != journalEntry.getDebit())
+            throw new InvalidJournalEntryException("credit and debits not balanced!");
         Account account     = journalEntry.getAccount();
         BigDecimal credit   = journalEntry.getCredit();
         BigDecimal debit    = journalEntry.getDebit();

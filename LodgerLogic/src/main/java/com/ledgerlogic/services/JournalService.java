@@ -20,10 +20,14 @@ public class JournalService {
 
     private EmailService        emailService;
 
-    public JournalService(JournalRepository journalRepository,EventLogService eventLogService, AccountService accountService) {
+    public JournalService(JournalRepository journalRepository,
+                          EventLogService eventLogService,
+                          AccountService accountService,
+                          EmailService emailService) {
         this.journalRepository   = journalRepository;
         this.accountService      = accountService;
         this.eventLogService     = eventLogService;
+        this.emailService        = emailService;
     }
 
     public Journal addJournal(Journal journal){
@@ -38,13 +42,13 @@ public class JournalService {
         return this.journalRepository.save(journal);
     }
 
-    public Journal approveJournal(Long id, String newStatus) {
+    public Journal approveJournal(Long id, Journal.Status newStatus) {
         Optional<Journal> optionalJournal = this.journalRepository.findById(id);
         if (optionalJournal.isPresent()) {
             Journal journal = optionalJournal.get();
             Journal previousState = journal;
-            if (newStatus.toLowerCase().equals("approved")) {
-                journal.setStatus("approved");
+            if (newStatus.equals(Journal.Status.APPROVED)) {
+                journal.setStatus(Journal.Status.APPROVED);
 
                 for (JournalEntry journalEntry: journal.getJournalEntries()){
                     Account accountToUpdate = journalEntry.getAccount();
@@ -70,7 +74,7 @@ public class JournalService {
         if (optionalJournal.isPresent()){
             Journal previousState = optionalJournal.get();
             Journal updatedJournal = previousState;
-            updatedJournal.setStatus("rejected");
+            updatedJournal.setStatus(Journal.Status.REJECTED);
             updatedJournal.setRejectionReason(journalDTO.getRejectionReason());
 
             EventLog userEventLog = new EventLog("Rejected New Journal", updatedJournal.getJournalId(), updatedJournal.getCreatedBy().getUserId(), LocalDateTime.now(), updatedJournal.toString(), previousState.toString());
@@ -85,7 +89,7 @@ public class JournalService {
         return this.journalRepository.findAll();
     }
 
-    public List<Journal> getByStatus(String status){
+    public List<Journal> getByStatus(Journal.Status status){
         return this.journalRepository.findByStatus(status);
     }
 

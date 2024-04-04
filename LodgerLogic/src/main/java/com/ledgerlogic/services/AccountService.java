@@ -1,5 +1,6 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.dtos.AccountDTO;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
@@ -35,6 +36,7 @@ public class AccountService {
     public List<Account> getAll() {
         return this.accountRepository.findAll();
     }
+
 
     public Account upsert(Account account) {
         Account previousState = this.accountRepository.getById(account.getAccountId());

@@ -23,7 +23,7 @@ public class JournalController {
     }
 
     @PostMapping("/approveJournal/{journalId}/{newStatus}")
-    public Journal approveJournal(@PathVariable Long journalId, @PathVariable String newStatus){
+    public Journal approveJournal(@PathVariable Long journalId, @PathVariable Journal.Status newStatus){
         return this.journalService.approveJournal(journalId, newStatus);
     }
 
@@ -38,7 +38,7 @@ public class JournalController {
     }
 
     @GetMapping("/getByStatus/{status}")
-    public List<Journal> getByStatus(@PathVariable String status){
+    public List<Journal> getByStatus(@PathVariable Journal.Status status){
         return this.journalService.getByStatus(status);
     }
 

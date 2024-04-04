@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface JournalRepository extends JpaRepository<Journal, Long> {
-    List<Journal> findByStatus(String status);
+    List<Journal> findByStatus(Journal.Status status);
 
     List<Journal> findByCreatedDate(Date date);
 
