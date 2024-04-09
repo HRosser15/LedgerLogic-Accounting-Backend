@@ -3377,7 +3377,817 @@
       <TargetTypeName>xid</TargetTypeName>
       <TargetTypeParentName>pg_catalog</TargetTypeParentName>
     </cast>
-    <extension id="257" parent="2" name="plpgsql">
+    <cast id="257" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10026</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1783</CastFunctionId>
+      <CastFunctionName>int2</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>21</TargetTypeId>
+      <TargetTypeName>int2</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="258" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10027</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1744</CastFunctionId>
+      <CastFunctionName>int4</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="259" parent="2">
+      <Context>implicit</Context>
+      <Method>function</Method>
+      <ObjectId>10213</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1703</CastFunctionId>
+      <CastFunctionName>numeric</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>1700</TargetTypeId>
+      <TargetTypeName>numeric</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="260" parent="2">
+      <Context>implicit</Context>
+      <Method>function</Method>
+      <ObjectId>10029</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1746</CastFunctionId>
+      <CastFunctionName>float8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>701</TargetTypeId>
+      <TargetTypeName>float8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="261" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10031</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3824</CastFunctionId>
+      <CastFunctionName>money</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>790</TargetTypeId>
+      <TargetTypeName>money</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="262" parent="2">
+      <Context>implicit</Context>
+      <Method>function</Method>
+      <ObjectId>10028</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1745</CastFunctionId>
+      <CastFunctionName>float4</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>1700</SourceTypeId>
+      <SourceTypeName>numeric</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>700</TargetTypeId>
+      <TargetTypeName>float4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="263" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10057</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2202</SourceTypeId>
+      <SourceTypeName>regprocedure</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="264" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10052</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2202</SourceTypeId>
+      <SourceTypeName>regprocedure</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="265" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10056</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>2202</SourceTypeId>
+      <SourceTypeName>regprocedure</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="266" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10050</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2202</SourceTypeId>
+      <SourceTypeName>regprocedure</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>24</TargetTypeId>
+      <TargetTypeName>regproc</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="267" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10065</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2203</SourceTypeId>
+      <SourceTypeName>regoper</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>2204</TargetTypeId>
+      <TargetTypeName>regoperator</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="268" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10063</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>2203</SourceTypeId>
+      <SourceTypeName>regoper</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="269" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10059</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2203</SourceTypeId>
+      <SourceTypeName>regoper</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="270" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10064</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2203</SourceTypeId>
+      <SourceTypeName>regoper</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="271" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10073</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2204</SourceTypeId>
+      <SourceTypeName>regoperator</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="272" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10068</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2204</SourceTypeId>
+      <SourceTypeName>regoperator</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="273" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10072</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>2204</SourceTypeId>
+      <SourceTypeName>regoperator</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="274" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10066</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2204</SourceTypeId>
+      <SourceTypeName>regoperator</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>2203</TargetTypeId>
+      <TargetTypeName>regoper</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="275" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10079</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>2205</SourceTypeId>
+      <SourceTypeName>regclass</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="276" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10075</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2205</SourceTypeId>
+      <SourceTypeName>regclass</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="277" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10080</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2205</SourceTypeId>
+      <SourceTypeName>regclass</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="278" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10093</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>2206</SourceTypeId>
+      <SourceTypeName>regtype</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="279" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10094</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2206</SourceTypeId>
+      <SourceTypeName>regtype</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="280" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10089</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>2206</SourceTypeId>
+      <SourceTypeName>regtype</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="281" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10146</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3361</SourceTypeId>
+      <SourceTypeName>pg_ndistinct</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>17</TargetTypeId>
+      <TargetTypeName>bytea</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="282" parent="2">
+      <Context>implicit</Context>
+      <Method>io</Method>
+      <ObjectId>10147</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3361</SourceTypeId>
+      <SourceTypeName>pg_ndistinct</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>25</TargetTypeId>
+      <TargetTypeName>text</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="283" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10148</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3402</SourceTypeId>
+      <SourceTypeName>pg_dependencies</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>17</TargetTypeId>
+      <TargetTypeName>bytea</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="284" parent="2">
+      <Context>implicit</Context>
+      <Method>io</Method>
+      <ObjectId>10149</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3402</SourceTypeId>
+      <SourceTypeName>pg_dependencies</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>25</TargetTypeId>
+      <TargetTypeName>text</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="285" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10096</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3734</SourceTypeId>
+      <SourceTypeName>regconfig</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="286" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10100</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3734</SourceTypeId>
+      <SourceTypeName>regconfig</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="287" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10101</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3734</SourceTypeId>
+      <SourceTypeName>regconfig</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="288" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10103</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3769</SourceTypeId>
+      <SourceTypeName>regdictionary</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="289" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10108</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3769</SourceTypeId>
+      <SourceTypeName>regdictionary</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="290" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10107</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3769</SourceTypeId>
+      <SourceTypeName>regdictionary</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="291" parent="2">
+      <Context>assignment</Context>
+      <Method>io</Method>
+      <ObjectId>10215</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>114</TargetTypeId>
+      <TargetTypeName>json</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="292" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10218</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3450</CastFunctionId>
+      <CastFunctionName>int2</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>21</TargetTypeId>
+      <TargetTypeName>int2</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="293" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10220</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3452</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="294" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10219</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3451</CastFunctionId>
+      <CastFunctionName>int4</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="295" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10216</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3556</CastFunctionId>
+      <CastFunctionName>bool</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>16</TargetTypeId>
+      <TargetTypeName>bool</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="296" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10221</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3453</CastFunctionId>
+      <CastFunctionName>float4</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>700</TargetTypeId>
+      <TargetTypeName>float4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="297" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10217</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>3449</CastFunctionId>
+      <CastFunctionName>numeric</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>1700</TargetTypeId>
+      <TargetTypeName>numeric</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="298" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10222</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>2580</CastFunctionId>
+      <CastFunctionName>float8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3802</SourceTypeId>
+      <SourceTypeName>jsonb</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>701</TargetTypeId>
+      <TargetTypeName>float8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="299" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10223</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4281</CastFunctionId>
+      <CastFunctionName>int4multirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3904</SourceTypeId>
+      <SourceTypeName>int4range</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4451</TargetTypeId>
+      <TargetTypeName>int4multirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="300" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10225</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4284</CastFunctionId>
+      <CastFunctionName>nummultirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3906</SourceTypeId>
+      <SourceTypeName>numrange</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4532</TargetTypeId>
+      <TargetTypeName>nummultirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="301" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10227</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4287</CastFunctionId>
+      <CastFunctionName>tsmultirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3908</SourceTypeId>
+      <SourceTypeName>tsrange</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4533</TargetTypeId>
+      <TargetTypeName>tsmultirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="302" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10228</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4290</CastFunctionId>
+      <CastFunctionName>tstzmultirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3910</SourceTypeId>
+      <SourceTypeName>tstzrange</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4534</TargetTypeId>
+      <TargetTypeName>tstzmultirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="303" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10226</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4293</CastFunctionId>
+      <CastFunctionName>datemultirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3912</SourceTypeId>
+      <SourceTypeName>daterange</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4535</TargetTypeId>
+      <TargetTypeName>datemultirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="304" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10224</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>4296</CastFunctionId>
+      <CastFunctionName>int8multirange</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>3926</SourceTypeId>
+      <SourceTypeName>int8range</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>4536</TargetTypeId>
+      <TargetTypeName>int8multirange</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="305" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10124</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4089</SourceTypeId>
+      <SourceTypeName>regnamespace</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="306" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10123</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>4089</SourceTypeId>
+      <SourceTypeName>regnamespace</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="307" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10119</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4089</SourceTypeId>
+      <SourceTypeName>regnamespace</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="308" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10117</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4096</SourceTypeId>
+      <SourceTypeName>regrole</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="309" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10112</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4096</SourceTypeId>
+      <SourceTypeName>regrole</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="310" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10116</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>4096</SourceTypeId>
+      <SourceTypeName>regrole</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="311" parent="2">
+      <Context>assignment</Context>
+      <Method>function</Method>
+      <ObjectId>10086</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>1288</CastFunctionId>
+      <CastFunctionName>int8</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>4191</SourceTypeId>
+      <SourceTypeName>regcollation</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>20</TargetTypeId>
+      <TargetTypeName>int8</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="312" parent="2">
+      <Context>assignment</Context>
+      <Method>binary</Method>
+      <ObjectId>10087</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4191</SourceTypeId>
+      <SourceTypeName>regcollation</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>23</TargetTypeId>
+      <TargetTypeName>int4</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="313" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10082</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>4191</SourceTypeId>
+      <SourceTypeName>regcollation</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>26</TargetTypeId>
+      <TargetTypeName>oid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="314" parent="2">
+      <Context>implicit</Context>
+      <Method>binary</Method>
+      <ObjectId>10150</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>5017</SourceTypeId>
+      <SourceTypeName>pg_mcv_list</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>17</TargetTypeId>
+      <TargetTypeName>bytea</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="315" parent="2">
+      <Context>implicit</Context>
+      <Method>io</Method>
+      <ObjectId>10151</ObjectId>
+      <StateNumber>1</StateNumber>
+      <SourceTypeId>5017</SourceTypeId>
+      <SourceTypeName>pg_mcv_list</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>25</TargetTypeId>
+      <TargetTypeName>text</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <cast id="316" parent="2">
+      <Context>explicit</Context>
+      <Method>function</Method>
+      <ObjectId>10036</ObjectId>
+      <StateNumber>1</StateNumber>
+      <CastFunctionId>5071</CastFunctionId>
+      <CastFunctionName>xid</CastFunctionName>
+      <CastFunctionParentName>pg_catalog</CastFunctionParentName>
+      <SourceTypeId>5069</SourceTypeId>
+      <SourceTypeName>xid8</SourceTypeName>
+      <SourceTypeParentName>pg_catalog</SourceTypeParentName>
+      <TargetTypeId>28</TargetTypeId>
+      <TargetTypeName>xid</TargetTypeName>
+      <TargetTypeParentName>pg_catalog</TargetTypeParentName>
+    </cast>
+    <extension id="317" parent="2" name="plpgsql">
       <Comment>PL/pgSQL procedural language</Comment>
       <ObjectId>13804</ObjectId>
       <StateNumber>684</StateNumber>
@@ -3389,21 +4199,21 @@
 13807
 13808</MemberIds>
     </extension>
-    <language id="258" parent="2" name="c">
+    <language id="318" parent="2" name="c">
       <Comment>dynamically-loaded C functions</Comment>
       <ObjectId>13</ObjectId>
       <StateNumber>1</StateNumber>
       <ValidatorName>fmgr_c_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="259" parent="2" name="internal">
+    <language id="319" parent="2" name="internal">
       <Comment>built-in functions</Comment>
       <ObjectId>12</ObjectId>
       <StateNumber>1</StateNumber>
       <ValidatorName>fmgr_internal_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="260" parent="2" name="plpgsql">
+    <language id="320" parent="2" name="plpgsql">
       <Comment>PL/pgSQL procedural language</Comment>
       <HandlerName>plpgsql_call_handler</HandlerName>
       <HandlerSchema>pg_catalog</HandlerSchema>
@@ -3415,7 +4225,7 @@
       <ValidatorName>plpgsql_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="261" parent="2" name="sql">
+    <language id="321" parent="2" name="sql">
       <Comment>SQL-language functions</Comment>
       <ObjectId>14</ObjectId>
       <StateNumber>1</StateNumber>
@@ -3423,18 +4233,18 @@
       <ValidatorName>fmgr_sql_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <schema id="262" parent="2" name="information_schema">
+    <schema id="322" parent="2" name="information_schema">
       <ObjectId>13452</ObjectId>
       <StateNumber>530</StateNumber>
       <OwnerName>postgres</OwnerName>
     </schema>
-    <schema id="263" parent="2" name="pg_catalog">
+    <schema id="323" parent="2" name="pg_catalog">
       <Comment>system catalog schema</Comment>
       <ObjectId>11</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>postgres</OwnerName>
     </schema>
-    <schema id="264" parent="2" name="public">
+    <schema id="324" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
       <IntrospectionStateNumber>738</IntrospectionStateNumber>

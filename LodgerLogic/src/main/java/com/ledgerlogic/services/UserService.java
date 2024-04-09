@@ -68,6 +68,8 @@ public class UserService {
             User admin = admins.get(0);
             newUser.setAdmin(admin);
         }
+
+        User savedUser = this.userRepository.save(newUser);  // Added this to save the user before it is logged, this way we can query to show the before and after easier. Without this, userId is saved as null
         EventLog userEventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
