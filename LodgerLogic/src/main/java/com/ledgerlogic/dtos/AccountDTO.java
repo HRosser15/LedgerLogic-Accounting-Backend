@@ -1,7 +1,5 @@
-package com.ledgerlogic.models;
+package com.ledgerlogic.dtos;
 
-
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,16 +7,11 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "accounts")
-public class Account {
+public class AccountDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long        accountId;
     private int         accountNumber;
     private String      accountName;
     private String      description;
@@ -26,25 +19,12 @@ public class Account {
     private String      category;
     private boolean     active = true;
     private String      subCategory;
-    private BigDecimal  initialBalance  = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    private BigDecimal initialBalance  = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     private BigDecimal  debit           = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     private BigDecimal  credit          = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
     private BigDecimal  balance         = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    private Date        creationDate;
+    private Date creationDate;
     private int         orderNumber;
     private String      statement;
     private String      comment;
-
-    public Account(int accountNumber, String accountName, String description, String normalSide, String category){
-        this.accountNumber  = accountNumber;
-        this.accountName    = accountName;
-        this.description    = description;
-        this.normalSide     = normalSide;
-        this.category       = category;
-        this.creationDate   = new Date();
-    }
-
-    @ManyToOne
-    private User owner;
-
 }

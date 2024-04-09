@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class Journal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long             journalId;
-    private String           status = "pending";
+    private Status           status = Status.PENDING;
     private String           rejectionReason;
+    private BigDecimal       balance;
     @Lob
     private byte[]           attachments;
     private Date             createdDate;
@@ -28,4 +30,23 @@ public class Journal {
 
     @OneToMany
     private List<JournalEntry> journalEntries;
+
+    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+        this.rejectionReason = rejectionReason;
+        this.attachments     = attachments;
+        this.createdDate     = createdDate;
+        this.createdBy       = createdBy;
+        this.journalEntries  = journalEntries;
+    }
+
+    public Journal(String rejectionReason, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+        this.rejectionReason = rejectionReason;
+        this.createdDate     = createdDate;
+        this.createdBy       = createdBy;
+        this.journalEntries  = journalEntries;
+    }
+
+    public enum Status {
+        PENDING, APPROVED, REJECTED
+    }
 }

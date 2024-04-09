@@ -25,6 +25,20 @@ public class AccountController {
         this.userService = userService;
     }
 
+    @PostMapping("/addAccount")
+    public ResponseEntity<String> create(@RequestBody Account account){
+        Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
+        if (accountWithSameName == null){
+            Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
+            if (accountWithSameAccountNumber == null){
+                this.accountService.upsert(account);
+                return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account number already used!");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with same name already exist!");
+    }
+
     @GetMapping("/viewAccount/{accountId}")
     public ResponseEntity<Account> view(@PathVariable Long accountId){
         Account account = this.accountService.getAccountById(accountId);
@@ -72,26 +86,6 @@ public class AccountController {
         return allAccounts;
     }
 
-//    @Admin
-    @PostMapping("/addAccount")
-    public ResponseEntity<String> create(@RequestBody Account account){
-        Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
-
-        if (accountWithSameName != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account with the same name already exists!");
-        }
-
-        Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
-
-        if (accountWithSameAccountNumber != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Account number already used!");
-        }
-
-        this.accountService.upsert(account);
-        return ResponseEntity.status(HttpStatus.OK).body("Account added successfully!");
-    }
-
-//    @Admin
     @PutMapping("/updateAccount/{accountId}")
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
        Account updatedAccount = this.accountService.update(accountId, account);
@@ -100,7 +94,6 @@ public class AccountController {
        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
     }
 
-//    @Admin
     @PatchMapping("/deactivate/{accountId}")
     public ResponseEntity<String> deactivate(@PathVariable Long accountId){
         Account accountToDeactivate = this.accountService.getAccountById(accountId);

@@ -15,11 +15,13 @@ public class JournalEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long journalEntryId;
-    private BigDecimal credit;
-    private BigDecimal debit;
+    private Long                journalEntryId;
+    private BigDecimal          credit;
+    private BigDecimal          debit;
+    private BigDecimal          balance;
 
     @OneToOne
+    @JoinColumn(name = "accountId")
     private Account account;
 
     public JournalEntry(BigDecimal credit, BigDecimal debit, Account account){
