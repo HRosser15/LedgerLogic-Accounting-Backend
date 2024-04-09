@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RequestMapping("/generalLodger")
 public class GeneralLedgerController {
 
@@ -17,7 +17,7 @@ public class GeneralLedgerController {
         this.generalLedgerService = generalLedgerService;
     }
 
-    @GetMapping("/etAll")
+    @GetMapping("/getAll")
     public List<GeneralLedger> getAll(){
         return this.generalLedgerService.getGeneralLedger();
     }
