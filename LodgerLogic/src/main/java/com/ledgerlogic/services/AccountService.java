@@ -1,5 +1,6 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.dtos.AccountDTO;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
@@ -9,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +38,18 @@ public class AccountService {
         return this.accountRepository.findAll();
     }
 
+
     public Account upsert(Account account) {
-        Account previousState = this.accountRepository.getById(account.getAccountId());
-        EventLog userEventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousState.toString());
-        this.eventLogService.saveEventLog(userEventLog);
+        account.setCreationDate(new Date());
+        Account previousState = null;
+        if (account.getAccountId() != null) {
+            previousState = this.accountRepository.getById(account.getAccountId());
+        }
+
+        String previousStateString = previousState != null ? previousState.toString() : null;
+        EventLog eventLog = new EventLog("Update Account", account.getAccountId(), getCurrentUserId(), LocalDateTime.now(), account.toString(), previousStateString);
+        this.eventLogService.saveEventLog(eventLog);
+
 
         return this.accountRepository.save(account);
     }
@@ -74,9 +84,7 @@ public class AccountService {
 
     public Account getByAccountNumber(int accountNumber) {
         Optional<Account> userAccount = this.accountRepository.findByAccountNumber(accountNumber);
-        if (!userAccount.isPresent())
-            return null;
-        return userAccount.get();
+        return userAccount.orElse(null);
     }
 
     public Account getByAccountName(String accountName) {

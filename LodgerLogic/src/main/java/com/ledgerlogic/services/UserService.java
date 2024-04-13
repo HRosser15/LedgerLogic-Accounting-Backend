@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,8 @@ public class UserService {
             return null;
         }
 
+        System.out.println("- optionalUser from UserService: " + optionalUser);
+
         String currentPasswordContentHash = optionalUser.get().getPassword().getContent();
         if (verifyPasswordContent(password, currentPasswordContentHash)){
             return optionalUser;
@@ -65,7 +68,7 @@ public class UserService {
             User admin = admins.get(0);
             newUser.setAdmin(admin);
         }
-        EventLog userEventLog = new EventLog("Update User", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
+        EventLog userEventLog = new EventLog("New User Added", user.getUserId(), getCurrentUserId(), LocalDateTime.now(), user.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
         return this.userRepository.save(newUser);
@@ -224,6 +227,11 @@ public class UserService {
         return Optional.of(user);
     }
 
+    public List<User> getUsersWithExpiredPasswords() {
+        LocalDate currentDate = LocalDate.now();
+        return userRepository.findByExpirationDateBefore(currentDate);
+    }
+
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     private void updateUserStatus(){
         List<User> usersToUpdate = this.userRepository.findAll();
@@ -238,7 +246,6 @@ public class UserService {
             }
             if (user.getSuspensionEndDate().equals(today)){
                emailService.send(user.getAdmin().getEmail(),"autoprocess@ledgerlogic.com", "Account Status Updated!", user.getFirstName() + " " + user.getLastName() + " suspension period end today!");
-                System.out.println("emaiservice changes made here");
             }
         }
     }

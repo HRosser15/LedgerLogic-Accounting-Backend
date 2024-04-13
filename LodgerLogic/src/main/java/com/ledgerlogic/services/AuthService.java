@@ -28,7 +28,7 @@ public class AuthService {
             throw new IllegalArgumentException("User " + existingUser.get().getFirstName() + " " + existingUser.get().getLastName()+ " already exist");
         }
         this.passwordService.addNewPassword(user.getPassword());
-        this.emailService.send("admins@legderlogic.com",user.getEmail(), "Activate User Account",user.getFirstName() + " " + user.getLastName() + " Account!");
+        this.emailService.send("admins@legderlogic.com",user.getEmail(), "Activate User Account", "Please Activate " + user.getFirstName() + " " + user.getLastName() + " Account!");
         return userService.save(user);
     }
 
