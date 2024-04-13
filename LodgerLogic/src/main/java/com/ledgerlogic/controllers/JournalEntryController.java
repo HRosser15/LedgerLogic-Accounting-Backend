@@ -38,8 +38,8 @@ public class JournalEntryController {
     }
 
     @GetMapping("/getByAccountName/{accountName}")
-    public ResponseEntity<List<JournalLine>> getJournalLinesByAccountName(@PathVariable String accountName) {
-        List<JournalLine> journalLines = journalEntryService.getJournalLinesByAccountName(accountName);
-        return ResponseEntity.ok(journalLines);
+    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccountName(@PathVariable String accountName) {
+        List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccountName(accountName);
+        return ResponseEntity.ok(journalEntries);
     }
 }

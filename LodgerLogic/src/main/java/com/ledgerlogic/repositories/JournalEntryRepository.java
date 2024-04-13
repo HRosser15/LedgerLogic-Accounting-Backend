@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface JournalEntryRepository extends JpaRepository<JournalEntry, Long> {
     List<JournalEntry> findByJournalLinesAccountAccountId(Long accountId);
-
+    List<JournalEntry> findByAccountAccountName(String accountName);
 //    List<JournalEntry> findJournalEntriesByAccount_AccountId(Long accountId);
 }

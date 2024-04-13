@@ -86,8 +86,8 @@ public class JournalEntryService {
 //        return journalEntryRepository.findByJournalLinesAccount_Id(accountId);
 //    }
 
-    public List<JournalLine> getJournalLinesByAccountName(String accountName) {
-        return journalLineRepository.findByAccountAccountName(accountName);
+    public List<JournalEntry> getJournalEntriesByAccountName(String accountName) {
+        return journalEntryRepository.findByAccountAccountName(accountName);
     }
 
     public JournalEntry createJournalEntry(JournalEntry journalEntry) {

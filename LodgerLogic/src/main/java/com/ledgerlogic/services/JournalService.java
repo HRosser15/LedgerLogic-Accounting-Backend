@@ -2,6 +2,7 @@ package com.ledgerlogic.services;
 
 import com.ledgerlogic.dtos.JournalDTO;
 import com.ledgerlogic.models.*;
+import com.ledgerlogic.repositories.JournalEntryRepository;
 import com.ledgerlogic.repositories.JournalRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,18 @@ public class JournalService {
 
     private EmailService        emailService;
 
+    private JournalEntryRepository journalEntryRepository;
+
     public JournalService(JournalRepository journalRepository,
                           EventLogService eventLogService,
                           AccountService accountService,
-                          EmailService emailService) {
-        this.journalRepository   = journalRepository;
-        this.accountService      = accountService;
-        this.eventLogService     = eventLogService;
-        this.emailService        = emailService;
+                          EmailService emailService,
+                          JournalEntryRepository journalEntryRepository) {
+        this.journalRepository = journalRepository;
+        this.accountService = accountService;
+        this.eventLogService = eventLogService;
+        this.emailService = emailService;
+        this.journalEntryRepository = journalEntryRepository;
     }
 
     public Journal addJournal(Journal journal, Long userId) {
@@ -36,15 +41,19 @@ public class JournalService {
             for (JournalEntry entry : journalEntries) {
                 entry.setJournal(journal);
             }
+            journal.setJournalEntries(journalEntries);
         }
 
         EventLog userEventLog = new EventLog("Added new Journal", journal.getJournalId(), userId, LocalDateTime.now(), journal.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
-        this.emailService.send("temp-email@journalService.java", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
+        this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
 
-        journal.setCreatedDate(new Date());
-        return this.journalRepository.save(journal);
+        // commented out as the user enters the date
+        // journal.setCreatedDate(new Date());
+        Journal savedJournal = this.journalRepository.save(journal);
+        this.journalEntryRepository.saveAll(journalEntries);
+        return savedJournal;
     }
 
     public Journal approveJournal(Long id, Journal.Status newStatus) {
