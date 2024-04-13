@@ -20,17 +20,8 @@ public class EmailController {
                 emailRequest.getTo(),
                 emailRequest.getFrom(),
                 emailRequest.getSubject(),
-                emailRequest.getBody()
+                emailRequest.getBody(),
+                emailRequest.getAttachment()
         );
-    }
-
-    @PostMapping("/attachment")
-    public void sendEmailWithAttachment(
-            @RequestParam("to") String to,
-            @RequestParam("from") String from,
-            @RequestParam("subject") String subject,
-            @RequestParam("body") String body,
-            @RequestParam(value = "attachment", required = false) MultipartFile attachment) {
-        this.emailService.sendWithAttachment(to, from, subject, body, attachment);
     }
 }

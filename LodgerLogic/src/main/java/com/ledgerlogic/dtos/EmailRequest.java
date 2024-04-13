@@ -3,6 +3,7 @@ package com.ledgerlogic.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -13,4 +14,5 @@ public class EmailRequest {
     private String from;
     private String subject;
     private String Body;
+    private MultipartFile attachment;
 }
