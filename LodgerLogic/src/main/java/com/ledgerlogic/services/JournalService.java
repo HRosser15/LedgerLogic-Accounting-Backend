@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class JournalService {
-
     private JournalRepository   journalRepository;
     private AccountService      accountService;
     private EventLogService     eventLogService;
@@ -49,8 +48,8 @@ public class JournalService {
 
         this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
 
-        // commented out as the user enters the date
-        // journal.setCreatedDate(new Date());
+
+         journal.setCreatedDate(new Date());
         Journal savedJournal = this.journalRepository.save(journal);
         this.journalEntryRepository.saveAll(journalEntries);
         return savedJournal;

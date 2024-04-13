@@ -25,6 +25,7 @@ public class Journal {
     @Lob
     private byte[]           attachments;
     private Date             createdDate;
+    private Date transactionDate;
 
     @ManyToOne
     private User             createdBy;
