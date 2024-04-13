@@ -11,4 +11,6 @@ public interface JournalRepository extends JpaRepository<Journal, Long> {
 
     List<Journal> findByCreatedDate(Date date);
 
+
+
 }

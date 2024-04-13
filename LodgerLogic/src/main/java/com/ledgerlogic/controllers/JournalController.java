@@ -18,13 +18,14 @@ public class JournalController {
         this.journalService = journalService;
     }
     @PostMapping("/addJournal")
-    public Journal addJournal(@RequestBody Journal journal){
-        return this.journalService.addJournal(journal);
+    public Journal addJournal(@RequestBody Journal journal, @RequestParam Long userId) {
+        return this.journalService.addJournal(journal, userId);
     }
 
     @PostMapping("/approveJournal/{journalId}/{newStatus}")
-    public Journal approveJournal(@PathVariable Long journalId, @PathVariable Journal.Status newStatus){
-        return this.journalService.approveJournal(journalId, newStatus);
+    public Journal approveJournal(@PathVariable Long journalId, @PathVariable String newStatus) {
+        Journal.Status status = Journal.Status.valueOf(newStatus.toUpperCase());
+        return this.journalService.approveJournal(journalId, status);
     }
 
     @PostMapping("/rejectJournal")

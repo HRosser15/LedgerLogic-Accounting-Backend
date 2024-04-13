@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,7 +29,8 @@ public class Journal {
     @ManyToOne
     private User             createdBy;
 
-    @OneToMany
+    @Setter
+    @OneToMany(mappedBy = "journal")
     private List<JournalEntry> journalEntries;
 
     public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
@@ -39,14 +41,25 @@ public class Journal {
         this.journalEntries  = journalEntries;
     }
 
-    public Journal(String rejectionReason, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy) {
         this.rejectionReason = rejectionReason;
-        this.createdDate     = createdDate;
-        this.createdBy       = createdBy;
-        this.journalEntries  = journalEntries;
+        this.attachments = attachments;
+        this.createdDate = createdDate;
+        this.createdBy = createdBy;
     }
 
     public enum Status {
         PENDING, APPROVED, REJECTED
+    }
+
+    @Override
+    public String toString() {
+        return "Journal{" +
+                "journalId=" + journalId +
+                ", status=" + status +
+                ", rejectionReason='" + rejectionReason + '\'' +
+                ", balance=" + balance +
+                ", createdDate=" + createdDate +
+                '}';
     }
 }

@@ -1,13 +1,45 @@
 package com.ledgerlogic.controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ledgerlogic.models.JournalEntry;
+import com.ledgerlogic.models.JournalLine;
+import com.ledgerlogic.services.JournalEntryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-//@CrossOrigin("*")
-@RequestMapping("/journalEntry")
+@RequestMapping("/api/journalEntries")
 public class JournalEntryController {
 
+    private final JournalEntryService journalEntryService;
 
+    public JournalEntryController(JournalEntryService journalEntryService) {
+        this.journalEntryService = journalEntryService;
+    }
+
+    @PostMapping
+    public ResponseEntity<JournalEntry> createJournalEntry(@RequestBody JournalEntry journalEntry) {
+        JournalEntry createdJournalEntry = journalEntryService.createJournalEntry(journalEntry);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdJournalEntry);
+    }
+
+    @GetMapping("/{accountId}")
+    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccount(@PathVariable Long accountId) {
+        List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccount(accountId);
+        return ResponseEntity.ok(journalEntries);
+    }
+
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccountId(@PathVariable Long accountId) {
+        List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccount(accountId);
+        return ResponseEntity.ok(journalEntries);
+    }
+
+    @GetMapping("/getByAccountName/{accountName}")
+    public ResponseEntity<List<JournalLine>> getJournalLinesByAccountName(@PathVariable String accountName) {
+        List<JournalLine> journalLines = journalEntryService.getJournalLinesByAccountName(accountName);
+        return ResponseEntity.ok(journalLines);
+    }
 }

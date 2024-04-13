@@ -3,11 +3,14 @@ package com.ledgerlogic.services;
 import com.ledgerlogic.exceptions.InvalidJournalEntryException;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.JournalEntry;
+import com.ledgerlogic.models.JournalLine;
 import com.ledgerlogic.repositories.JournalEntryRepository;
+import com.ledgerlogic.repositories.JournalLineRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 
 @Service
 public class JournalEntryService {
@@ -15,11 +18,17 @@ public class JournalEntryService {
     private JournalEntryRepository  journalEntryRepository;
     private AccountService          accountService;
 
+    private JournalLineRepository journalLineRepository;
+
     public JournalEntryService(JournalEntryRepository journalEntryRepository,
-                               AccountService accountService){
+                               AccountService accountService,
+                               JournalLineRepository journalLineRepository) {
         this.journalEntryRepository = journalEntryRepository;
-        this.accountService         = accountService;
+        this.accountService = accountService;
+        this.journalLineRepository = journalLineRepository;
     }
+
+
 
     public JournalEntry addJournalEntry(JournalEntry journalEntry) throws InvalidJournalEntryException{
         if (journalEntry.getCredit() != journalEntry.getDebit())
@@ -67,9 +76,30 @@ public class JournalEntryService {
         return this.journalEntryRepository.findAll();
     }
 
-    public List<JournalEntry> getByAccount(Long accountId){
-        List<JournalEntry> journalEntriesByAccountId =  this.journalEntryRepository.findJournalEntriesByAccount_AccountId(accountId);
-        if (journalEntriesByAccountId.size() == 0) return null;
-        return journalEntriesByAccountId;
+    // commented out while testing the new method I made
+//    public List<JournalEntry> getByAccount(Long accountId){
+//        List<JournalEntry> journalEntriesByAccountId =  this.journalEntryRepository.findJournalEntriesByAccount_AccountId(accountId);
+//        if (journalEntriesByAccountId.size() == 0) return null;
+//        return journalEntriesByAccountId;
+//    }
+//    public List<JournalEntry> getJournalEntriesByAccount(Long accountId) {
+//        return journalEntryRepository.findByJournalLinesAccount_Id(accountId);
+//    }
+
+    public List<JournalLine> getJournalLinesByAccountName(String accountName) {
+        return journalLineRepository.findByAccountAccountName(accountName);
     }
+
+    public JournalEntry createJournalEntry(JournalEntry journalEntry) {
+        for (JournalLine line : journalEntry.getJournalLines()) {
+            line.setJournalEntry(journalEntry);
+        }
+        return journalEntryRepository.save(journalEntry);
+    }
+
+    public List<JournalEntry> getJournalEntriesByAccount(Long accountId) {
+        return journalEntryRepository.findByJournalLinesAccountAccountId(accountId);
+    }
+
+
 }
