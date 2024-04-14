@@ -39,6 +39,8 @@ public class JournalService {
         if (journalEntries != null) {
             for (JournalEntry entry : journalEntries) {
                 entry.setJournal(journal);
+                entry.setDescription(entry.getDescription());
+                entry.setTransactionDate(journal.getTransactionDate());
             }
             journal.setJournalEntries(journalEntries);
         }
@@ -49,7 +51,7 @@ public class JournalService {
         this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
 
 
-         journal.setCreatedDate(new Date());
+        journal.setCreatedDate(new Date());
         Journal savedJournal = this.journalRepository.save(journal);
         this.journalEntryRepository.saveAll(journalEntries);
         return savedJournal;
@@ -62,10 +64,10 @@ public class JournalService {
             Journal previousState = journal;
             if (newStatus.equals(Journal.Status.APPROVED)) {
                 journal.setStatus(Journal.Status.APPROVED);
-
                 List<JournalEntry> journalEntries = journal.getJournalEntries();
                 if (journalEntries != null) {
                     for (JournalEntry journalEntry : journalEntries) {
+                        journalEntry.setStatus("approved");
                         Account accountToUpdate = journalEntry.getAccount();
                         accountToUpdate.setBalance(journalEntry.getBalance());
                         BigDecimal newCredit = accountToUpdate.getCredit().subtract(journalEntry.getCredit());
@@ -97,6 +99,13 @@ public class JournalService {
                 Journal updatedJournal = previousState;
                 updatedJournal.setStatus(Journal.Status.REJECTED);
                 updatedJournal.setRejectionReason(journalDTO.getRejectionReason());
+                List<JournalEntry> journalEntries = updatedJournal.getJournalEntries();
+                if (journalEntries != null) {
+                    for (JournalEntry journalEntry : journalEntries) {
+                        journalEntry.setStatus("rejected"); // Update the status of the journal entry
+                        journalEntry.setRejectionReason(journalDTO.getRejectionReason()); // Set the rejectionReason for the journal entry
+                    }
+                }
 
                 EventLog userEventLog = new EventLog("Rejected New Journal", updatedJournal.getJournalId(), updatedJournal.getCreatedBy().getUserId(), LocalDateTime.now(), updatedJournal.toString(), previousState.toString());
                 this.eventLogService.saveEventLog(userEventLog);

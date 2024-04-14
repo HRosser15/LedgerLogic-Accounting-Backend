@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,10 @@ public class JournalEntry {
     private BigDecimal          balance;
     private String              status="pending";  // Used to keep track of whether or not a manager has APPROVED, REJECTED, or neither
     private String              rejectionReason;
+    private Date                transactionDate;
+
+    @Column(name = "description")
+    private String              description;
 
     @ManyToOne
     @JoinColumn(name = "accountId")

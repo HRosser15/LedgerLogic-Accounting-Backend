@@ -2,6 +2,7 @@ package com.ledgerlogic.controllers;
 
 import com.ledgerlogic.dtos.JournalDTO;
 import com.ledgerlogic.models.Journal;
+import com.ledgerlogic.models.JournalEntry;
 import com.ledgerlogic.services.JournalService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,14 @@ public class JournalController {
     }
     @PostMapping("/addJournal")
     public Journal addJournal(@RequestBody Journal journal, @RequestParam Long userId) {
+        List<JournalEntry> journalEntries = journal.getJournalEntries();
+        if (journalEntries != null) {
+            for (JournalEntry entry : journalEntries) {
+                entry.setJournal(journal);
+                entry.setDescription(entry.getDescription()); // Add this line
+            }
+            journal.setJournalEntries(journalEntries);
+        }
         return this.journalService.addJournal(journal, userId);
     }
 
