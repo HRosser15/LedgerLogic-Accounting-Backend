@@ -88,7 +88,8 @@ public class AccountController {
 
     @PutMapping("/updateAccount/{accountId}")
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
-       Account updatedAccount = this.accountService.update(accountId, account);
+        Account previousAccountState = this.accountService.getAccountById(accountId);
+        Account updatedAccount = this.accountService.update(accountId, account, previousAccountState);
        if(updatedAccount != null)
            return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully!");
        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
