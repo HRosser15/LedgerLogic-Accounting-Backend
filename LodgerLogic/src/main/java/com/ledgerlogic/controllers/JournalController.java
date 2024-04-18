@@ -43,7 +43,7 @@ public class JournalController {
     }
 
     @GetMapping("/getAll")
-    public List<Journal> getAlll(){
+    public List<Journal> getAll(){
         return this.journalService.getAllJournals();
     }
 
