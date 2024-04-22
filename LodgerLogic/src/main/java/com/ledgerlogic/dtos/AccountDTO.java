@@ -11,7 +11,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO {
-
     private int         accountNumber;
     private String      accountName;
     private String      description;
