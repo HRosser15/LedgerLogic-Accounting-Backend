@@ -15,6 +15,10 @@ public class AccountBalance {
     private String category;
     @Setter
     private String subCategory;
+    @Setter
+    private BigDecimal debit;
+    @Setter
+    private BigDecimal credit;
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
@@ -47,4 +51,8 @@ public class AccountBalance {
     public String getSubCategory() {
         return subCategory;
     }
+
+    public BigDecimal getDebit() { return debit; }
+
+    public BigDecimal getCredit() { return credit; }
 }
