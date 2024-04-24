@@ -16,16 +16,11 @@ import java.util.List;
 public class JournalEntryService {
 
     private JournalEntryRepository  journalEntryRepository;
-    private AccountService          accountService;
-
-    private JournalLineRepository journalLineRepository;
 
     public JournalEntryService(JournalEntryRepository journalEntryRepository,
                                AccountService accountService,
                                JournalLineRepository journalLineRepository) {
         this.journalEntryRepository = journalEntryRepository;
-        this.accountService = accountService;
-        this.journalLineRepository = journalLineRepository;
     }
 
 
@@ -77,16 +72,6 @@ public class JournalEntryService {
     public List<JournalEntry> findAll(){
         return this.journalEntryRepository.findAll();
     }
-
-    // commented out while testing the new method I made
-//    public List<JournalEntry> getByAccount(Long accountId){
-//        List<JournalEntry> journalEntriesByAccountId =  this.journalEntryRepository.findJournalEntriesByAccount_AccountId(accountId);
-//        if (journalEntriesByAccountId.size() == 0) return null;
-//        return journalEntriesByAccountId;
-//    }
-//    public List<JournalEntry> getJournalEntriesByAccount(Long accountId) {
-//        return journalEntryRepository.findByJournalLinesAccount_Id(accountId);
-//    }
 
     public List<JournalEntry> getJournalEntriesByAccountName(String accountName) {
         return journalEntryRepository.findByAccountAccountName(accountName);

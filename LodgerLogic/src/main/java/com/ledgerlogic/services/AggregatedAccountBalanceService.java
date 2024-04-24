@@ -27,7 +27,6 @@ public class AggregatedAccountBalanceService {
         List<EventLog> eventLogs = eventLogRepository.findByModificationTimeBetween(startDate.atStartOfDay(), endDate.atStartOfDay().plusDays(1));
         Map<Long, EventLog> latestEventLogsByAccountId = new HashMap<>();
 
-        // Find the latest event log entry for each account within the date range
         for (EventLog eventLog : eventLogs) {
             AccountBalance accountBalance = parseAccountBalance(eventLog.getCurrentState());
 
@@ -41,12 +40,10 @@ public class AggregatedAccountBalanceService {
             }
         }
 
-        // Get all accounts from the database
         List<Account> allAccounts = accountService.getAll();
 
         List<Map<String, Object>> accountDetails = new ArrayList<>();
 
-        // Process the latest event log entries and create account details maps
         for (Account account : allAccounts) {
             EventLog eventLog = latestEventLogsByAccountId.get(account.getAccountId());
             AccountBalance accountBalance;
@@ -54,7 +51,6 @@ public class AggregatedAccountBalanceService {
             if (eventLog != null) {
                 accountBalance = parseAccountBalance(eventLog.getCurrentState());
             } else {
-                // If no event log entry exists for the account, use the account details directly
                 accountBalance = new AccountBalance();
                 accountBalance.setAccountId(account.getAccountId());
                 accountBalance.setAccountName(account.getAccountName());
@@ -76,7 +72,6 @@ public class AggregatedAccountBalanceService {
                 accountDetailsMap.put("debit", accountBalance.getDebit() != null ? accountBalance.getDebit() : BigDecimal.ZERO);
                 accountDetailsMap.put("credit", accountBalance.getCredit() != null ? accountBalance.getCredit() : BigDecimal.ZERO);
 
-                // Calculate the balance based on the account category
                 BigDecimal balance;
                 if (accountBalance.getCategory().equalsIgnoreCase("Liabilities") ||
                         accountBalance.getCategory().equalsIgnoreCase("Equity") ||

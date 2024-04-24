@@ -1,6 +1,5 @@
 package com.ledgerlogic.services;
 
-import com.ledgerlogic.dtos.JournalDTO;
 import com.ledgerlogic.exceptions.ResourceNotFoundException;
 import com.ledgerlogic.models.JournalLine;
 import com.ledgerlogic.repositories.JournalLineRepository;
