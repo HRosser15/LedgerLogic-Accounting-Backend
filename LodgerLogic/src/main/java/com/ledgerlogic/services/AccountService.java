@@ -1,6 +1,5 @@
 package com.ledgerlogic.services;
 
-import com.ledgerlogic.dtos.AccountDTO;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
@@ -28,10 +27,7 @@ public class AccountService {
 
     public Account getAccountById(Long accountId) {
         Optional<Account> account = this.accountRepository.findById(accountId);
-        if(account.isPresent()){
-            return account.get();
-        }
-        return null;
+        return account.orElse(null);
     }
 
     public List<Account> getAll() {
@@ -56,10 +52,7 @@ public class AccountService {
 
     public Optional<List<Account>> getAllByUser(User user) {
         Optional<List<Account>> accounts = this.accountRepository.findAllByOwner(user);
-        if (!accounts.isPresent()) {
-            return null;
-        }
-        return Optional.of(accounts.get());
+        return accounts.map(Optional::of).orElse(null);
     }
 
     public void delete(Account account) {
