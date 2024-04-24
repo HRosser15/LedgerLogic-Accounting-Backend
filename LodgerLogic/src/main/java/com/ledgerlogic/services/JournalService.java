@@ -242,7 +242,14 @@ public class JournalService {
             Optional<Journal> optionalJournal = this.journalRepository.findById(journalDTO.getJournalId());
             if (optionalJournal.isPresent()) {
                 Journal previousState = optionalJournal.get();
-                Journal updatedJournal = previousState;
+                Journal updatedJournal = new Journal(
+                        previousState.getRejectionReason(),
+                        previousState.getAttachments(),
+                        previousState.getCreatedDate(),
+                        previousState.getCreatedBy(),
+                        new ArrayList<>(previousState.getJournalEntries())
+                );
+
                 updatedJournal.setStatus(Journal.Status.REJECTED);
                 updatedJournal.setRejectionReason(journalDTO.getRejectionReason());
 

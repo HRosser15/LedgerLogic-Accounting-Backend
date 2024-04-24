@@ -90,9 +90,9 @@ public class AccountController {
     public ResponseEntity<String> update(@PathVariable Long accountId, @RequestBody Account account){
         Account previousAccountState = this.accountService.getAccountById(accountId);
         Account updatedAccount = this.accountService.update(accountId, account, previousAccountState);
-       if(updatedAccount != null)
-           return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully!");
-       return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
+        if(updatedAccount != null)
+            return ResponseEntity.status(HttpStatus.OK).body("Account updated successfully!");
+        return ResponseEntity.status(HttpStatus.OK).body("Something went wrong!");
     }
 
     @PatchMapping("/deactivate/{accountId}")
