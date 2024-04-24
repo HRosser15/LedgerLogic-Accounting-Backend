@@ -94,16 +94,27 @@ npm install -g maildev
 ```
 the email server interface can be accessed at ```http://0.0.0.0:1080```
 ### Configuration
-Add this to your application.properties/.yml file
+Replace your application.properties/.yml file with the following: 
 ```
+spring.profiles.active=development
+
 spring.mail.host=localhost
 spring.mail.port=1025
 spring.mail.properties.mail.smtp.auth=false
 spring.mail.properties.mail.smpt.starttls.enable=false
 spring.mail.properties.mail.smpt.starttls.required=false
 ```
+(NOTE: you will NOT be replacing the content of your ```application-development.properties``` or ```application-production.properties```)
 
+### Running the Email Server
+- Open a command prompt
+- Run ```maildev```
+- The application should now work without issue.
 
+### Checking Emails
+- Open a web browser
+- In the URL bar, enter ```http://localhost:1080/```
+- You should now see any emails that get sent
 
 
 

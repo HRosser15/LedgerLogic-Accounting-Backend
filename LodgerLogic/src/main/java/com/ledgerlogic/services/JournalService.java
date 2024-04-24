@@ -48,7 +48,7 @@ public class JournalService {
         EventLog userEventLog = new EventLog("Added new Journal", journal.getJournalId(), userId, LocalDateTime.now(), journal.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
-        this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
+        this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId, null);
 
 
         journal.setCreatedDate(new Date());
