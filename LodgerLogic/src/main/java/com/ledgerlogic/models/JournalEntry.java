@@ -16,20 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class JournalEntry {
 
-    @PostLoad
-    @PostPersist
-    @PostUpdate
-    private void calculateBalance() {
-        this.balance = this.debit.subtract(this.credit);
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long                journalEntryId;
     private BigDecimal          credit;
     private BigDecimal          debit;
     private BigDecimal          balance;
-    private String              status="pending";  // Used to keep track of whether or not a manager has APPROVED, REJECTED, or neither
+    private String              status="pending";
     private String              rejectionReason;
 
     @ManyToOne
@@ -49,6 +42,13 @@ public class JournalEntry {
         this.credit  = credit;
         this.debit   = debit;
         this.account = account;
+    }
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void calculateBalance() {
+        this.balance = this.debit.subtract(this.credit);
     }
 
     @Override

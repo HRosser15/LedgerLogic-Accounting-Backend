@@ -30,7 +30,6 @@ public class Journal {
     @ManyToOne
     private User             createdBy;
 
-    @Setter
     @OneToMany(mappedBy = "journal")
     private List<JournalEntry> journalEntries;
 
