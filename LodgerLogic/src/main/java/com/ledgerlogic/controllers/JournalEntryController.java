@@ -42,4 +42,11 @@ public class JournalEntryController {
         List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccountName(accountName);
         return ResponseEntity.ok(journalEntries);
     }
+
+    // SPRINT 4 NOTE: this was my attempt at returning the journalId with the journal entry to make approving/rejecting easier.
+//    @GetMapping("/getByAccountName/{accountName}")
+//    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccountName(@PathVariable String accountName) {
+//        List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccountName(accountName);
+//        return ResponseEntity.ok(journalEntries);
+//    }
 }

@@ -63,16 +63,25 @@ public class AccountService {
         this.accountRepository.delete(account);
     }
 
-    public Account update(Long accountId, Account account) {
-        Optional<Account> accountToUpdate = this.accountRepository.findById(accountId);
-        if (accountToUpdate.isPresent()){
+    //    public Account update(Long accountId, Account account) {
+//        Optional<Account> accountToUpdate = this.accountRepository.findById(accountId);
+//        if (accountToUpdate.isPresent()){
+//
+//            EventLog userEventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(), account.toString(), accountToUpdate.toString());
+//            this.eventLogService.saveEventLog(userEventLog);
+//
+//            return this.accountRepository.save(account);
+//        }
+//        return null;
+//    }
+    public Account update(Long accountId, Account account, Account previousAccountState) {
+        Account updatedAccount = this.accountRepository.save(account);
 
-            EventLog userEventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(), account.toString(), accountToUpdate.toString());
-            this.eventLogService.saveEventLog(userEventLog);
+        EventLog userEventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(),
+                updatedAccount.toString(), previousAccountState.toString());
+        this.eventLogService.saveEventLog(userEventLog);
 
-            return this.accountRepository.save(account);
-        }
-        return null;
+        return updatedAccount;
     }
 
     public Account getByAccountNumber(int accountNumber) {
@@ -104,7 +113,10 @@ public class AccountService {
                 this.eventLogService.saveEventLog(userEventLog);
 
                 accountToDeactivate.setActive(false);
-                return this.accountRepository.save(accountToDeactivate);
+                Account previousAccountState = accountToDeactivate;
+                Account updatedAccount = this.accountRepository.save(accountToDeactivate);
+                this.update(accountId, updatedAccount, previousAccountState);
+                return updatedAccount;
             }
             return null;
         }
@@ -122,5 +134,6 @@ public class AccountService {
         }
         return null;
     }
-}
 
+
+}

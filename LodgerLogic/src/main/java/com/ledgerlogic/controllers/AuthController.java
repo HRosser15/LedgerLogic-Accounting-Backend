@@ -36,12 +36,13 @@ public class AuthController {
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) throws InvalidCredentialsException {
         Optional<User> optional = authService.findByCredentials(loginRequest.getUsername(), loginRequest.getPassword());
 
+        System.out.println("Debugging statements for Auth since frontend doesn't send user session appropriately");
         System.out.println("- optional from AuthController: " + optional);
         if(!optional.isPresent()) {
             throw new InvalidCredentialsException("username, password or both not correct!");
         }
         session.setAttribute("user", optional.get());
-        System.out.print("- reached [[[session.setAttribute(\"user\", optional.get());]]] in AuthController's /login");
+        System.out.println("- reached [[[session.setAttribute(\"user\", optional.get());]]] in AuthController's /login");
         return ResponseEntity.ok(optional.get());
     }
 

@@ -36,6 +36,7 @@ public class JournalEntryService {
         Account account     = journalEntry.getAccount();
         BigDecimal credit   = journalEntry.getCredit();
         BigDecimal debit    = journalEntry.getDebit();
+        String description = journalEntry.getDescription();
 
         String category     = account.getCategory().toLowerCase().trim();
         String subcategory  = account.getSubCategory().toLowerCase().trim();
@@ -43,6 +44,7 @@ public class JournalEntryService {
         Account accountToUpdate = account;
 
         JournalEntry newJournalEntity = new JournalEntry(credit, debit, account);
+        newJournalEntity.setDescription(journalEntry.getDescription());
 
         BigDecimal newBalance = BigDecimal.ZERO;
         BigDecimal currentBalance = accountToUpdate.getBalance();

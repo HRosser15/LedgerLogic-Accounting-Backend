@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,6 +24,10 @@ public class JournalEntry {
     private BigDecimal          balance;
     private String              status="pending";
     private String              rejectionReason;
+    private Date                transactionDate;
+
+    @Column(name = "description")
+    private String              description;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
@@ -32,7 +36,6 @@ public class JournalEntry {
     @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JournalLine> journalLines;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "journal_id")
     @JsonIgnore
