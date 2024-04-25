@@ -48,7 +48,7 @@ public class JournalService {
         EventLog userEventLog = new EventLog("Added new Journal", journal.getJournalId(), userId, LocalDateTime.now(), journal.toString(), null);
         this.eventLogService.saveEventLog(userEventLog);
 
-        this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId, null);
+        this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
 
 
         journal.setCreatedDate(new Date());
@@ -56,6 +56,7 @@ public class JournalService {
         this.journalEntryRepository.saveAll(journalEntries);
         return savedJournal;
     }
+
 
     public Journal approveJournal(Long id, Journal.Status newStatus) {
         Optional<Journal> optionalJournal = this.journalRepository.findById(id);
