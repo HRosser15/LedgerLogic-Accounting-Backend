@@ -44,6 +44,26 @@ public class Account {
         this.creationDate   = new Date();
     }
 
+    public Account(int accountNumber, String accountName, String description, String normalSide, String category,
+                   boolean active, String subCategory, BigDecimal initialBalance, BigDecimal debit, BigDecimal credit,
+                   BigDecimal balance, Date creationDate, int orderNumber, String statement, String comment) {
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.description = description;
+        this.normalSide = normalSide;
+        this.category = category;
+        this.active = active;
+        this.subCategory = subCategory;
+        this.initialBalance = initialBalance;
+        this.debit = debit;
+        this.credit = credit;
+        this.balance = balance;
+        this.creationDate = creationDate;
+        this.orderNumber = orderNumber;
+        this.statement = statement;
+        this.comment = comment;
+    }
+
     @ManyToOne
     private User owner;
 

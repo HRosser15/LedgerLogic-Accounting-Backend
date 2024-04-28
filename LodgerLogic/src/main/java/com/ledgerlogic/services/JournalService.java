@@ -109,7 +109,7 @@ public class JournalService {
                     previousAccountState.setBalance(previousAccountState.getDebit().subtract(previousAccountState.getCredit()));
                     previousAccountState.setInitialBalance(accountToUpdate.getInitialBalance());
 
-                    Account updatedAccount = this.accountService.update(accountToUpdate.getAccountId(), accountToUpdate, previousAccountState);
+                    Account updatedAccount = this.accountService.update(accountToUpdate.getAccountId(), accountToUpdate);
                     updatedAccounts.put(accountToUpdate.getAccountId(), updatedAccount);
                 }
 
@@ -165,36 +165,40 @@ public class JournalService {
         if (journalDTO != null && journalDTO.getJournalId() != null) {
             Optional<Journal> optionalJournal = this.journalRepository.findById(journalDTO.getJournalId());
             if (optionalJournal.isPresent()) {
-                Journal previousState = optionalJournal.get();
-                Journal updatedJournal = new Journal(
-                        previousState.getRejectionReason(),
-                        previousState.getAttachments(),
-                        previousState.getCreatedDate(),
-                        previousState.getCreatedBy(),
-                        new ArrayList<>(previousState.getJournalEntries())
+                Journal existingJournal = optionalJournal.get();
+                Journal previousState = new Journal(
+                        existingJournal.getRejectionReason(),
+                        existingJournal.getAttachments(),
+                        existingJournal.getCreatedDate(),
+                        existingJournal.getCreatedBy(),
+                        new ArrayList<>(existingJournal.getJournalEntries())
                 );
+                previousState.setStatus(existingJournal.getStatus());
 
-                updatedJournal.setStatus(Journal.Status.REJECTED);
-                updatedJournal.setRejectionReason(journalDTO.getRejectionReason());
+                existingJournal.setStatus(Journal.Status.REJECTED);
+                existingJournal.setRejectionReason(journalDTO.getRejectionReason());
 
-                List<JournalEntry> journalEntries = updatedJournal.getJournalEntries();
+                List<JournalEntry> journalEntries = existingJournal.getJournalEntries();
                 if (journalEntries != null) {
                     for (JournalEntry journalEntry : journalEntries) {
-                        journalEntry.setStatus("rejected"); // Update the status of the journal entry
-                        journalEntry.setRejectionReason(journalDTO.getRejectionReason()); // Set the rejectionReason for the journal entry
+                        journalEntry.setStatus("rejected");
+                        journalEntry.setRejectionReason(journalDTO.getRejectionReason());
                     }
                 }
 
-                EventLog userEventLog = new EventLog("Rejected New Journal", updatedJournal.getJournalId(), updatedJournal.getCreatedBy().getUserId(), LocalDateTime.now(), updatedJournal.toString(), previousState.toString());
+                EventLog userEventLog = new EventLog(
+                        "Rejected Journal",
+                        existingJournal.getJournalId(),
+                        existingJournal.getCreatedBy().getUserId(),
+                        LocalDateTime.now(),
+                        existingJournal.toString(),
+                        previousState.toString()
+                );
                 this.eventLogService.saveEventLog(userEventLog);
 
-                return this.journalRepository.save(updatedJournal);
+                return this.journalRepository.save(existingJournal);
             }
-            System.out.println("optionalJournal.isPresent(): " + optionalJournal.isPresent());
         }
-        System.out.println("...rejectJournal from JournalService: something was null");
-        System.out.println("journalDTO: " + journalDTO);
-        System.out.println("journalDTO.getJournalId(): " + journalDTO.getJournalId());
         return null;
     }
 

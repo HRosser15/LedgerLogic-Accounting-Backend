@@ -1,5 +1,6 @@
 package com.ledgerlogic.services;
 
+import com.ledgerlogic.exceptions.ResourceNotFoundException;
 import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.EventLog;
 import com.ledgerlogic.models.User;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -63,12 +65,48 @@ public class AccountService {
         this.accountRepository.delete(account);
     }
 
-    public Account update(Long accountId, Account account, Account previousAccountState) {
-        Account updatedAccount = this.accountRepository.save(account);
+    public Account update(Long accountId, Account account) {
+        Account existingAccount = accountRepository.findById(accountId)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + accountId));
+
+        // Create a copy of the existing account to represent the previous state
+        Account previousAccountState = new Account(
+                existingAccount.getAccountNumber(),
+                existingAccount.getAccountName(),
+                existingAccount.getDescription(),
+                existingAccount.getNormalSide(),
+                existingAccount.getCategory(),
+                existingAccount.isActive(),
+                existingAccount.getSubCategory(),
+                existingAccount.getInitialBalance(),
+                existingAccount.getDebit(),
+                existingAccount.getCredit(),
+                existingAccount.getBalance(),
+                existingAccount.getCreationDate(),
+                existingAccount.getOrderNumber(),
+                existingAccount.getStatement(),
+                existingAccount.getComment()
+        );
+
+        existingAccount.setAccountNumber(account.getAccountNumber());
+        existingAccount.setAccountName(account.getAccountName());
+        existingAccount.setDescription(account.getDescription());
+        existingAccount.setNormalSide(account.getNormalSide());
+        existingAccount.setCategory(account.getCategory());
+        existingAccount.setSubCategory(account.getSubCategory());
+        existingAccount.setInitialBalance(account.getInitialBalance());
+        existingAccount.setDebit(account.getDebit());
+        existingAccount.setCredit(account.getCredit());
+        existingAccount.setBalance(account.getBalance());
+        existingAccount.setOrderNumber(account.getOrderNumber());
+        existingAccount.setStatement(account.getStatement());
+        existingAccount.setComment(account.getComment());
+
+        Account updatedAccount = accountRepository.save(existingAccount);
 
         EventLog userEventLog = new EventLog("Update Account", accountId, getCurrentUserId(), LocalDateTime.now(),
                 updatedAccount.toString(), previousAccountState.toString());
-        this.eventLogService.saveEventLog(userEventLog);
+        eventLogService.saveEventLog(userEventLog);
 
         return updatedAccount;
     }
@@ -94,17 +132,18 @@ public class AccountService {
 
     public Account deactivate(Long accountId) {
         Optional<Account> accountToDeactivateOptional = this.accountRepository.findById(accountId);
-        if (accountToDeactivateOptional.isPresent()){
+        if (accountToDeactivateOptional.isPresent()) {
             Account accountToDeactivate = accountToDeactivateOptional.get();
-            if (!accountToDeactivate.getBalance().equals(0)){
+            if (!accountToDeactivate.getBalance().equals(BigDecimal.ZERO)) {
+                String previousState = accountToDeactivate.isActive() ? "true" : "false";
+                String currentState = "false";
 
-                EventLog userEventLog = new EventLog("Deactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), "false", "true");
+                EventLog userEventLog = new EventLog("Deactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), currentState, previousState);
                 this.eventLogService.saveEventLog(userEventLog);
 
                 accountToDeactivate.setActive(false);
-                Account previousAccountState = accountToDeactivate;
                 Account updatedAccount = this.accountRepository.save(accountToDeactivate);
-                this.update(accountId, updatedAccount, previousAccountState);
+
                 return updatedAccount;
             }
             return null;
