@@ -46,7 +46,8 @@ public class User {
     private Date            lastLoginDate;
     private Date            accountCreationDate = new Date();
     private String          imageUrl;
-    private List<String>    previousPasswords = new ArrayList<>();
+    @Column(name = "PREVIOUS_PASSWORDS")
+    private String previousPasswords;
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -56,16 +57,24 @@ public class User {
     @ManyToOne
     private User            admin;
 
-    public User(String firstName, String lastName, String email, String role, Password password){
+    public User(String firstName, String lastName, String email, String role, Password password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.expirationDate = LocalDate.now().plusMonths(1);
-//        this.expirationDate = LocalDate.of(2024, 3, 20);
+        // this.expirationDate = LocalDate.of(2024, 3, 20);
         this.role = role;
         this.password = password;
         this.username = generateUsername(firstName, lastName, accountCreationDate);
-        this.previousPasswords.add(encryptPassword(password.getContent()));
+        this.previousPasswords = encryptPassword(password.getContent());
+    }
+
+    public void addPreviousPassword(String password) {
+        if (this.previousPasswords == null || this.previousPasswords.isEmpty()) {
+            this.previousPasswords = encryptPassword(password);
+        } else {
+            this.previousPasswords += "," + encryptPassword(password);
+        }
     }
 
     private String generateUsername(String firstName, String lastName, Date accountCreationDate){
