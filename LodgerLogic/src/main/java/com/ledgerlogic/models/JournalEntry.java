@@ -17,7 +17,8 @@ import java.util.List;
 public class JournalEntry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_entry_seq")
+    @SequenceGenerator(name = "journal_entry_seq", sequenceName = "journal_entry_seq", allocationSize = 1)
     private Long                journalEntryId;
     private BigDecimal          credit;
     private BigDecimal          debit;

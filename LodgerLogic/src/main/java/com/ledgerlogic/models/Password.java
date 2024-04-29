@@ -17,7 +17,8 @@ import java.util.List;
 public class Password {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "password_seq")
+    @SequenceGenerator(name = "password_seq", sequenceName = "password_seq", allocationSize = 1)
     private Long passwordId;
     private String content;
     private Date expirationDate;

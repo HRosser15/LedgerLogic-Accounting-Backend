@@ -91,16 +91,18 @@ public class ForgotPasswordService {
         return matcher.matches();
     }
 
-    public Boolean passwordUsedInThePast(User user, String newPasswordContent){
-        List<String> previousPasswords = user.getPreviousPasswords();
-        for(String passwordContent: previousPasswords){
-            if(verifyPasswordContent(newPasswordContent, passwordContent)){
-                return true;
+    public Boolean passwordUsedInThePast(User user, String newPasswordContent) {
+        String previousPasswords = user.getPreviousPasswords();
+        if (previousPasswords != null && !previousPasswords.isEmpty()) {
+            String[] passwordArray = previousPasswords.split(",");
+            for (String passwordContent : passwordArray) {
+                if (verifyPasswordContent(newPasswordContent, passwordContent)) {
+                    return true;
+                }
             }
         }
 
-        previousPasswords.add(encryptPassword(newPasswordContent));
-        user.setPreviousPasswords(previousPasswords);
+        user.addPreviousPassword(newPasswordContent);
         return false;
     }
 
