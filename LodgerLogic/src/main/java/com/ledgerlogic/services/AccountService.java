@@ -151,6 +151,27 @@ public class AccountService {
         return null;
     }
 
+    public Account reactivate(Long accountId) {
+        Optional<Account> accountToReactivateOptional = this.accountRepository.findById(accountId);
+        if (accountToReactivateOptional.isPresent()) {
+            Account accountToReactivate = accountToReactivateOptional.get();
+            if (!accountToReactivate.getBalance().equals(BigDecimal.ZERO)) {
+                String previousState = accountToReactivate.isActive() ? "false" : "true";
+                String currentState = "true";
+
+                EventLog userEventLog = new EventLog("Reactivate Account", accountId, getCurrentUserId(), LocalDateTime.now(), currentState, previousState);
+                this.eventLogService.saveEventLog(userEventLog);
+
+                accountToReactivate.setActive(true);
+                Account updatedAccount = this.accountRepository.save(accountToReactivate);
+
+                return updatedAccount;
+            }
+            return null;
+        }
+        return null;
+    }
+
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {

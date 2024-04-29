@@ -1,5 +1,13 @@
+CREATE SEQUENCE event_log_seq START WITH 5;
+CREATE SEQUENCE journal_seq START WITH 5;
+CREATE SEQUENCE journal_entry_seq START WITH 9;
+CREATE SEQUENCE user_seq START WITH 4;
+CREATE SEQUENCE security_question_seq START WITH 10;
+CREATE SEQUENCE password_security_question_seq START WITH 10;
+CREATE SEQUENCE password_seq START WITH 4;
+
 CREATE TABLE USERS (
-                       USER_ID BIGINT,
+                       USER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                        ACCOUNT_CREATION_DATE TIMESTAMP,
                        BIRTH_DAY TIMESTAMP,
                        CITY CHARACTER VARYING,
@@ -24,7 +32,7 @@ CREATE TABLE USERS (
 );
 
 CREATE TABLE ACCOUNTS (
-                          ACCOUNT_ID BIGINT,
+                          ACCOUNT_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                           ACCOUNT_NAME CHARACTER VARYING,
                           ACCOUNT_NUMBER INTEGER,
                           ACTIVE BOOLEAN,
@@ -114,7 +122,7 @@ CREATE TABLE GENERAL_LEDGER (
 );
 
 CREATE TABLE USER_EVENT_LOG (
-                                ID BIGINT,
+                                ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                                 CURRENT_STATE CHARACTER LARGE OBJECT,
                                 ENTITY_ID BIGINT,
                                 MODIFICATION_TIME TIMESTAMP,

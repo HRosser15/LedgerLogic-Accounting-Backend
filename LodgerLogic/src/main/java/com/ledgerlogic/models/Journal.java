@@ -17,7 +17,8 @@ import java.util.List;
 public class Journal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_seq")
+    @SequenceGenerator(name = "journal_seq", sequenceName = "journal_seq", allocationSize = 1)
     private Long             journalId;
     private Status           status = Status.PENDING;
     private String           rejectionReason;

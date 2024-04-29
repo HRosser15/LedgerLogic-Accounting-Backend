@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 public class EventLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_log_seq")
+    @SequenceGenerator(name = "event_log_seq", sequenceName = "event_log_seq", allocationSize = 1)
     private Long            id;
-
     private String          title;
     private Long            entityId;
     private Long            modifiedById;

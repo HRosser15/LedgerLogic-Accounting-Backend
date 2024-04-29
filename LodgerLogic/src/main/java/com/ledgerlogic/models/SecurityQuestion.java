@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class SecurityQuestion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "security_question_seq")
+    @SequenceGenerator(name = "security_question_seq", sequenceName = "security_question_seq", allocationSize = 1)
     private Long securityQuestionId;
     private String content;
 }

@@ -103,4 +103,14 @@ public class AccountController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
     }
+
+    @PatchMapping("/reactivate/{accountId}")
+    public ResponseEntity<String> reactivate(@PathVariable Long accountId){
+        Account accountToReactivate = this.accountService.getAccountById(accountId);
+        if (accountToReactivate != null){
+            this.accountService.reactivate(accountId);
+            return ResponseEntity.status(HttpStatus.OK).body("Account reactivated!");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+    }
 }
