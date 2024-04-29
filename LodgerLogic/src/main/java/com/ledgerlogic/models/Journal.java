@@ -3,8 +3,8 @@ package com.ledgerlogic.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,8 +23,8 @@ public class Journal {
     private Status           status = Status.PENDING;
     private String           rejectionReason;
     private BigDecimal       balance;
-    @Lob
-    private byte[]           attachments;
+    @Getter
+    private String          attachmentPath;
     private Date             createdDate;
     private Date transactionDate;
 
@@ -34,17 +34,17 @@ public class Journal {
     @OneToMany(mappedBy = "journal")
     private List<JournalEntry> journalEntries;
 
-    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+    public Journal(String rejectionReason, String attachmentPath, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
         this.rejectionReason = rejectionReason;
-        this.attachments     = attachments;
+        this.attachmentPath     = attachmentPath;
         this.createdDate     = createdDate;
         this.createdBy       = createdBy;
         this.journalEntries  = journalEntries;
     }
 
-    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy) {
+    public Journal(String rejectionReason, String attachmentPath, Date createdDate, User createdBy) {
         this.rejectionReason = rejectionReason;
-        this.attachments = attachments;
+        this.attachmentPath = attachmentPath;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
     }

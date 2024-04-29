@@ -63,7 +63,7 @@ public class JournalService {
 
         if (optionalJournal.isPresent()) {
             Journal journal = optionalJournal.get();
-            Journal previousJournalState = new Journal(journal.getRejectionReason(), journal.getAttachments(),
+            Journal previousJournalState = new Journal(journal.getRejectionReason(), journal.getAttachmentPath(),
                     journal.getCreatedDate(), journal.getCreatedBy(), journal.getJournalEntries());
             previousJournalState.setStatus(journal.getStatus());
 
@@ -168,7 +168,7 @@ public class JournalService {
                 Journal existingJournal = optionalJournal.get();
                 Journal previousState = new Journal(
                         existingJournal.getRejectionReason(),
-                        existingJournal.getAttachments(),
+                        existingJournal.getAttachmentPath(),
                         existingJournal.getCreatedDate(),
                         existingJournal.getCreatedBy(),
                         new ArrayList<>(existingJournal.getJournalEntries())
