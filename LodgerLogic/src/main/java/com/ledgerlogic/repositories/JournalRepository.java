@@ -10,7 +10,4 @@ public interface JournalRepository extends JpaRepository<Journal, Long> {
     List<Journal> findByStatus(Journal.Status status);
 
     List<Journal> findByCreatedDate(Date date);
-
-
-
 }

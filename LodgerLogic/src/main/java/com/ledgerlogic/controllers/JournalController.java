@@ -4,9 +4,12 @@ import com.ledgerlogic.dtos.JournalDTO;
 import com.ledgerlogic.models.Journal;
 import com.ledgerlogic.models.JournalEntry;
 import com.ledgerlogic.services.JournalService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.ledgerlogic.repositories.JournalRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +26,11 @@ public class JournalController {
 
     private final JournalService journalService;
 
-    public JournalController(JournalService journalService) {
+    private final JournalRepository journalRepository;
+
+    public JournalController(JournalService journalService, JournalRepository journalRepository) {
         this.journalService = journalService;
+        this.journalRepository = journalRepository;
     }
 
     @PostMapping("/addJournal")
@@ -85,5 +91,27 @@ public class JournalController {
     @GetMapping("/getByDate")
     public List<Journal> getByDate(@RequestBody Date date){
         return this.journalService.getByDate(date);
+    }
+
+    @GetMapping("/journal/attachments/{journalId}")
+    public ResponseEntity<byte[]> getAttachment(@PathVariable Long journalId) throws IOException {
+        // Retrieve the journal entity based on the journalId
+        Journal journal = journalRepository.findById(journalId).orElseThrow();
+
+        // Check if the journal has an attachment
+        if (journal.getAttachmentPath() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Read the file data from the specified path
+        Path path = Paths.get(journal.getAttachmentPath());
+        byte[] fileData = Files.readAllBytes(path);
+
+        // Set the appropriate content type based on the file extension
+        String contentType = Files.probeContentType(path);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(fileData);
     }
 }
