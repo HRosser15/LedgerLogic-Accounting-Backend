@@ -5,7 +5,9 @@ import com.ledgerlogic.models.*;
 import com.ledgerlogic.repositories.JournalEntryRepository;
 import com.ledgerlogic.repositories.JournalRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -33,7 +35,7 @@ public class JournalService {
         this.journalEntryRepository = journalEntryRepository;
     }
 
-    public Journal addJournal(Journal journal, Long userId) {
+    public Journal addJournal(Journal journal, MultipartFile attachedFile, String attachedFileContentType, Long userId) {
         List<JournalEntry> journalEntries = journal.getJournalEntries();
         if (journalEntries != null) {
             for (JournalEntry entry : journalEntries) {
@@ -49,7 +51,15 @@ public class JournalService {
         this.eventLogService.saveEventLog(userEventLog);
 
         this.emailService.send("bw@gmail.com", "autoprocess@ledgerlogic.com", "New Journal Created", "New Journal is created by user with ID: " + userId);
-
+        if (attachedFile != null && !attachedFile.isEmpty()) {
+            try {
+                journal.setAttachedFile(attachedFile.getBytes());
+                journal.setAttachedFileContentType(attachedFileContentType);
+                journal.setAttachedFileMultipart(attachedFile);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to store attached file", e);
+            }
+        }
 
         journal.setCreatedDate(new Date());
         Journal savedJournal = this.journalRepository.save(journal);
@@ -63,7 +73,7 @@ public class JournalService {
 
         if (optionalJournal.isPresent()) {
             Journal journal = optionalJournal.get();
-            Journal previousJournalState = new Journal(journal.getRejectionReason(), journal.getAttachments(),
+            Journal previousJournalState = new Journal(journal.getRejectionReason(), journal.getAttachedFile(),
                     journal.getCreatedDate(), journal.getCreatedBy(), journal.getJournalEntries());
             previousJournalState.setStatus(journal.getStatus());
 
@@ -168,7 +178,7 @@ public class JournalService {
                 Journal existingJournal = optionalJournal.get();
                 Journal previousState = new Journal(
                         existingJournal.getRejectionReason(),
-                        existingJournal.getAttachments(),
+                        existingJournal.getAttachedFile(),
                         existingJournal.getCreatedDate(),
                         existingJournal.getCreatedBy(),
                         new ArrayList<>(existingJournal.getJournalEntries())
