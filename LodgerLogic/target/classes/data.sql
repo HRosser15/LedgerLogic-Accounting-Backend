@@ -73,7 +73,8 @@ VALUES
     (18, 'Vehicle Depreciation', 7050, TRUE, 10000.00, 'Expenses', 'Accounting for the reduction in value of assets over time', '2024-04-28 02:03:55.838', 0.00, 10000.00, 'Depreciation of vehicles', 10000.00, 'Debit', 25, 'IS', 'Other Expenses', 1),
     (19, 'Advertising', 7060, TRUE, 25000.00, 'Expenses', 'Expenditure on promotional activities', '2024-04-28 02:04:00.716', 0.00, 25000.00, 'Marketing and advertising expenses', 25000.00, 'Debit', 26, 'IS', 'Operating Expenses', 1),
     (20, 'Cash Dividends', 5020, TRUE, 205000.00, 'Equity', 'Represents cash paid out as dividends to shareholders', '2024-04-28 02:04:04.215', 0.00, 205000.00, 'Cash dividends paid to shareholders', 205000.00, 'Credit', 10, 'IS', 'Dividends', 1),
-    (21, 'Stock Dividends', 5030, TRUE, 200000.00, 'Equity', 'Represents the value of stock issued as dividends to shareholders', '2024-04-28 02:04:07.149', 0.00, 200000.00, 'Stock dividends paid to shareholders', 200000.00, 'Credit', 14, 'IS', 'Dividends', 1);
+    (21, 'Stock Dividends', 5030, TRUE, 200000.00, 'Equity', 'Represents the value of stock issued as dividends to shareholders', '2024-04-28 02:04:07.149', 0.00, 200000.00, 'Stock dividends paid to shareholders', 200000.00, 'Credit', 14, 'IS', 'Dividends', 1),
+    (22, 'Cassh', 1011, TRUE, 0.00, 'Assets', 'Used for daily operational expenses.', '2024-04-28 02:03:08.741', 0.00, 00.00, 'Cash on hand and in banks', 00.00, 'Debit', 7, 'IS', 'Current Assets', 1);
 
 
 INSERT INTO journal (journal_id, attachments, balance, created_date, rejection_reason, status, transaction_date, created_by_user_id)
