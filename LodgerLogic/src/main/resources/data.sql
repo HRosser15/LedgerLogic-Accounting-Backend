@@ -53,8 +53,8 @@ VALUES
 
 INSERT INTO accounts (account_id, account_name, account_number, active, balance, category, comment, creation_date, credit, debit, description, initial_balance, normal_side, order_number, statement, sub_category, owner_user_id)
 VALUES
-    (1, 'Cash', 1010, TRUE, 25000.00, 'Assets', 'Used for daily operational expenses.', '2024-04-28 02:03:08.741', 40000.00, 65000.00, 'Cash on hand and in banks', 25000.00, 'Debit', 1, 'IS', 'Current Assets', 1),
-    (2, 'Accounts Receivable', 1020, TRUE, 25000.00, 'Assets', 'Represents outstanding revenue to be collected.', '2024-04-28 02:03:11.734', 50000.00, 75000.00, 'Amounts customers owe for services', 25000.00, 'Debit', 2, 'BS', 'Current Assets', 1),
+    (1, 'Cash', 1010, TRUE, 25500.00, 'Assets', 'Used for daily operational expenses.', '2024-04-28 02:03:08.741', 40500.00, 65000.00, 'Cash on hand and in banks', 25500.00, 'Debit', 1, 'IS', 'Current Assets', 1),
+    (2, 'Accounts Receivable', 1020, TRUE, 25500.00, 'Assets', 'Represents outstanding revenue to be collected.', '2024-04-28 02:03:11.734', 50000.00, 75500.00, 'Amounts customers owe for services', 25500.00, 'Debit', 2, 'BS', 'Current Assets', 1),
     (3, 'Supplies', 1030, TRUE, 20000.00, 'Assets', 'Essential for ongoing roofing projects.', '2024-04-28 02:03:14.401', 100000.00, 120000.00, 'Roofing materials and supplies', 20000.00, 'Debit', 3, 'IS', 'Current Assets', 1),
     (4, 'Office Building', 1040, TRUE, 470000.00, 'Assets', 'Long-term assets for efficient operations.', '2024-04-28 02:03:17.236', 10000.00, 480000.00, 'Office Building', 470000.00, 'Debit', 4, 'BS', 'Property Plant and Equipment', 1),
     (5, 'Vehicles', 1050, TRUE, 80000.00, 'Assets', 'Transportation to and from job sites.', '2024-04-28 02:03:20.257', 35000.00, 115000.00, 'Company vehicles', 80000.00, 'Debit', 5, 'BS', 'Property Plant and Equipment', 1),
