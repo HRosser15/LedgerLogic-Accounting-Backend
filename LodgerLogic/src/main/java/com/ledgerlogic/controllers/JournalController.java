@@ -26,8 +26,8 @@ public class JournalController {
     }
     @PostMapping(value = "/addJournal", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public JournalResponseDTO addJournal(@RequestParam("journal") String journalString,
-                                         @RequestParam(value = "attachedFile") MultipartFile attachedFile,
-                                         @RequestParam(value = "attachedFileContentType") String attachedFileContentType,
+                                         @RequestParam(value = "attachedFile", required = false) MultipartFile attachedFile,
+                                         @RequestParam(value = "attachedFileContentType", required = false) String attachedFileContentType,
                                          @RequestParam("userId") Long userId) {
         System.out.println("Received journal: " + journalString);
         if (attachedFile != null) {
