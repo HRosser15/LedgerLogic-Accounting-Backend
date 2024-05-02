@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/journalEntries")
@@ -38,15 +41,17 @@ public class JournalEntryController {
     }
 
     @GetMapping("/getByAccountName/{accountName}")
-    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccountName(@PathVariable String accountName) {
+    public ResponseEntity<List<Map<String, Object>>> getJournalEntriesByAccountName(@PathVariable String accountName) {
         List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccountName(accountName);
-        return ResponseEntity.ok(journalEntries);
-    }
 
-    // SPRINT 4 NOTE: this was my attempt at returning the journalId with the journal entry to make approving/rejecting easier.
-//    @GetMapping("/getByAccountName/{accountName}")
-//    public ResponseEntity<List<JournalEntry>> getJournalEntriesByAccountName(@PathVariable String accountName) {
-//        List<JournalEntry> journalEntries = journalEntryService.getJournalEntriesByAccountName(accountName);
-//        return ResponseEntity.ok(journalEntries);
-//    }
+        List<Map<String, Object>> responseData = new ArrayList<>();
+        for (JournalEntry entry : journalEntries) {
+            Map<String, Object> entryData = new HashMap<>();
+            entryData.put("journalEntry", entry);
+            entryData.put("attachedFile", entry.getJournal().getAttachedFile());
+            responseData.add(entryData);
+        }
+
+        return ResponseEntity.ok(responseData);
+    }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,9 +25,13 @@ public class Journal {
     private String           rejectionReason;
     private BigDecimal       balance;
     @Lob
-    private byte[]           attachments;
+    private byte[]           attachedFile;
+    @Transient
+    private MultipartFile attachedFileMultipart;
+    @Setter
+    private String           attachedFileContentType;
     private Date             createdDate;
-    private Date transactionDate;
+    private Date             transactionDate;
 
     @ManyToOne
     private User             createdBy;
@@ -34,17 +39,17 @@ public class Journal {
     @OneToMany(mappedBy = "journal")
     private List<JournalEntry> journalEntries;
 
-    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
+    public Journal(String rejectionReason, byte[] attachedFile, Date createdDate, User createdBy, List<JournalEntry> journalEntries){
         this.rejectionReason = rejectionReason;
-        this.attachments     = attachments;
+        this.attachedFile     = attachedFile;
         this.createdDate     = createdDate;
         this.createdBy       = createdBy;
         this.journalEntries  = journalEntries;
     }
 
-    public Journal(String rejectionReason, byte[] attachments, Date createdDate, User createdBy) {
+    public Journal(String rejectionReason, byte[] attachedFile, Date createdDate, User createdBy) {
         this.rejectionReason = rejectionReason;
-        this.attachments = attachments;
+        this.attachedFile = attachedFile;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
     }
