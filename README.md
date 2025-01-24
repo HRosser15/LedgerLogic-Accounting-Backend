@@ -50,7 +50,7 @@ https://www.jetbrains.com/idea/download/?section=windows
 ### Clone the Repository with intelliJ
 - Go to the Welcome screen for IntelliJ IDEA
 - Click ```Get from VCS```
-- Paste ```https://github.com/Ledger-Logic/Back-End.git``` into the URL box
+- Paste ```https://github.com/HRosser15/LedgerLogic-Accounting-Backend.git``` into the URL box
 - Select the desired directory for your local repo
 - Click the ```Clone``` button
 
