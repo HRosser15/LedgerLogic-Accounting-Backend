@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import lombok.Builder;
 import java.util.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "users")
 public class User {

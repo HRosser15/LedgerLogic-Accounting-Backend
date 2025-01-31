@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,14 +77,23 @@ public class AccountController {
         return null;
     }
 
+    // replaced with method below to avoid null
+//    @GetMapping("/allAccounts")
+//    public List<Account> getAllAccounts(){
+//        List<Account> allAccounts = this.accountService.getAll();
+//        if (allAccounts.isEmpty()) {
+//            ResponseEntity.ok().body("No accounts found!");
+//            return null;
+//        }
+//        return allAccounts;
+//    }
     @GetMapping("/allAccounts")
-    public List<Account> getAllAccounts(){
+    public ResponseEntity<List<Account>> getAllAccounts() {
         List<Account> allAccounts = this.accountService.getAll();
         if (allAccounts.isEmpty()) {
-            ResponseEntity.ok().body("No accounts found!");
-            return null;
+            return ResponseEntity.ok().body(List.of()); // Return empty list instead of null
         }
-        return allAccounts;
+        return ResponseEntity.ok().body(allAccounts);
     }
 
     @PutMapping("/updateAccount/{accountId}")
