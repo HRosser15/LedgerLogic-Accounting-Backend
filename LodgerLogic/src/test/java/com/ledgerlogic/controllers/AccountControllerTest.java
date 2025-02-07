@@ -30,6 +30,9 @@ class AccountControllerTest {
     @MockBean
     private UserService userService; // Mock UserService since it's a dependency
 
+
+
+    // HTTP Responses
     @Test
     void getAllAccounts_ReturnsListOfAccounts() throws Exception {
         // Create a test account
@@ -49,8 +52,26 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$[0].category").value(is("asset")));
     }
 
-    @Test
-    void getAllAccounts_ReturnsNullListOfAccounts() throws Exception {
-        // write a test for when the accounts list is empty
-    }
+//    @Test void createAccount_DuplicateName_Returns400BadRequest() {
+//
+//    }
+//    @Test void getAccount_ValidId_Returns200WithAccount() {
+//
+//    }
+//    @Test void deactivateAccount_ZeroBalance_Returns200Success() {
+//
+//    }
+//
+//    // Security
+//    @Test void updateAccount_UnauthenticatedUser_Returns403Forbidden() {
+//
+//    }
+//
+//    // Validation
+//    @Test void createAccount_MissingNormalSide_Returns400BadRequest() {
+//
+//    }
+//    @Test void createAccount_InvalidCategory_Returns400BadRequest() {
+//
+//    }
 }

@@ -274,31 +274,31 @@ class AccountRepositoryTests {
     }
 
     // Custom Queries
-//    @Test void findAllByOwner_ValidUser_ReturnsOwnedAccounts() {
-//
-//    }
-//    @Test void findAllByOwner_NoAccounts_ReturnsEmptyList() {
-//
-//    }
-//
-//
-//    // ======================= Edge Cases =======================
-//    @Test void findByAccountNumber_NonExistentNumber_ReturnsEmptyOptional() {
-//
-//    }
-//    @Test void findByAccountName_NonExistentName_ReturnsEmptyOptional() {
-//
-//    }
-//    @Test void existsByAccountNumber_InvalidNumber_ReturnsFalse() {
-//
-//    }
-//
-//    // Data Integrity
-//    @Test void saveAccount_InitialBalanceScale_HasTwoDecimalPrecision() {
-//
-//    }
-//    @Test void saveAccount_NegativeDebit_ThrowsConstraintViolation() {
-//
-//    }
+    @Test void findAllByOwner_ValidUser_ReturnsOwnedAccounts() {
+
+    }
+    @Test void findAllByOwner_NoAccounts_ReturnsEmptyList() {
+
+    }
+
+
+    // ======================= Edge Cases =======================
+    @Test void findByAccountNumber_NonExistentNumber_ReturnsEmptyOptional() {
+
+    }
+    @Test void findByAccountName_NonExistentName_ReturnsEmptyOptional() {
+
+    }
+    @Test void existsByAccountNumber_InvalidNumber_ReturnsFalse() {
+
+    }
+
+    // Data Integrity
+    @Test void saveAccount_InitialBalanceScale_HasTwoDecimalPrecision() {
+
+    }
+    @Test void saveAccount_NegativeDebit_ThrowsConstraintViolation() {
+
+    }
 
 }

@@ -77,7 +77,7 @@ public class AccountController {
         return null;
     }
 
-    // replaced with method below to avoid null
+    // replaced with method below to avoid null pointer exception
 //    @GetMapping("/allAccounts")
 //    public List<Account> getAllAccounts(){
 //        List<Account> allAccounts = this.accountService.getAll();
@@ -91,7 +91,9 @@ public class AccountController {
     public ResponseEntity<List<Account>> getAllAccounts() {
         List<Account> allAccounts = this.accountService.getAll();
         if (allAccounts.isEmpty()) {
-            return ResponseEntity.ok().body(List.of()); // Return empty list instead of null
+            return ResponseEntity.ok()
+                    .header("Accounts-Found", "false")
+                    .body(List.of());
         }
         return ResponseEntity.ok().body(allAccounts);
     }
