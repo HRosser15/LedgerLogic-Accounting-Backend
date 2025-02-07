@@ -22,7 +22,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
     private Long accountId;
+    @Column(unique = true)
     private int         accountNumber;
+    @Column(unique = true)
     private String      accountName;
     private String      description;
     private String      normalSide;

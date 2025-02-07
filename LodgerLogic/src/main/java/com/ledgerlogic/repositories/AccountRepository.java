@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
+    // JPA Repository query derivation parses method name and generates SQL queries for me
     Optional<List<Account>> findAllByOwner(User owner);
 
     Optional<Account> findByAccountName(String accountName);

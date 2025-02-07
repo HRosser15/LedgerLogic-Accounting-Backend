@@ -35,7 +35,7 @@ CREATE TABLE USERS (
 CREATE TABLE ACCOUNTS (
                           ACCOUNT_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                           ACCOUNT_NAME CHARACTER VARYING,
-                          ACCOUNT_NUMBER INTEGER,
+                          ACCOUNT_NUMBER INTEGER UNIQUE,
                           ACTIVE BOOLEAN,
                           BALANCE NUMERIC,
                           CATEGORY CHARACTER VARYING,
@@ -83,14 +83,15 @@ CREATE TABLE SECURITY_QUESTIONS (
 );
 
 CREATE TABLE JOURNAL (
-                         JOURNAL_ID BIGINT,
-                         ATTACHMENTS BINARY LARGE OBJECT,
-                         BALANCE NUMERIC,
-                         CREATED_DATE TIMESTAMP,
-                         REJECTION_REASON CHARACTER VARYING,
-                         STATUS TINYINT,
-                         TRANSACTION_DATE TIMESTAMP,
-                         CREATED_BY_USER_ID BIGINT
+                             JOURNAL_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                             ATTACHMENTS BINARY LARGE OBJECT,
+                             BALANCE NUMERIC,
+                             CREATED_DATE TIMESTAMP,
+                             REJECTION_REASON CHARACTER VARYING,
+                             STATUS TINYINT,
+                             TRANSACTION_DATE TIMESTAMP,
+                             CREATED_BY_USER_ID BIGINT,
+                             FOREIGN KEY (CREATED_BY_USER_ID) REFERENCES USERS(USER_ID)
 );
 
 CREATE TABLE JOURNAL_ENTRY (
@@ -103,7 +104,9 @@ CREATE TABLE JOURNAL_ENTRY (
                                STATUS CHARACTER VARYING,
                                TRANSACTION_DATE TIMESTAMP,
                                ACCOUNT_ID BIGINT,
-                               JOURNAL_ID BIGINT
+                               JOURNAL_ID BIGINT,
+                               FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS(ACCOUNT_ID),
+                               FOREIGN KEY (JOURNAL_ID) REFERENCES JOURNAL(JOURNAL_ID)
 );
 
 CREATE TABLE JOURNAL_LINES (
@@ -131,3 +134,4 @@ CREATE TABLE USER_EVENT_LOG (
                                 PREVIOUS_STATE CHARACTER LARGE OBJECT,
                                 TITLE CHARACTER VARYING
 );
+
