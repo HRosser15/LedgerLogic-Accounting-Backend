@@ -31,14 +31,47 @@ public class Account {
     private String      category;
     private boolean     active = true;
     private String      subCategory;
-    private BigDecimal  initialBalance  = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal  debit           = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal  credit          = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal  balance         = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-    private Date        creationDate;
-    private int         orderNumber;
-    private String      statement;
-    private String      comment;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal initialBalance = BigDecimal.ZERO;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal debit = BigDecimal.ZERO;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal credit = BigDecimal.ZERO;
+
+    @Column(precision = 19, scale = 2)
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    private Date creationDate;
+    private int orderNumber;
+    private String statement;
+    private String comment;
+
+    @ManyToOne
+    private User owner;
+
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        // Validate decimals
+        if (hasMoreThanTwoDecimals(initialBalance) ||
+                hasMoreThanTwoDecimals(debit) ||
+                hasMoreThanTwoDecimals(credit) ||
+                hasMoreThanTwoDecimals(balance)) {
+            throw new IllegalArgumentException("Monetary values must have at most 2 decimal places");
+        }
+
+        // Validate no negative values
+        if (debit != null && debit.compareTo(BigDecimal.ZERO) < 0 ||
+                credit != null && credit.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Debit and Credit amounts cannot be negative");
+        }
+    }
+
+    private boolean hasMoreThanTwoDecimals(BigDecimal value) {
+        return value != null && value.scale() > 2;
+    }
 
     public Account(int accountNumber, String accountName, String description, String normalSide, String category){
         this.accountNumber  = accountNumber;
@@ -68,8 +101,4 @@ public class Account {
         this.statement = statement;
         this.comment = comment;
     }
-
-    @ManyToOne
-    private User owner;
-
 }

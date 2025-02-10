@@ -1,34 +1,7 @@
-/**
- *
-
- TODO
- - Edge cases:
- - Business rules: balance checks during deactivation, event logging.
- - find JPA function to rollback db after each test✅ (@Transactional)
- - do naive test --> output == input✅ (getAccountByAccountNumber_ShouldReturnExpectedAccountDetails)
-     Change debit affect accountBalance? (not applicable at repository level as logic is handled at service level)
- - build tests based on requirements
- - test that accounts that act as foreign keys to journals cannot be deleted
-
- - CRUD Operations:
-      * Save an account.
-      * Find by ID, account number, account name.
-      * Delete by account number.
-      * Check if an account number exists.
- - Custom Queries:
-      * Find all accounts by owner.
- - Edge Cases:
-       * Search for non-existent account name/number.
-       * invalid inputs
-       * duplicate account names/numbers
-       * empty responses
- */
-
 package com.ledgerlogic.repositories;
 
 import com.ledgerlogic.models.Account;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +9,7 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -55,10 +28,13 @@ class AccountRepositoryTests {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     private Account baseAccount;
 
     @BeforeEach
-    void setup() {  // Acts as the ARRANGE for multiple tests
+    void setup() {  // ARRANGES for multiple tests
         if (!accountRepository.existsByAccountNumber(9999)) {  // Ensure base account exists
             baseAccount = accountRepository.save(Account.builder()
                     .accountNumber(9999)
@@ -77,7 +53,8 @@ class AccountRepositoryTests {
                     .comment("Base comment")
                     .build());
         } else {
-            baseAccount = accountRepository.findByAccountNumber(9999).get();  // Retrieve existing account
+            baseAccount = accountRepository.findByAccountNumber(9999)
+                    .orElseThrow(() -> new AssertionError("Account not found"));  // Retrieve existing account
         }
     }
 
@@ -144,8 +121,8 @@ class AccountRepositoryTests {
         List<Account> accountList = accountRepository.findAll();
 
         // Assert
-        assertThat(accountList).isNotNull().isNotEmpty();
-        assertThat(accountList).contains(baseAccount);
+        assertThat(accountList).isNotNull().isNotEmpty()
+                .contains(baseAccount);
         assertThat(baseAccount.getAccountId()).isNotNull().isPositive();
 
 
@@ -160,8 +137,7 @@ class AccountRepositoryTests {
         Optional<Account> retrievedAccount = accountRepository.findByAccountName(baseAccount.getAccountName());
 
         // Assert
-        assertThat(retrievedAccount).isPresent();  // Ensures an account was found
-        assertThat(retrievedAccount.get()).isEqualTo(baseAccount);
+        assertThat(retrievedAccount).isPresent().contains(baseAccount);
     }
 
     @Test
@@ -170,7 +146,8 @@ class AccountRepositoryTests {
         // Arrange - done is setup method
 
         // Act
-        Account accountToDelete = accountRepository.findByAccountName(baseAccount.getAccountName()).get();
+        Account accountToDelete = accountRepository.findByAccountName(baseAccount.getAccountName())
+                .orElseThrow(() -> new AssertionError("Account not found"));
         accountRepository.delete(accountToDelete);
 
         // Assert
@@ -219,7 +196,8 @@ class AccountRepositoryTests {
         // Arrange - done is setup method
 
         // Act
-        Account retrievedAccount = accountRepository.findByAccountName(baseAccount.getAccountName()).get();
+        Account retrievedAccount = accountRepository.findByAccountName(baseAccount.getAccountName())
+                .orElseThrow(() -> new AssertionError("Account not found"));
         retrievedAccount.setAccountName("Renamed Base Account");
         retrievedAccount.setDebit(BigDecimal.valueOf(50));
         retrievedAccount.setBalance(BigDecimal.valueOf(50));
@@ -265,40 +243,80 @@ class AccountRepositoryTests {
                 .build());
 
         assertThatThrownBy(() -> {
-            accountRepository.save(duplicateAccount);
-            accountRepository.flush(); // Force the database to execute the save operation
+            accountRepository.saveAndFlush(duplicateAccount); // Force the database to execute the save operation
         })
                 .isInstanceOf(DataIntegrityViolationException.class)
                 .hasMessageContaining("could not execute statement")
                 .hasRootCauseInstanceOf(SQLException.class);
     }
 
-    // Custom Queries
-    @Test void findAllByOwner_ValidUser_ReturnsOwnedAccounts() {
-
-    }
-    @Test void findAllByOwner_NoAccounts_ReturnsEmptyList() {
-
-    }
-
-
     // ======================= Edge Cases =======================
     @Test void findByAccountNumber_NonExistentNumber_ReturnsEmptyOptional() {
-
+        Optional<Account> nonExistentAccount = accountRepository.findByAccountNumber(60606);
+        assertThat(nonExistentAccount).isEmpty();
     }
-    @Test void findByAccountName_NonExistentName_ReturnsEmptyOptional() {
 
+    @Test void findByAccountName_NonExistentName_ReturnsEmptyOptional() {
+        Optional<Account> nonExistentAccount = accountRepository.findByAccountName("DoesNotExist");
+        assertThat(nonExistentAccount).isEmpty();
     }
     @Test void existsByAccountNumber_InvalidNumber_ReturnsFalse() {
-
+        int invalidAccountNumber = 9999888;
+        assertThat(accountRepository.existsByAccountNumber(invalidAccountNumber)).isFalse();
     }
 
     // Data Integrity
     @Test void saveAccount_InitialBalanceScale_HasTwoDecimalPrecision() {
+        Account failedAccount = Account.builder()
+                .accountNumber(90009)
+                .accountName("Failed Account")
+                .description("This is a test account with too many decimals")
+                .normalSide("Debit")
+                .category("Asset")
+                .subCategory("Hard Money")
+                .initialBalance(BigDecimal.valueOf(50.0089))
+                .debit(BigDecimal.valueOf(50.0089)) // More than 2 decimal places
+                .credit(BigDecimal.ZERO)
+                .balance(BigDecimal.valueOf(50.0089))
+                .creationDate(new Date())
+                .orderNumber(999)
+                .statement("Base statement")
+                .comment("Base comment")
+                .build();
 
+        // Act & Assert
+        assertThatThrownBy(() -> {
+            accountRepository.saveAndFlush(failedAccount); // Force the database to execute the save operation
+        })
+                .isInstanceOf(InvalidDataAccessApiUsageException.class)
+                .hasMessageContaining("Monetary values must have")
+                .hasRootCauseInstanceOf(IllegalArgumentException.class);
     }
     @Test void saveAccount_NegativeDebit_ThrowsConstraintViolation() {
+        Account failedAccount = Account.builder()
+                .accountNumber(90009)
+                .accountName("Failed Account")
+                .description("This is a test account with negative debit")
+                .normalSide("Debit")
+                .category("Asset")
+                .subCategory("Hard Money")
+                .initialBalance(BigDecimal.valueOf(50.00))
+                .debit(BigDecimal.valueOf(-50.00))
+                .credit(BigDecimal.ZERO)
+                .balance(BigDecimal.valueOf(-50.00))
+                .creationDate(new Date())
+                .orderNumber(999)
+                .statement("Base statement")
+                .comment("Base comment")
+                .build();
 
+        // Act & Assert
+        assertThatThrownBy(() -> {
+            accountRepository.saveAndFlush(failedAccount); // Force the database to execute the save operation
+        })
+                .isInstanceOf(InvalidDataAccessApiUsageException.class)
+                .hasMessageContaining("Debit and Credit amounts cannot be negative")
+                .hasRootCauseInstanceOf(IllegalArgumentException.class);
     }
 
 }
