@@ -1,6 +1,7 @@
 package com.ledgerlogic.repositories;
 
 import com.ledgerlogic.models.Account;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,22 +101,7 @@ class AccountRepositoryTests {
     }
 
     @Test
-    void getAccountByAccountNumber_ValidNumber_ReturnsExpectedAccount() {
-        Optional<Account> foundAccount = accountRepository.findByAccountNumber(9999);
-
-        //Assert
-        assertThat(foundAccount).isPresent();
-        Account account = foundAccount.get();
-        assertThat(account)
-                .usingRecursiveComparison()
-                .isEqualTo(baseAccount);
-
-    }
-
-    @Test
-    void getAllAccounts_WhenAccountsExist_ReturnsNonEmptyList() {
-
-        // Arrange - done is setup method
+    void findAllAccounts_WhenAccountsExist_ReturnsNonEmptyList() {
 
         // Act
         List<Account> accountList = accountRepository.findAll();
@@ -131,8 +117,6 @@ class AccountRepositoryTests {
     @Test
     void findAccountByName_ValidName_ReturnsExpectedAccount() {
 
-        // Arrange - done is setup method
-
         // Act
         Optional<Account> retrievedAccount = accountRepository.findByAccountName(baseAccount.getAccountName());
 
@@ -141,9 +125,31 @@ class AccountRepositoryTests {
     }
 
     @Test
-    void deleteAccount_ExistingAccount_RemovesFromRepository() {
+    void getAccountByAccountNumber_ValidNumber_ReturnsExpectedAccount() {
+        Optional<Account> foundAccount = accountRepository.findByAccountNumber(9999);
 
-        // Arrange - done is setup method
+        //Assert
+        assertThat(foundAccount).isPresent();
+        Account account = foundAccount.get();
+        assertThat(account)
+                .usingRecursiveComparison()
+                .isEqualTo(baseAccount);
+
+    }
+
+    @Test
+    void deleteAccount_ValidDeletion_RemovesAccount() {
+        assertThat(accountRepository.existsByAccountNumber(9999)).isTrue();
+
+        accountRepository.deleteByAccountNumber(9999);
+        accountRepository.flush();
+
+        assertThat(accountRepository.existsByAccountNumber(9999)).isFalse();
+
+    }
+
+    @Test
+    void deleteAccount_ExistingAccount_RemovesFromRepository() {
 
         // Act
         Account accountToDelete = accountRepository.findByAccountName(baseAccount.getAccountName())
@@ -193,8 +199,6 @@ class AccountRepositoryTests {
     @Test
     void updateAccount_ValidUpdates_ReturnsUpdatedAccount() {
 
-        // Arrange - done is setup method
-
         // Act
         Account retrievedAccount = accountRepository.findByAccountName(baseAccount.getAccountName())
                 .orElseThrow(() -> new AssertionError("Account not found"));
@@ -207,6 +211,20 @@ class AccountRepositoryTests {
         // Assert
         assertThat(updatedAccount.getAccountName()).isNotNull();
         assertThat(updatedAccount.getBalance()).isEqualTo(BigDecimal.valueOf(50));
+    }
+
+    @SuppressWarnings("java:S5778") // Multiple DB operations required for proper test
+    @Test
+    void updateAccount_NonexistentName_ThrowsException() {
+        String nonExistentName = "NonExistentAccount";
+
+        assertThat(accountRepository.findByAccountName(nonExistentName)).isEmpty();
+
+        Account retrievedAccount = accountRepository.findByAccountName(nonExistentName)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
+
+        assertThatThrownBy(() -> retrievedAccount.setDebit(BigDecimal.valueOf(50)))
+                .isInstanceOf(EntityNotFoundException.class);
     }
 
     // ======================= Business Rules =======================
