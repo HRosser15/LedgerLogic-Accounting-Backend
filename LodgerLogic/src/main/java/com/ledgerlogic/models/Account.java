@@ -2,6 +2,7 @@ package com.ledgerlogic.models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,15 +23,26 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
     private Long accountId;
+
+    @NotNull(message = "Account number is required")
     @Column(unique = true)
     private int         accountNumber;
+
+    @NotNull(message = "Account name is required")
     @Column(unique = true)
     private String      accountName;
+
     private String      description;
-    private String      normalSide;
-    private String      category;
+
+    @NotNull(message = "Normal side is required")
+    private String normalSide;
+
+    @NotNull(message = "Category is required")
+    private String category;
+
     private boolean     active = true;
     private String      subCategory;
+
     @Column(precision = 19, scale = 2)
     private BigDecimal initialBalance = BigDecimal.ZERO;
 

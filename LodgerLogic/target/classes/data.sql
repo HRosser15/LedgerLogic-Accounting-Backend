@@ -89,10 +89,12 @@ INSERT INTO journal_entry (journal_entry_id, balance, credit, debit, description
 VALUES
     (1, -500.00, 500.00, 0.00, 'Purchased equipment', null, 'approved', '2024-04-08 20:00:00', 1, 1),
     (2, 500.00, 0.00, 500.00, 'Purchased equipment', null, 'approved', '2024-04-08 20:00:00', 2, 1),
+    -- Add the remaining journal entry records here
     (7, 10000.00, 0.00, 10000.00, 'Investment', null, 'pending', '2024-04-08 20:00:00', 1, 4),
     (8, -10000.00, 10000.00, 0.00, 'Investment', null, 'pending', '2024-04-08 20:00:00', 10, 4);
 
 
+-- Insert data into the users_event_log table
 INSERT INTO user_event_log (id, current_state, entity_id, modification_time, modified_by_id, previous_state, title)
 VALUES
     (32, '{accountId:1, accountNumber:1010, accountName:Cash, description:Cash on hand and in banks, normalSide:Debit, category:Assets, active:true, subCategory:Current Assets, initialBalance:25000.00, debit:65000.00, credit:40500.00, balance:24500.00, creationDate:2024-04-28 02:03:08.741, orderNumber:1, statement:IS, comment:Used for daily operational expenses., owner:null}', 1, '2024-04-28 02:16:23.720955', 1, 'Account(accountId=null, accountNumber=1010, accountName=Cash, description=Cash on hand and in banks, normalSide=Debit, category=Assets, active=true, subCategory=Current Assets, initialBalance=25000.00, debit=65000.00, credit=40500.00, balance=24500.00, creationDate=2024-04-28 02:03:08.741, orderNumber=1, statement=IS, comment=Used for daily operational expenses., owner=null)', 'Update Account'),

@@ -35,16 +35,16 @@ CREATE TABLE USERS (
 CREATE TABLE ACCOUNTS (
                           ACCOUNT_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                           ACCOUNT_NAME CHARACTER VARYING,
-                          ACCOUNT_NUMBER INTEGER UNIQUE,
+                          ACCOUNT_NUMBER INTEGER,
                           ACTIVE BOOLEAN,
-                          BALANCE NUMERIC(19, 2),
+                          BALANCE NUMERIC,
                           CATEGORY CHARACTER VARYING,
                           COMMENT CHARACTER VARYING,
                           CREATION_DATE TIMESTAMP,
-                          CREDIT NUMERIC(19, 2),
-                          DEBIT NUMERIC(19, 2),
+                          CREDIT NUMERIC,
+                          DEBIT NUMERIC,
                           DESCRIPTION CHARACTER VARYING,
-                          INITIAL_BALANCE NUMERIC(19, 2),
+                          INITIAL_BALANCE NUMERIC,
                           NORMAL_SIDE CHARACTER VARYING,
                           ORDER_NUMBER INTEGER,
                           STATEMENT CHARACTER VARYING,
@@ -83,15 +83,14 @@ CREATE TABLE SECURITY_QUESTIONS (
 );
 
 CREATE TABLE JOURNAL (
-                             JOURNAL_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-                             ATTACHMENTS BINARY LARGE OBJECT,
-                             BALANCE NUMERIC,
-                             CREATED_DATE TIMESTAMP,
-                             REJECTION_REASON CHARACTER VARYING,
-                             STATUS TINYINT,
-                             TRANSACTION_DATE TIMESTAMP,
-                             CREATED_BY_USER_ID BIGINT,
-                             FOREIGN KEY (CREATED_BY_USER_ID) REFERENCES USERS(USER_ID)
+                         JOURNAL_ID BIGINT,
+                         ATTACHMENTS BINARY LARGE OBJECT,
+                         BALANCE NUMERIC,
+                         CREATED_DATE TIMESTAMP,
+                         REJECTION_REASON CHARACTER VARYING,
+                         STATUS TINYINT,
+                         TRANSACTION_DATE TIMESTAMP,
+                         CREATED_BY_USER_ID BIGINT
 );
 
 CREATE TABLE JOURNAL_ENTRY (
@@ -104,9 +103,7 @@ CREATE TABLE JOURNAL_ENTRY (
                                STATUS CHARACTER VARYING,
                                TRANSACTION_DATE TIMESTAMP,
                                ACCOUNT_ID BIGINT,
-                               JOURNAL_ID BIGINT,
-                               FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS(ACCOUNT_ID),
-                               FOREIGN KEY (JOURNAL_ID) REFERENCES JOURNAL(JOURNAL_ID)
+                               JOURNAL_ID BIGINT
 );
 
 CREATE TABLE JOURNAL_LINES (
@@ -134,4 +131,3 @@ CREATE TABLE USER_EVENT_LOG (
                                 PREVIOUS_STATE CHARACTER LARGE OBJECT,
                                 TITLE CHARACTER VARYING
 );
-

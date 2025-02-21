@@ -5,6 +5,7 @@ import com.ledgerlogic.models.Account;
 import com.ledgerlogic.models.User;
 import com.ledgerlogic.services.AccountService;
 import com.ledgerlogic.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,11 @@ public class AccountController {
     }
 
     @PostMapping("/addAccount")
-    public ResponseEntity<String> create(@RequestBody Account account){
+    public ResponseEntity<String> create(@Valid @RequestBody Account account){
+        // First check if account with same name exists
         Account accountWithSameName = this.accountService.getByAccountName(account.getAccountName());
         if (accountWithSameName == null){
+            // Then check if account with same number exists
             Account accountWithSameAccountNumber = this.accountService.getByAccountNumber(account.getAccountNumber());
             if (accountWithSameAccountNumber == null){
                 this.accountService.upsert(account);
@@ -43,17 +46,21 @@ public class AccountController {
     @GetMapping("/viewAccount/{accountId}")
     public ResponseEntity<Account> view(@PathVariable Long accountId){
         Account account = this.accountService.getAccountById(accountId);
-        if (account != null)return ResponseEntity.ok().body(account);
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with id " + accountId + "not found!");
-        return null;
+        if (account != null) {
+            return ResponseEntity.ok().body(account);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @GetMapping("/getByAccountNumber/{accountNumber}")
     public ResponseEntity<Account> getByAccountNumber(@PathVariable int accountNumber){
         Account account = this.accountService.getByAccountNumber(accountNumber);
-        if (account != null)return ResponseEntity.ok().body(account);
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with id " + accountNumber + "not found!");
-        return null;
+        if (account != null) {
+            return ResponseEntity.ok().body(account);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 
     @GetMapping("/getByAccountName/{accountName}")
